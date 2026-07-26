@@ -51,6 +51,7 @@
   "fmt": {
     "include": [
       "./app/",
+      "./tailwind.config.cjs",
       "./deno.ts"
     ],
     "exclude": [

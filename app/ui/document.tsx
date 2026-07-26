@@ -41,6 +41,16 @@ export function Document(handle: Handle<DocumentProps>) {
           <meta name="author" content={SITE_METADATA.author} />
           <meta name="robots" content={SITE_METADATA.robots} />
           <meta name="theme-color" content={SITE_METADATA.themeColor} />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap"
+          />
           <link rel="icon" type="image/svg+xml" href={SITE_METADATA.favicon} />
           <link rel="manifest" href={manifest} />
           <link rel="canonical" href={canonical} />
@@ -59,7 +69,9 @@ export function Document(handle: Handle<DocumentProps>) {
           <title>{title}</title>
           {head}
         </head>
-        <body>{children}</body>
+        <body class="bg-background text-foreground font-sans antialiased">
+          {children}
+        </body>
       </html>
     );
   };

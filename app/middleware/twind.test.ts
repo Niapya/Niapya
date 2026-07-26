@@ -1,7 +1,29 @@
 import assert from "node:assert/strict";
+import { consume, stringify } from "@twind/core";
 import { createRouter } from "remix/router";
 
-import { twind } from "./twind.ts";
+import { tw, twind } from "./twind.ts";
+
+Deno.test("twind exposes semantic tokens and class-based dark mode", () => {
+  const restore = tw.snapshot();
+  const html = consume(
+    '<html class="dark"><head></head><body class="bg-background text-foreground bg-sidebar border-border rounded-lg font-sans dark:bg-primary"></body></html>',
+    tw,
+  );
+  const css = stringify(tw.target);
+  restore();
+
+  assert.match(css, /:root\{[^}]*--background:oklch\(1 0 0\)/);
+  assert.match(css, /\.dark\{[^}]*--background:oklch\(0\.145 0 0\)/);
+  assert.match(css, /\.bg-background\{[^}]*var\(--background\)/);
+  assert.match(css, /\.bg-sidebar\{[^}]*var\(--sidebar\)/);
+  assert.match(css, /\.dark \.dark\\:bg-primary\{/);
+  assert.match(css, /\.font-sans\{font-family:var\(--font-sans\)\}/);
+  assert.match(css, /--font-sans:"Instrument Sans", "Noto Sans SC"/);
+  assert.match(css, /--font-display:"Instrument Serif", "Noto Serif SC"/);
+  assert.match(css, /\.rounded-lg\{border-radius:var\(--radius\)\}/);
+  assert.equal(html.includes('class="dark"'), true);
+});
 
 Deno.test("twind inlines preset CSS into streamed HTML", async () => {
   const router = createRouter({ middleware: [twind()] });

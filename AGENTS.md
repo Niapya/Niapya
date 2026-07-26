@@ -70,7 +70,7 @@ app/
 - 保持目录结构简洁，按需添加 `app/data/`、`test/` 等目录
 - 优先使用最窄的所有者，避免引入共享模块
 - 禁止创建 `app/lib/`、`app/components/` 等通用存放目录
-- `deno task check` 合并了类型检查和 lint，无需单独运行
+- 尽量不使用 `Deno` API，可以使用比如 `import .. with` 代替，如果使用应该告知用户。
 
 ## 注意事项
 

@@ -1,18 +1,24 @@
 import { createController } from "remix/router";
 
+import { manifest } from "./metadata/manifest.ts";
+import { ogImage } from "./metadata/og-image.ts";
+import { robots } from "./metadata/robots.ts";
+import { sitemap } from "./metadata/sitemap.ts";
+import { t } from "../i18n/index.ts";
 import { routes } from "../routes.ts";
-import { Document } from "../ui/document.tsx";
 
-export default createController(routes, {
+export const controller = createController(routes, {
   actions: {
-    home(context) {
-      return context.render(
-        <Document>
-          <main>
-            <h1>Niapya</h1>
-            <p>Personal Portfolio</p>
-          </main>
-        </Document>,
+    ogImage,
+    robots,
+    sitemap,
+    manifest,
+    home({ render, lang }) {
+      return render(
+        <main>
+          <h1>Niapya</h1>
+          <p>{t("hero.tagline", lang)}</p>
+        </main>,
       );
     },
   },

@@ -31,13 +31,30 @@ deno task format      # 格式化检查
 
 ## 目录结构
 
-- `app/actions/controller.tsx` 顶层路由处理器
-- `app/routes.ts` 路由契约定义
-- `app/router.ts` 路由注册和中间件配置
-- `app/middleware/render.tsx` 请求作用域渲染器
-- `app/ui/` 共享 UI 组件
-- `app/assets.ts` 服务端资源管线
-- `public/` 静态文件
+```
+app/
+├── actions/           # Route Handler（纯请求处理，不含 JSX）
+│   ├── controller.tsx        # 顶层路由的 action
+│   └── <route-key>/
+│       └── controller.tsx    # 嵌套路由的 action
+├── pages/             # 页面级组件（按路由组织）
+│   ├── home/
+│   │   └── index.tsx
+│   ├── about.tsx              # 简单页面单文件
+│   └── projects/
+│       ├── index.tsx
+│       ├── list.tsx           # 页面专属子组件就近放置
+│       └── card.tsx
+├── ui/                # 共享 UI 组件（跨页面复用、无业务逻辑）
+│   ├── document.tsx
+│   ├── nav.tsx
+│   └── button.tsx
+├── i18n/              # 国际化
+├── middleware/         # 中间件
+├── routes.ts          # 路由契约定义
+├── router.ts          # 路由注册和中间件配置
+└── constants.ts       # 常量
+```
 
 ## 路由所有权
 

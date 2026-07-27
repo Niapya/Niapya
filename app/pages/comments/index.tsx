@@ -65,7 +65,7 @@ export function CommentsPage(handle: Handle<CommentsPageProps>) {
           {published && (
             <div class="border-b border-emerald-300 bg-emerald-50 text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-100">
               <div
-                class="mx-auto flex max-w-8xl items-center gap-3 px-5 py-4 font-medium text-sm sm:px-10 lg:px-20"
+                class="mx-auto flex max-w-8xl select-none items-center gap-3 px-5 py-4 font-medium text-sm sm:px-10 lg:px-20"
                 role="status"
                 aria-live="polite"
               >
@@ -127,7 +127,7 @@ export function CommentsPage(handle: Handle<CommentsPageProps>) {
                     {copy.listTitle}
                   </h2>
                 </div>
-                <p class="shrink-0 font-mono text-muted-foreground text-xs uppercase">
+                <p class="shrink-0 select-none font-mono text-muted-foreground text-xs uppercase">
                   {copy.newestFirst}
                 </p>
               </div>

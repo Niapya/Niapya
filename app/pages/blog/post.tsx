@@ -259,7 +259,7 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                   <span aria-hidden="true">/</span>
                   <a
                     href="#comments"
-                    class="outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
+                    class="cursor-pointer select-none outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {copy.comments(comments.length)}
                   </a>
@@ -276,7 +276,7 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
               </aside>
               <div mix={articleLayoutStyle}>
                 <div
-                  class="dark:prose-invert prose prose-neutral max-w-none"
+                  class="dark:prose-invert prose prose-neutral max-w-none cursor-text select-text"
                   mix={[articleStyle, articleContentStyle]}
                   innerHTML={markdownDocument.html}
                 />
@@ -304,7 +304,7 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
 
               {published && (
                 <div
-                  class="mt-8 flex items-center gap-3 border border-emerald-300 bg-emerald-50 px-5 py-4 text-emerald-950 text-sm dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-100"
+                  class="mt-8 flex select-none items-center gap-3 border border-emerald-300 bg-emerald-50 px-5 py-4 text-emerald-950 text-sm dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-100"
                   role="status"
                 >
                   <Icon icon={Check} className="h-5 w-5" />
@@ -332,7 +332,7 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                 <div class="lg:col-span-7">
                   <div class="flex items-center justify-between gap-4">
                     <h3 class="font-display text-3xl">{copy.listTitle}</h3>
-                    <span class="inline-flex items-center gap-2 font-mono text-muted-foreground text-xs uppercase">
+                    <span class="inline-flex select-none items-center gap-2 font-mono text-muted-foreground text-xs uppercase">
                       <Icon icon={MessageSquare} className="h-4 w-4" />
                       {copy.comments(comments.length)}
                     </span>
@@ -369,7 +369,7 @@ function ReadingTimeline(handle: Handle<ReadingTimelineProps>) {
     return (
       <nav
         aria-label={handle.props.label}
-        class="pointer-events-auto relative z-10 h-full"
+        class="pointer-events-auto relative z-10 h-full select-none"
         data-reading-timeline
         mix={timelineRailStyle}
       >
@@ -402,7 +402,7 @@ function ReadingTimeline(handle: Handle<ReadingTimelineProps>) {
                       ? (
                         <a
                           href={`#${mark.section.id}`}
-                          class="group relative flex h-full min-h-2 w-full items-center justify-start text-current outline-none"
+                          class="group relative flex h-full min-h-2 w-full cursor-pointer items-center justify-start text-current outline-none"
                         >
                           <span
                             class="block h-1 max-w-full bg-current"

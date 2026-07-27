@@ -34,7 +34,7 @@ export function CommentVerificationPage(
         <main class="mx-auto flex min-h-screen w-full max-w-4xl flex-col justify-center px-5 py-20 sm:px-10 lg:px-20">
           <a
             href={props.backHref}
-            class="mb-10 inline-flex w-fit items-center gap-2 text-muted-foreground text-sm outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+            class="mb-10 inline-flex w-fit cursor-pointer select-none items-center gap-2 text-muted-foreground text-sm outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Icon icon={ArrowLeft} className="h-4 w-4" />
             {props.backLabel}
@@ -78,7 +78,7 @@ export function CommentVerificationPage(
                   width={props.challenge.width}
                   height={props.challenge.height}
                   alt={props.captchaAlt}
-                  class="block h-48 w-72 border border-border bg-transparent object-contain p-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-background focus-visible:ring-ring"
+                  class="block h-48 w-72 cursor-pointer select-none border border-border bg-transparent object-contain p-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-background focus-visible:ring-ring"
                 />
               </fieldset>
             </form>

@@ -224,7 +224,7 @@ export function Designer(handle: Handle<DesignerProps>) {
 
             <div class="flex items-center justify-center">
               <div
-                class="group relative flex aspect-square items-center justify-center"
+                class="group relative flex aspect-square select-none items-center justify-center"
                 mix={[ringSizeStyle, ringContainerStyle]}
               >
                 <svg
@@ -298,7 +298,7 @@ export function Designer(handle: Handle<DesignerProps>) {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={copy.workListLabel}
-                class="mt-10 inline-flex h-10 w-12 items-center justify-center self-end rounded-full border border-foreground/35 text-xl leading-none transition-all duration-300 hover:-rotate-6 hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring sm:mt-2 lg:mb-2"
+                class="mt-10 inline-flex h-10 w-12 cursor-pointer select-none items-center justify-center self-end rounded-full border border-foreground/35 text-xl leading-none transition-all duration-300 hover:-rotate-6 hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring sm:mt-2 lg:mb-2"
               >
                 <Icon icon={ArrowRight} className="h-5 w-5" />
               </a>
@@ -324,7 +324,7 @@ export function Designer(handle: Handle<DesignerProps>) {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={title}
-                    class="group relative min-w-0 p-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                    class="group relative min-w-0 cursor-pointer select-none p-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
                   >
                     <div class="relative h-full overflow-hidden rounded-xl border border-border bg-muted">
                       <img
@@ -376,7 +376,7 @@ export function Designer(handle: Handle<DesignerProps>) {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={copy.backLabel}
-                class="mt-auto inline-flex h-10 w-12 shrink-0 items-center justify-center self-end rounded-full border border-foreground/35 text-xl leading-none transition-all duration-300 hover:rotate-6 hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                class="mt-auto inline-flex h-10 w-12 shrink-0 cursor-pointer select-none items-center justify-center self-end rounded-full border border-foreground/35 text-xl leading-none transition-all duration-300 hover:rotate-6 hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
               >
                 <Icon icon={ArrowRight} className="h-5 w-5" />
               </a>

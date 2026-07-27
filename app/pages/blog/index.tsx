@@ -95,7 +95,7 @@ export function BlogIndexPage(handle: Handle<BlogIndexPageProps>) {
                                 routes.blog.article.href({ slug: post.slug }),
                                 lang,
                               )}
-                              class="outline-none transition-colors hover:text-primary focus-visible:text-primary"
+                              class="cursor-pointer select-none outline-none transition-colors hover:text-primary focus-visible:text-primary"
                             >
                               {post.title}
                             </a>
@@ -107,7 +107,7 @@ export function BlogIndexPage(handle: Handle<BlogIndexPageProps>) {
                               routes.blog.article.href({ slug: post.slug }),
                               lang,
                             )}
-                            class="inline-flex min-h-10 items-center gap-2 font-semibold text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring group-hover:text-primary"
+                            class="inline-flex min-h-10 cursor-pointer select-none items-center gap-2 font-semibold text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring group-hover:text-primary"
                           >
                             {copy.read}
                             <Icon icon={ArrowRight} className="h-4 w-4" />
@@ -129,14 +129,14 @@ export function BlogIndexPage(handle: Handle<BlogIndexPageProps>) {
                     href={blogHref({
                       page: props.page - 1,
                     }, lang)}
-                    class="inline-flex min-h-10 items-center gap-2 font-semibold text-sm outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
+                    class="inline-flex min-h-10 cursor-pointer select-none items-center gap-2 font-semibold text-sm outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <Icon icon={ArrowLeft} className="h-4 w-4" />
                     {copy.previous}
                   </a>
                 )
                 : <span />}
-              <span class="font-mono text-muted-foreground text-xs uppercase">
+              <span class="select-none font-mono text-muted-foreground text-xs uppercase">
                 {copy.page(props.page, props.totalPages)}
               </span>
               {props.page < props.totalPages
@@ -145,7 +145,7 @@ export function BlogIndexPage(handle: Handle<BlogIndexPageProps>) {
                     href={blogHref({
                       page: props.page + 1,
                     }, lang)}
-                    class="inline-flex min-h-10 items-center gap-2 font-semibold text-sm outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
+                    class="inline-flex min-h-10 cursor-pointer select-none items-center gap-2 font-semibold text-sm outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {copy.next}
                     <Icon icon={ArrowRight} className="h-4 w-4" />

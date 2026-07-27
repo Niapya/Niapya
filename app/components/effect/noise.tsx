@@ -38,7 +38,7 @@ export function Noise(handle: Handle<NoiseProps>) {
     return (
       <div
         aria-hidden="true"
-        class={`pointer-events-none absolute inset-0 h-full w-full ${
+        class={`pointer-events-none absolute inset-0 h-full w-full select-none ${
           className ?? ""
         }`}
         style={{

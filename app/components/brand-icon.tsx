@@ -21,7 +21,7 @@ export function BrandIcon(handle: Handle<BrandIconProps>) {
     <span
       data-brand-icon
       aria-hidden="true"
-      class={handle.props.className}
+      class={`select-none ${handle.props.className ?? ""}`}
       style={{ color: handle.props.color }}
       mix={brandSvgStyle}
       innerHTML={handle.props.svg}

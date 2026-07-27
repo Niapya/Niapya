@@ -125,7 +125,7 @@ export function Comments(handle: Handle<CommentsProps>) {
         class="relative isolate overflow-hidden bg-black text-white"
         mix={blogSectionStyle}
       >
-        <header class="absolute inset-x-0 top-0 z-30 mx-auto flex max-w-8xl items-start justify-between gap-6 px-5 py-5 sm:px-10 sm:py-7 lg:px-16">
+        <header class="absolute inset-x-0 top-0 z-30 mx-auto flex max-w-8xl select-none items-start justify-between gap-6 px-5 py-5 sm:px-10 sm:py-7 lg:px-16">
           {copy.tools && (
             <p class="font-mono text-white/70 text-xs uppercase">
               {copy.tools}
@@ -138,7 +138,10 @@ export function Comments(handle: Handle<CommentsProps>) {
           )}
         </header>
 
-        <ul aria-label={copy.orbitLabel} class="absolute inset-0 z-10">
+        <ul
+          aria-label={copy.orbitLabel}
+          class="absolute inset-0 z-10 select-none"
+        >
           {SKILLS.map((skill) => (
             <li
               key={skill.id}
@@ -150,7 +153,7 @@ export function Comments(handle: Handle<CommentsProps>) {
                 data-skill-tile
                 role="img"
                 aria-label={skill.label}
-                class="flex h-9 w-9 transform-gpu items-center justify-center rounded-sm border border-white/30 bg-white p-1.5 shadow-lg transition duration-500 ease-out hover:-translate-y-2 hover:scale-105 hover:border-white/70 hover:shadow-2xl motion-reduce:transition-none motion-reduce:hover:transform-none sm:h-12 sm:w-12 sm:p-2.5 lg:h-20 lg:w-20 lg:p-4"
+                class="flex h-9 w-9 transform-gpu select-none items-center justify-center rounded-sm border border-white/30 bg-white p-1.5 shadow-lg transition duration-500 ease-out hover:-translate-y-2 hover:scale-105 hover:border-white/70 hover:shadow-2xl motion-reduce:transition-none motion-reduce:hover:transform-none sm:h-12 sm:w-12 sm:p-2.5 lg:h-20 lg:w-20 lg:p-4"
                 title={skill.label}
               >
                 <BrandIcon
@@ -174,7 +177,7 @@ export function Comments(handle: Handle<CommentsProps>) {
           <h2 id="blog-preview-title">
             <a
               href={localizeHref(routes.blog.index.href(), i18n.lang)}
-              class="group inline-flex items-start gap-2 font-display text-6xl text-white leading-none outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-8 focus-visible:ring-offset-black focus-visible:ring-white sm:gap-4 sm:text-8xl lg:text-9xl"
+              class="group inline-flex cursor-pointer select-none items-start gap-2 font-display text-6xl text-white leading-none outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-8 focus-visible:ring-offset-black focus-visible:ring-white sm:gap-4 sm:text-8xl lg:text-9xl"
             >
               <span class="underline decoration-1 decoration-white/20 underline-offset-4 transition-colors group-hover:decoration-white group-focus-visible:decoration-white motion-reduce:transition-none">
                 {copy.title}

@@ -13,7 +13,7 @@ export function Icon(handle: Handle<IconProps>) {
   return () => (
     <svg
       aria-hidden="true"
-      class={handle.props.className}
+      class={`select-none ${handle.props.className ?? ""}`}
       viewBox="0 0 24 24"
       fill={handle.props.fill ?? "none"}
       stroke={handle.props.stroke ?? "currentColor"}

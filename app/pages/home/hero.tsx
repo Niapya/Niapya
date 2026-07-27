@@ -106,24 +106,24 @@ export function Hero(handle: Handle<HeroProps>) {
       >
         <div
           aria-hidden="true"
-          class="absolute inset-0"
+          class="absolute inset-0 select-none"
           mix={heroSky}
         />
         <Noise baseFrequency="0.75" numOctaves={3} opacity={0.8} seed={7} />
         <div
           aria-hidden="true"
-          class="absolute inset-0 opacity-80"
+          class="absolute inset-0 select-none opacity-80"
           mix={heroGrid}
         />
         <RealisticCloud />
         <div
           aria-hidden="true"
-          class="pointer-events-none absolute inset-0"
+          class="pointer-events-none absolute inset-0 select-none"
           mix={heroWash}
         />
         <div
           aria-hidden="true"
-          class="pointer-events-none absolute top-0 right-0 transform-gpu"
+          class="pointer-events-none absolute top-0 right-0 transform-gpu select-none"
           mix={heroLightRays}
         />
 
@@ -145,7 +145,7 @@ export function Hero(handle: Handle<HeroProps>) {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={copy.githubLabel}
-                class="inline-flex rounded-sm align-middle focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                class="inline-flex cursor-pointer select-none rounded-sm align-middle focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
               >
                 <img
                   src={GITHUB_AVATAR_URL}
@@ -166,7 +166,7 @@ export function Hero(handle: Handle<HeroProps>) {
                 <span class="group inline-flex items-center gap-2">
                   <span
                     aria-hidden="true"
-                    class="inline-flex h-5 w-5 shrink-0 -translate-x-1 -rotate-12 items-center justify-center leading-none opacity-0 transition duration-300 ease-out group-hover:translate-x-0 group-hover:rotate-0 group-hover:opacity-100 motion-reduce:transform-none motion-reduce:transition-none"
+                    class="inline-flex h-5 w-5 shrink-0 -translate-x-1 -rotate-12 select-none items-center justify-center leading-none opacity-0 transition duration-300 ease-out group-hover:translate-x-0 group-hover:rotate-0 group-hover:opacity-100 motion-reduce:transform-none motion-reduce:transition-none"
                   >
                     <Icon icon={Pencil} className="h-4 w-4" />
                   </span>
@@ -174,7 +174,7 @@ export function Hero(handle: Handle<HeroProps>) {
                     href="https://github.com/Niapya"
                     target="_blank"
                     rel="noreferrer"
-                    class="inline-flex h-6 w-14 items-center justify-center font-normal underline-offset-4 transition-all duration-300 ease-out hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring group-hover:font-semibold motion-reduce:transition-none"
+                    class="inline-flex h-6 w-14 cursor-pointer select-none items-center justify-center font-normal underline-offset-4 transition-all duration-300 ease-out hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring group-hover:font-semibold motion-reduce:transition-none"
                   >
                     {copy.name}
                   </a>
@@ -188,7 +188,7 @@ export function Hero(handle: Handle<HeroProps>) {
                   </span>
                   <span
                     aria-hidden="true"
-                    class="inline-flex h-5 w-5 shrink-0 translate-x-1 scale-75 items-center justify-center leading-none opacity-0 transition duration-300 ease-out group-hover:translate-x-0 group-hover:scale-100 group-hover:opacity-100 motion-reduce:transform-none motion-reduce:transition-none"
+                    class="inline-flex h-5 w-5 shrink-0 translate-x-1 scale-75 select-none items-center justify-center leading-none opacity-0 transition duration-300 ease-out group-hover:translate-x-0 group-hover:scale-100 group-hover:opacity-100 motion-reduce:transform-none motion-reduce:transition-none"
                   >
                     <Icon icon={Heart} className="h-4 w-4" />
                   </span>

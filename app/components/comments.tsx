@@ -224,7 +224,7 @@ export function CommentForm(handle: Handle<CommentFormProps>) {
               <label htmlFor="content" class="font-semibold text-sm">
                 {copy.content}
               </label>
-              <span class="font-mono text-muted-foreground text-xs uppercase">
+              <span class="select-none font-mono text-muted-foreground text-xs uppercase">
                 {contentRequired ? copy.required : copy.optional}
               </span>
             </div>
@@ -240,7 +240,7 @@ export function CommentForm(handle: Handle<CommentFormProps>) {
               aria-describedby={errors.content
                 ? "content-error content-hint"
                 : "content-hint"}
-              class="block w-full resize-y rounded-sm border border-input bg-background px-4 py-3 text-base text-foreground leading-7 outline-none transition-colors placeholder:text-muted-foreground hover:border-foreground focus:border-primary focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary aria-invalid:border-destructive aria-invalid:ring-destructive"
+              class="block w-full cursor-text resize-y rounded-sm border border-input bg-background px-4 py-3 text-base text-foreground leading-7 outline-none transition-colors placeholder:text-muted-foreground hover:border-foreground focus:border-primary focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary aria-invalid:border-destructive aria-invalid:ring-destructive"
             />
             <div class="mt-2 flex flex-wrap justify-between gap-2 text-xs">
               <p id="content-hint" class="text-muted-foreground">
@@ -262,7 +262,7 @@ export function CommentForm(handle: Handle<CommentFormProps>) {
 
           <button
             type="submit"
-            class="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm bg-primary px-6 py-3 font-semibold text-primary-foreground text-sm outline-none transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-background focus-visible:ring-ring"
+            class="inline-flex min-h-12 cursor-pointer select-none items-center justify-center gap-2 rounded-sm bg-primary px-6 py-3 font-semibold text-primary-foreground text-sm outline-none transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-background focus-visible:ring-ring"
           >
             <Icon icon={Send} className="h-4 w-4" />
             {copy.submit}
@@ -312,7 +312,7 @@ export function CommentList(handle: Handle<CommentListProps>) {
             >
               <div class="grid gap-5 sm:grid-cols-12">
                 <div class="sm:col-span-4">
-                  <p class="mb-4 font-mono text-primary text-xs">
+                  <p class="mb-4 select-none font-mono text-primary text-xs">
                     #{String(comments.length - index).padStart(2, "0")}
                   </p>
                   <h4
@@ -323,7 +323,7 @@ export function CommentList(handle: Handle<CommentListProps>) {
                   </h4>
                   <time
                     dateTime={comment.createdAt}
-                    class="mt-1 block text-muted-foreground text-xs leading-5"
+                    class="mt-1 block select-none text-muted-foreground text-xs leading-5"
                   >
                     {formatCommentDate(comment.createdAt, lang)}
                   </time>
@@ -338,7 +338,7 @@ export function CommentList(handle: Handle<CommentListProps>) {
                       href={comment.website}
                       target="_blank"
                       rel="ugc nofollow noopener noreferrer"
-                      class="mt-3 inline-flex items-center gap-1.5 font-semibold text-foreground text-xs underline decoration-border underline-offset-4 outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
+                      class="mt-3 inline-flex cursor-pointer select-none items-center gap-1.5 font-semibold text-foreground text-xs underline decoration-border underline-offset-4 outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {websiteLabel}
                       <Icon icon={ArrowUpRight} className="h-3.5 w-3.5" />
@@ -349,7 +349,7 @@ export function CommentList(handle: Handle<CommentListProps>) {
                   {comment.content
                     ? (
                       <div
-                        class="text-base text-foreground leading-7"
+                        class="cursor-text select-text text-base text-foreground leading-7"
                         mix={markdownStyle}
                         innerHTML={renderMarkdown(comment.content)}
                       />
@@ -393,7 +393,7 @@ function CommentField(handle: Handle<CommentFieldProps>) {
           <label htmlFor={props.id} class="font-semibold text-sm">
             {props.label}
           </label>
-          <span class="font-mono text-muted-foreground text-xs uppercase">
+          <span class="select-none font-mono text-muted-foreground text-xs uppercase">
             {props.marker}
           </span>
         </div>
@@ -409,7 +409,7 @@ function CommentField(handle: Handle<CommentFieldProps>) {
           inputMode={props.inputMode}
           aria-invalid={props.error ? "true" : undefined}
           aria-describedby={props.error ? errorId : undefined}
-          class="block min-h-12 w-full rounded-sm border border-input bg-background px-4 py-3 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground hover:border-foreground focus:border-primary focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary aria-invalid:border-destructive aria-invalid:ring-destructive"
+          class="block min-h-12 w-full cursor-text rounded-sm border border-input bg-background px-4 py-3 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground hover:border-foreground focus:border-primary focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary aria-invalid:border-destructive aria-invalid:ring-destructive"
         />
         {props.error && (
           <p id={errorId} class="mt-2 font-medium text-destructive text-xs">

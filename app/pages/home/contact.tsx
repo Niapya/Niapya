@@ -313,7 +313,7 @@ export function Contact(handle: Handle<ContactProps>) {
           keyframes={PANEL_KEYFRAMES}
         >
           <div class="relative h-full w-full overflow-hidden">
-            <div class="pointer-events-none absolute inset-4 z-30 flex items-center justify-center">
+            <div class="pointer-events-none absolute inset-4 z-30 flex select-none items-center justify-center">
               <div
                 data-contact-cluster
                 class="relative w-80 max-w-full sm:w-96"
@@ -323,7 +323,7 @@ export function Contact(handle: Handle<ContactProps>) {
                     key={project.id}
                     data-contact-project-anchor={project.id}
                     aria-hidden="true"
-                    class={`pointer-events-none absolute z-10 ${
+                    class={`pointer-events-none absolute z-10 select-none ${
                       project.edge === "top" ? "top-0" : "bottom-0"
                     } ${
                       project.column === "left"
@@ -393,7 +393,7 @@ export function Contact(handle: Handle<ContactProps>) {
                         aria-label={`${link.label}: ${
                           copy.links[link.descriptionKey]
                         }`}
-                        class={`flex h-18 w-18 flex-col shrink-0 items-center justify-center gap-2 rounded-sm border border-border shadow-sm focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring sm:h-22 sm:w-22 ${link.className}`}
+                        class={`flex h-18 w-18 flex-col shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-sm border border-border shadow-sm focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring sm:h-22 sm:w-22 ${link.className}`}
                       >
                         <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white">
                           <BrandIcon

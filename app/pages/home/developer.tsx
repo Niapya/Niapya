@@ -462,7 +462,7 @@ function InlineToken(handle: Handle<InlineTokenProps>) {
     return (
       <span
         data-inline-token={indicator}
-        class="mx-2 inline-flex items-center gap-2 rounded-full border border-border bg-card px-2 align-middle text-card-foreground leading-none shadow-md md:px-3"
+        class="mx-2 inline-flex select-none items-center gap-2 rounded-full border border-border bg-card px-2 align-middle text-card-foreground leading-none shadow-md md:px-3"
         mix={inlineTokenStyle}
       >
         {indicator === "code" && (
@@ -594,7 +594,7 @@ export function Developer(handle: Handle<DeveloperProps>) {
                       rel="noreferrer"
                       data-project-card={String(index)}
                       aria-label={projectCopy.title}
-                      class="relative focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                      class="relative cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
                       style={{
                         aspectRatio:
                           `${project.image.width} / ${project.image.height}`,
@@ -639,7 +639,7 @@ export function Developer(handle: Handle<DeveloperProps>) {
                         project.id,
                         "control",
                       )}
-                      class="relative z-10 flex h-10 w-16 cursor-pointer items-center justify-center rounded-full border border-transparent bg-transparent font-medium font-sans text-muted-foreground text-xs transition-colors duration-300"
+                      class="relative z-10 flex h-10 w-16 cursor-pointer select-none items-center justify-center rounded-full border border-transparent bg-transparent font-medium font-sans text-muted-foreground text-xs transition-colors duration-300"
                     >
                       {project.number}
                     </label>
@@ -651,7 +651,7 @@ export function Developer(handle: Handle<DeveloperProps>) {
             <div
               data-entry-cursor
               aria-hidden="true"
-              class="pointer-events-none"
+              class="pointer-events-none select-none"
             >
               {DEVELOPER_PROJECTS.map((project, index) => {
                 const projectCopy = copy.projects[project.copyKey];
@@ -686,7 +686,7 @@ export function Developer(handle: Handle<DeveloperProps>) {
                   data-cursor-phase="exit"
                   data-cursor-tone={project.cursorTone}
                   aria-hidden="true"
-                  class="pointer-events-none"
+                  class="pointer-events-none select-none"
                 >
                   <div data-cursor-content class="flex items-start">
                     <MousePointerIcon toneClass={project.cursorToneClass} />

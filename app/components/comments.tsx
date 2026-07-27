@@ -1,8 +1,7 @@
-import { ArrowUpRight, MapPin } from "lucide";
+import { ArrowUpRight, MapPin, Send } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import { EMPTY_COMMENT_FORM } from "@/constants/comment-form.ts";
-import type { CommentCaptchaChallenge } from "@/data/comment-captcha.ts";
 import type { Lang } from "@/i18n/index.ts";
 import { createDomId } from "@/utils/id.ts";
 import { renderMarkdown } from "@/utils/markdown.ts";
@@ -45,15 +44,13 @@ export type CommentFormCopy = {
   content: string;
   contentPlaceholder: string;
   markdown: string;
-  captcha: string;
-  captchaAlt: string;
+  submit: string;
   errorSummary: string;
   privacy?: string;
 };
 
 type CommentFormProps = {
   action: string;
-  challenge: CommentCaptchaChallenge;
   values: CommentFormValues;
   errors: CommentFormErrors;
   copy: CommentFormCopy;
@@ -146,8 +143,7 @@ const markdownStyle = css({
 
 export function CommentForm(handle: Handle<CommentFormProps>) {
   return () => {
-    const { action, challenge, values, errors, copy, contentRequired } =
-      handle.props;
+    const { action, values, errors, copy, contentRequired } = handle.props;
     const hasErrors = Object.keys(errors).length > 0;
 
     return (
@@ -173,8 +169,6 @@ export function CommentForm(handle: Handle<CommentFormProps>) {
               autoComplete="off"
             />
           </div>
-          <input type="hidden" name="captchaToken" value={challenge.token} />
-
           <CommentField
             id="name"
             label={copy.name}
@@ -260,34 +254,19 @@ export function CommentForm(handle: Handle<CommentFormProps>) {
             </div>
           </div>
 
-          <fieldset class="border-border border-y py-6">
-            <legend class="sr-only">{copy.captcha}</legend>
-            <input
-              type="image"
-              name="captcha"
-              src={challenge.image}
-              width={challenge.width}
-              height={challenge.height}
-              alt={copy.captchaAlt}
-              aria-invalid={errors.captcha ? "true" : undefined}
-              aria-describedby={errors.captcha ? "captcha-error" : undefined}
-              class="block h-48 w-72 border-0 bg-transparent object-contain p-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-background focus-visible:ring-ring"
-            />
-            {errors.captcha && (
-              <p
-                id="captcha-error"
-                class="mt-3 font-medium text-destructive text-xs"
-              >
-                {errors.captcha}
-              </p>
-            )}
-          </fieldset>
-
           {copy.privacy && (
             <p class="max-w-sm text-muted-foreground text-xs leading-5">
               {copy.privacy}
             </p>
           )}
+
+          <button
+            type="submit"
+            class="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm bg-primary px-6 py-3 font-semibold text-primary-foreground text-sm outline-none transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-background focus-visible:ring-ring"
+          >
+            <Icon icon={Send} className="h-4 w-4" />
+            {copy.submit}
+          </button>
         </form>
       </>
     );

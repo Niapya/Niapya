@@ -4,6 +4,7 @@ import { createController } from "remix/router";
 
 import {
   commentIssuesToErrors,
+  createCaptchaAnswerSchema,
   createCommentSchema,
   getIssuePathKey,
   readCommentFormValues,
@@ -13,6 +14,7 @@ import { noStore, notFound, parseFormRequest } from "@/actions/http.ts";
 import {
   articleMetadata,
   blogCommentSuccessHref,
+  renderBlogCommentVerification,
   renderBlogPostFailure,
 } from "@/actions/blog/response.tsx";
 import { EMPTY_COMMENT_FORM } from "@/constants/comment-form.ts";
@@ -21,7 +23,7 @@ import {
   listBlogComments,
   publishBlogComment,
 } from "@/data/blog-comments.ts";
-import { createI18n } from "@/i18n/index.ts";
+import { createI18n, localizeHref } from "@/i18n/index.ts";
 import { LangContext } from "@/middleware/locale.ts";
 import { page } from "@/middleware/render.tsx";
 import { BlogIndexPage } from "@/pages/blog/index.tsx";
@@ -65,10 +67,9 @@ export default createController(routes.blog, {
 
       const lang = get(LangContext);
       const i18n = createI18n(lang);
-      const [comments, challenge] = await Promise.all([
-        listBlogComments(post.slug),
-        createBlogCommentChallenge(post.slug, lang),
-      ]);
+      const comments = await listBlogComments(post.slug);
+      const verificationExpired = url.searchParams.get("verification") ===
+        "expired";
 
       return render(
         page(
@@ -76,9 +77,10 @@ export default createController(routes.blog, {
             i18n={i18n}
             post={post}
             comments={comments}
-            challenge={challenge}
             values={EMPTY_COMMENT_FORM}
-            errors={{}}
+            errors={verificationExpired
+              ? { form: i18n.messages.blog.post.errors.captchaExpired }
+              : {}}
             published={url.searchParams.get("commented") === "1"}
           />,
           articleMetadata(post, i18n),
@@ -97,17 +99,12 @@ export default createController(routes.blog, {
       const form = await parseFormRequest(request);
 
       if (!form.ok) {
-        const message = form.reason === "same-origin"
-          ? copy.errors.sameOrigin
-          : form.reason === "too-large"
-          ? copy.errors.tooLarge
-          : copy.errors.invalidForm;
         return await renderBlogPostFailure({
           render,
           i18n,
           post,
           values: EMPTY_COMMENT_FORM,
-          errors: { form: message },
+          errors: { form: formFailureMessage(form.reason, copy.errors) },
           status: form.status,
         });
       }
@@ -137,10 +134,6 @@ export default createController(routes.blog, {
             if (context.code === "string.max_length") {
               return copy.errors.fieldTooLong;
             }
-            if (field === "captcha.x" || field === "captcha.y") {
-              return copy.errors.captchaRequired;
-            }
-            if (field === "captchaToken") return copy.errors.captchaExpired;
             return undefined;
           },
         },
@@ -157,42 +150,93 @@ export default createController(routes.blog, {
         });
       }
 
-      const result = await publishBlogComment(
-        {
-          postSlug: post.slug,
-          name: parsed.value.name,
-          email: parsed.value.email,
-          website: parsed.value.website,
-          location: parsed.value.location,
-          content: parsed.value.content,
-        },
-        {
-          token: parsed.value.captchaToken,
-          x: parsed.value["captcha.x"],
-          y: parsed.value["captcha.y"],
-        },
+      const challenge = await createBlogCommentChallenge(
+        { postSlug: post.slug, ...parsed.value },
+        lang,
       );
+      return renderBlogCommentVerification({
+        render,
+        i18n,
+        post,
+        challenge,
+      });
+    },
 
-      if (!result.ok) {
-        const message = result.reason === "too-fast"
-          ? copy.errors.tooFast
-          : result.reason === "incorrect"
-          ? copy.errors.captchaIncorrect
-          : copy.errors.captchaExpired;
-        return await renderBlogPostFailure({
-          render,
-          i18n,
-          post,
-          values,
-          errors: { captcha: message },
-          status: result.reason === "too-fast" ? 429 : 400,
+    async publishComment({ get, params, render, request }) {
+      const post = posts[params.slug];
+      if (!post) return notFound();
+
+      const lang = get(LangContext);
+      const i18n = createI18n(lang);
+      const copy = i18n.messages.blog.post;
+      const form = await parseFormRequest(request);
+
+      if (!form.ok) {
+        return new Response(formFailureMessage(form.reason, copy.errors), {
+          status: form.status,
         });
       }
 
-      return redirect(blogCommentSuccessHref(post.slug, lang), 303);
+      const parsed = s.parseSafe(
+        createCaptchaAnswerSchema(copy),
+        form.formData,
+      );
+      if (!parsed.success) return redirect(expiredHref(post.slug, lang), 303);
+
+      const result = await publishBlogComment(post.slug, {
+        token: parsed.value.captchaToken,
+        x: parsed.value["captcha.x"],
+        y: parsed.value["captcha.y"],
+      });
+
+      if (result.ok || result.reason === "conflict") {
+        return redirect(blogCommentSuccessHref(post.slug, lang), 303);
+      }
+      if (result.reason === "expired") {
+        return redirect(expiredHref(post.slug, lang), 303);
+      }
+      if (!("input" in result)) {
+        return redirect(expiredHref(post.slug, lang), 303);
+      }
+
+      const challenge = await createBlogCommentChallenge(result.input, lang);
+      return renderBlogCommentVerification({
+        render,
+        i18n,
+        post,
+        challenge,
+        error: result.reason === "too-fast"
+          ? copy.errors.tooFast
+          : copy.errors.captchaIncorrect,
+        status: result.reason === "too-fast" ? 429 : 400,
+      });
     },
   },
 });
+
+type FormErrors = ReturnType<
+  typeof createI18n
+>["messages"]["blog"]["post"]["errors"];
+
+function formFailureMessage(
+  reason: "same-origin" | "too-large" | "invalid-form",
+  errors: FormErrors,
+): string {
+  return reason === "same-origin"
+    ? errors.sameOrigin
+    : reason === "too-large"
+    ? errors.tooLarge
+    : errors.invalidForm;
+}
+
+function expiredHref(
+  slug: string,
+  lang: ReturnType<typeof createI18n>["lang"],
+): string {
+  return `${
+    localizeHref(routes.blog.article.href({ slug }), lang)
+  }&verification=expired#comments`;
+}
 
 function parsePage(value: string | null): number {
   if (!value || !/^\d+$/.test(value)) return 1;

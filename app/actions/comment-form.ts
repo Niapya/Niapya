@@ -9,9 +9,14 @@ import type {
 
 type CommentFormCopy = {
   errors: {
-    captchaRequired: string;
     email: string;
     website: string;
+  };
+};
+
+type CaptchaCopy = {
+  errors: {
+    captchaRequired: string;
   };
 };
 
@@ -53,7 +58,12 @@ export function createCommentSchema(
     ),
     location: f.field(trimmed(80)),
     content: f.field(content),
-    captchaToken: f.field(s.string().pipe(minLength(36), maxLength(36))),
+  });
+}
+
+export function createCaptchaAnswerSchema(copy: CaptchaCopy) {
+  return f.object({
+    captchaToken: f.field(s.string().pipe(minLength(26), maxLength(26))),
     "captcha.x": captchaCoordinate(copy),
     "captcha.y": captchaCoordinate(copy),
   });
@@ -101,7 +111,7 @@ export function textField(formData: FormData, name: string): string {
   return typeof value === "string" ? value : "";
 }
 
-function captchaCoordinate(copy: CommentFormCopy) {
+function captchaCoordinate(copy: CaptchaCopy) {
   return f.field(
     s.string().transform((value) => value.trim()).refine(
       (value) => /^\d{1,3}$/.test(value),

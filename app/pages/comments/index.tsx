@@ -1,7 +1,7 @@
 import { Check } from "lucide";
 import { css, type Handle } from "remix/ui";
 
-import type { CaptchaChallenge, Comment } from "@/data/comments.ts";
+import type { Comment } from "@/data/comments.ts";
 import { type I18n, localizeHref } from "@/i18n/index.ts";
 import { routes } from "@/routes.ts";
 import {
@@ -16,7 +16,6 @@ import { Icon } from "@/components/icon.tsx";
 type CommentsPageProps = {
   i18n: I18n;
   comments: Comment[];
-  challenge: CaptchaChallenge;
   values: CommentFormValues;
   errors: CommentFormErrors;
   published: boolean;
@@ -31,8 +30,7 @@ const pageGridStyle = css({
 
 export function CommentsPage(handle: Handle<CommentsPageProps>) {
   return () => {
-    const { i18n, comments, challenge, values, errors, published } =
-      handle.props;
+    const { i18n, comments, values, errors, published } = handle.props;
     const lang = i18n.lang;
     const copy = i18n.messages.commentsPage;
 
@@ -80,7 +78,10 @@ export function CommentsPage(handle: Handle<CommentsPageProps>) {
           )}
 
           <div class="mx-auto grid max-w-8xl" mix={pageGridStyle}>
-            <section class="border-b border-border px-5 py-14 sm:px-10 sm:py-20 lg:border-b-0 lg:border-r lg:px-20">
+            <section
+              id="comment-form"
+              class="border-b border-border px-5 py-14 sm:px-10 sm:py-20 lg:border-b-0 lg:border-r lg:px-20"
+            >
               <div class="max-w-2xl">
                 <div class="mb-10">
                   <p class="mb-3 font-mono text-primary text-xs uppercase">
@@ -95,8 +96,7 @@ export function CommentsPage(handle: Handle<CommentsPageProps>) {
                 </div>
 
                 <CommentForm
-                  action={localizeHref(routes.comments.action.href(), lang)}
-                  challenge={challenge}
+                  action={localizeHref(routes.comments.verify.href(), lang)}
                   values={values}
                   errors={errors}
                   contentRequired={false}
@@ -105,7 +105,6 @@ export function CommentsPage(handle: Handle<CommentsPageProps>) {
                     content: copy.comment,
                     contentPlaceholder: copy.commentPlaceholder,
                     markdown: copy.markdownHint,
-                    captcha: copy.captchaTitle,
                   }}
                 />
               </div>

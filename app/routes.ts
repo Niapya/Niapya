@@ -1,12 +1,17 @@
-import { form, get, post, route } from "remix/routes";
+import { get, post, route } from "remix/routes";
 
 export const routes = route({
   home: "/",
-  comments: form("/comments"),
+  comments: {
+    index: get("/comments"),
+    verify: post("/comments"),
+    publish: post("/comments/verify"),
+  },
   blog: route("/blog", {
     index: get("/"),
     article: get("/:slug"),
     comment: post("/:slug/comments"),
+    publishComment: post("/:slug/comments/verify"),
   }),
   ogImage: "/og-image.png",
   robots: "/robots.txt",

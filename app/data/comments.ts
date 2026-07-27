@@ -18,6 +18,7 @@ const CHALLENGE_TTL_MS = 10 * 60 * 1000;
 const MINIMUM_COMPLETION_MS = process.env.NODE_ENV === "test" ? 0 : 1_500;
 
 type ChallengeRecord = {
+  input: NewComment;
   target: CommentCaptchaTarget;
   createdAt: number;
 };
@@ -38,14 +39,14 @@ export type CaptchaChallenge = CommentCaptchaChallenge;
 
 export type PublishCommentResult =
   | { ok: true; comment: Comment }
-  | {
-    ok: false;
-    reason: "expired" | "incorrect" | "too-fast" | "conflict";
-  };
+  | { ok: false; reason: "expired" | "conflict" }
+  | { ok: false; reason: "incorrect" | "too-fast"; input: NewComment };
 
 export async function createCaptchaChallenge(
+  input: NewComment,
   lang: Lang,
 ): Promise<CaptchaChallenge> {
+  // KV keeps the pending draft available across short-lived server instances.
   for (let attempt = 0; attempt < 3; attempt++) {
     const createdAt = Date.now();
     const captcha = await generateCommentCaptcha(
@@ -59,6 +60,7 @@ export async function createCaptchaChallenge(
       atomic.set(
         key,
         {
+          input,
           target: captcha.target,
           createdAt,
         } satisfies ChallengeRecord,
@@ -88,7 +90,6 @@ export async function listComments(limit = 50): Promise<Comment[]> {
 }
 
 export async function publishComment(
-  input: NewComment,
   captcha: CommentCaptchaAnswer,
 ): Promise<PublishCommentResult> {
   const challengeKey = ["challenges", captcha.token] as const;
@@ -100,17 +101,25 @@ export async function publishComment(
 
   if (Date.now() - challenge.value.createdAt < MINIMUM_COMPLETION_MS) {
     await consumeChallenge(challengeKey, challenge.versionstamp);
-    return { ok: false, reason: "too-fast" };
+    return {
+      ok: false,
+      reason: "too-fast",
+      input: challenge.value.input,
+    };
   }
 
   if (!matchesCommentCaptcha(captcha, challenge.value.target)) {
     await consumeChallenge(challengeKey, challenge.versionstamp);
-    return { ok: false, reason: "incorrect" };
+    return {
+      ok: false,
+      reason: "incorrect",
+      input: challenge.value.input,
+    };
   }
 
   const id = createUniqueId();
   const comment: Comment = {
-    ...input,
+    ...challenge.value.input,
     id,
     createdAt: new Date().toISOString(),
   };

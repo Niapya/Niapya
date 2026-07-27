@@ -165,9 +165,15 @@ export default {
       content: "Comment",
       contentPlaceholder: "Add something to the conversation...",
       markdown: "GFM Markdown supported / 5,000 characters",
+      submit: "Continue to verification",
       captcha: "Human check",
       captchaAlt:
         "Publish comment by clicking the shape that matches the sample in the top strip",
+      verificationEyebrow: "Human check",
+      verificationTitle: "One last check.",
+      verificationDescription:
+        "Click the shape that matches the sample. A correct choice publishes your comment automatically.",
+      verificationBack: "Back to the comment form",
       listTitle: "Comments",
       empty: "No responses yet. Start the conversation.",
       websiteLink: "Website",
@@ -215,9 +221,15 @@ export default {
     comment: "Comment",
     commentPlaceholder: "A note, a question, or simply hello...",
     markdownHint: "GFM Markdown supported · 5,000 characters",
+    submit: "Continue to verification",
     captchaTitle: "A small human check",
     captchaAlt:
       "Publish note by clicking the shape that matches the sample in the top strip",
+    verificationEyebrow: "Human check",
+    verificationTitle: "Verify your note.",
+    verificationDescription:
+      "Click the shape that matches the sample. A correct choice publishes your note automatically.",
+    verificationBack: "Back to the guestbook form",
     privacy:
       "Published immediately. Please do not include sensitive information.",
     published: "Your note is now in the guestbook.",

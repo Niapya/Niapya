@@ -4,13 +4,17 @@ import { createController } from "remix/router";
 
 import {
   commentIssuesToErrors,
+  createCaptchaAnswerSchema,
   createCommentSchema,
   getIssuePathKey,
   readCommentFormValues,
   textField,
 } from "@/actions/comment-form.ts";
 import { noStore, parseFormRequest } from "@/actions/http.ts";
-import { renderCommentsFailure } from "@/actions/comments/response.tsx";
+import {
+  renderCommentsFailure,
+  renderCommentsVerification,
+} from "@/actions/comments/response.tsx";
 import { EMPTY_COMMENT_FORM } from "@/constants/comment-form.ts";
 import {
   createCaptchaChallenge,
@@ -29,19 +33,19 @@ export default createController(routes.comments, {
       const lang = get(LangContext);
       const i18n = createI18n(lang);
       const copy = i18n.messages.commentsPage;
-      const [comments, challenge] = await Promise.all([
-        listComments(),
-        createCaptchaChallenge(lang),
-      ]);
+      const comments = await listComments();
+      const verificationExpired = url.searchParams.get("verification") ===
+        "expired";
 
       return render(
         page(
           <CommentsPage
             i18n={i18n}
             comments={comments}
-            challenge={challenge}
             values={EMPTY_COMMENT_FORM}
-            errors={{}}
+            errors={verificationExpired
+              ? { form: copy.errors.captchaExpired }
+              : {}}
             published={url.searchParams.get("posted") === "1"}
           />,
           { title: copy.metaTitle, description: copy.metaDescription },
@@ -50,23 +54,18 @@ export default createController(routes.comments, {
       );
     },
 
-    async action({ get, render, request }) {
+    async verify({ get, render, request }) {
       const lang = get(LangContext);
       const i18n = createI18n(lang);
       const copy = i18n.messages.commentsPage;
       const form = await parseFormRequest(request);
 
       if (!form.ok) {
-        const message = form.reason === "same-origin"
-          ? copy.errors.sameOrigin
-          : form.reason === "too-large"
-          ? copy.errors.tooLarge
-          : copy.errors.invalidForm;
         return await renderCommentsFailure({
           render,
           i18n,
           values: EMPTY_COMMENT_FORM,
-          errors: { form: message },
+          errors: { form: formFailureMessage(form.reason, copy.errors) },
           status: form.status,
         });
       }
@@ -91,10 +90,6 @@ export default createController(routes.comments, {
             if (context.code === "string.max_length") {
               return copy.errors.fieldTooLong;
             }
-            if (field === "captcha.x" || field === "captcha.y") {
-              return copy.errors.captchaRequired;
-            }
-            if (field === "captchaToken") return copy.errors.captchaExpired;
             return undefined;
           },
         },
@@ -110,43 +105,77 @@ export default createController(routes.comments, {
         });
       }
 
-      const result = await publishComment(
-        {
-          name: parsed.value.name,
-          email: parsed.value.email,
-          website: parsed.value.website,
-          location: parsed.value.location,
-          content: parsed.value.content,
-        },
-        {
-          token: parsed.value.captchaToken,
-          x: parsed.value["captcha.x"],
-          y: parsed.value["captcha.y"],
-        },
-      );
+      const challenge = await createCaptchaChallenge(parsed.value, lang);
+      return renderCommentsVerification({ render, i18n, challenge });
+    },
 
-      if (!result.ok) {
-        const message = result.reason === "too-fast"
-          ? copy.errors.tooFast
-          : result.reason === "incorrect"
-          ? copy.errors.captchaIncorrect
-          : copy.errors.captchaExpired;
-        return await renderCommentsFailure({
-          render,
-          i18n,
-          values,
-          errors: { captcha: message },
-          status: result.reason === "too-fast" ? 429 : 400,
+    async publish({ get, render, request }) {
+      const lang = get(LangContext);
+      const i18n = createI18n(lang);
+      const copy = i18n.messages.commentsPage;
+      const form = await parseFormRequest(request);
+
+      if (!form.ok) {
+        return new Response(formFailureMessage(form.reason, copy.errors), {
+          status: form.status,
         });
       }
 
-      return redirect(successHref(lang), 303);
+      const parsed = s.parseSafe(
+        createCaptchaAnswerSchema(copy),
+        form.formData,
+      );
+      if (!parsed.success) return redirect(expiredHref(lang), 303);
+
+      const result = await publishComment({
+        token: parsed.value.captchaToken,
+        x: parsed.value["captcha.x"],
+        y: parsed.value["captcha.y"],
+      });
+
+      if (result.ok || result.reason === "conflict") {
+        return redirect(successHref(lang), 303);
+      }
+      if (result.reason === "expired") return redirect(expiredHref(lang), 303);
+      if (!("input" in result)) return redirect(expiredHref(lang), 303);
+
+      const challenge = await createCaptchaChallenge(result.input, lang);
+      return renderCommentsVerification({
+        render,
+        i18n,
+        challenge,
+        error: result.reason === "too-fast"
+          ? copy.errors.tooFast
+          : copy.errors.captchaIncorrect,
+        status: result.reason === "too-fast" ? 429 : 400,
+      });
     },
   },
 });
+
+type FormErrors = ReturnType<
+  typeof createI18n
+>["messages"]["commentsPage"]["errors"];
+
+function formFailureMessage(
+  reason: "same-origin" | "too-large" | "invalid-form",
+  errors: FormErrors,
+): string {
+  return reason === "same-origin"
+    ? errors.sameOrigin
+    : reason === "too-large"
+    ? errors.tooLarge
+    : errors.invalidForm;
+}
 
 function successHref(lang: ReturnType<typeof createI18n>["lang"]): string {
   return `${
     localizeHref(routes.comments.index.href(), lang)
   }&posted=1#comments`;
+}
+
+function expiredHref(lang: ReturnType<typeof createI18n>["lang"]): string {
+  return `${
+    localizeHref(routes.comments.index.href(), lang)
+  }&verification=expired#comment-form`;
 }

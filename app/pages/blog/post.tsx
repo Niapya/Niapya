@@ -1,10 +1,7 @@
 import { Check, MessageSquare } from "lucide";
 import { css, type Handle } from "remix/ui";
 
-import type {
-  BlogComment,
-  BlogCommentChallenge,
-} from "@/data/blog-comments.ts";
+import type { BlogComment } from "@/data/blog-comments.ts";
 import { type I18n, type Lang, localizeHref } from "@/i18n/index.ts";
 import type { Post } from "@/posts/index.ts";
 import { routes } from "@/routes.ts";
@@ -27,7 +24,6 @@ type BlogPostPageProps = {
   i18n: I18n;
   post: Post;
   comments: readonly BlogComment[];
-  challenge: BlogCommentChallenge;
   values: CommentFormValues;
   errors: CommentFormErrors;
   published: boolean;
@@ -214,7 +210,7 @@ type TimelineMark = {
 
 export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
   return () => {
-    const { lang, post, comments, challenge, values, errors, published } = {
+    const { lang, post, comments, values, errors, published } = {
       ...handle.props,
       lang: handle.props.i18n.lang,
     };
@@ -325,7 +321,6 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                         routes.blog.comment.href({ slug: post.slug }),
                         lang,
                       )}
-                      challenge={challenge}
                       values={values}
                       errors={errors}
                       contentRequired

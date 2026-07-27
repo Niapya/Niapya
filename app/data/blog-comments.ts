@@ -18,7 +18,7 @@ const CHALLENGE_TTL_MS = 10 * 60 * 1000;
 const MINIMUM_COMPLETION_MS = process.env.NODE_ENV === "test" ? 0 : 1_500;
 
 type ChallengeRecord = {
-  postSlug: string;
+  input: NewBlogComment;
   target: CommentCaptchaTarget;
   createdAt: number;
 };
@@ -40,15 +40,18 @@ export type BlogCommentChallenge = CommentCaptchaChallenge;
 
 export type PublishBlogCommentResult =
   | { ok: true; comment: BlogComment }
+  | { ok: false; reason: "expired" | "conflict" }
   | {
     ok: false;
-    reason: "expired" | "incorrect" | "too-fast" | "conflict";
+    reason: "incorrect" | "too-fast";
+    input: NewBlogComment;
   };
 
 export async function createBlogCommentChallenge(
-  postSlug: string,
+  input: NewBlogComment,
   lang: Lang,
 ): Promise<BlogCommentChallenge> {
+  // KV keeps the pending draft available across short-lived server instances.
   for (let attempt = 0; attempt < 3; attempt++) {
     const createdAt = Date.now();
     const captcha = await generateCommentCaptcha(
@@ -62,7 +65,7 @@ export async function createBlogCommentChallenge(
       atomic.set(
         key,
         {
-          postSlug,
+          input,
           target: captcha.target,
           createdAt,
         } satisfies ChallengeRecord,
@@ -95,7 +98,7 @@ export async function listBlogComments(
 }
 
 export async function publishBlogComment(
-  input: NewBlogComment,
+  postSlug: string,
   captcha: CommentCaptchaAnswer,
 ): Promise<PublishBlogCommentResult> {
   const challengeKey = ["comment-challenges", captcha.token] as const;
@@ -103,32 +106,40 @@ export async function publishBlogComment(
 
   if (
     !challenge.value || !challenge.versionstamp ||
-    challenge.value.postSlug !== input.postSlug
+    challenge.value.input.postSlug !== postSlug
   ) {
     return { ok: false, reason: "expired" };
   }
 
   if (Date.now() - challenge.value.createdAt < MINIMUM_COMPLETION_MS) {
     await consumeChallenge(challengeKey, challenge.versionstamp);
-    return { ok: false, reason: "too-fast" };
+    return {
+      ok: false,
+      reason: "too-fast",
+      input: challenge.value.input,
+    };
   }
 
   if (!matchesCommentCaptcha(captcha, challenge.value.target)) {
     await consumeChallenge(challengeKey, challenge.versionstamp);
-    return { ok: false, reason: "incorrect" };
+    return {
+      ok: false,
+      reason: "incorrect",
+      input: challenge.value.input,
+    };
   }
 
   const id = createUniqueId();
   const comment: BlogComment = {
-    ...input,
+    ...challenge.value.input,
     id,
     createdAt: new Date().toISOString(),
   };
   const result = await blogKv.commit([
     atomic.check(challengeKey, challenge.versionstamp),
     atomic.delete(challengeKey),
-    atomic.check(["comments", input.postSlug, id], null),
-    atomic.set(["comments", input.postSlug, id], comment),
+    atomic.check(["comments", postSlug, id], null),
+    atomic.set(["comments", postSlug, id], comment),
   ]);
 
   return result.ok ? { ok: true, comment } : { ok: false, reason: "conflict" };

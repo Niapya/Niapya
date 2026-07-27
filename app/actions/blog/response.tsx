@@ -1,10 +1,9 @@
 import type { I18n } from "@/i18n/index.ts";
-import {
-  createBlogCommentChallenge,
-  listBlogComments,
-} from "@/data/blog-comments.ts";
+import { listBlogComments } from "@/data/blog-comments.ts";
+import type { CommentCaptchaChallenge } from "@/data/comment-captcha.ts";
 import { page } from "@/middleware/render.tsx";
 import { BlogPostPage } from "@/pages/blog/post.tsx";
+import { CommentVerificationPage } from "@/pages/comments/verify.tsx";
 import type {
   CommentFormErrors,
   CommentFormValues,
@@ -28,10 +27,7 @@ export async function renderBlogPostFailure(options: {
   errors: CommentFormErrors;
   status: number;
 }): Promise<Response> {
-  const [comments, challenge] = await Promise.all([
-    listBlogComments(options.post.slug),
-    createBlogCommentChallenge(options.post.slug, options.i18n.lang),
-  ]);
+  const comments = await listBlogComments(options.post.slug);
 
   return options.render(
     page(
@@ -39,12 +35,50 @@ export async function renderBlogPostFailure(options: {
         i18n={options.i18n}
         post={options.post}
         comments={comments}
-        challenge={challenge}
         values={options.values}
         errors={options.errors}
         published={false}
       />,
       articleMetadata(options.post, options.i18n),
+    ),
+    noStore(options.status),
+  );
+}
+
+export function renderBlogCommentVerification(options: {
+  render: Render;
+  i18n: I18n;
+  post: Post;
+  challenge: CommentCaptchaChallenge;
+  error?: string;
+  status?: number;
+}): Response {
+  const copy = options.i18n.messages.blog.post;
+  const lang = options.i18n.lang;
+  const articleHref = localizeHref(
+    routes.blog.article.href({ slug: options.post.slug }),
+    lang,
+  );
+
+  return options.render(
+    page(
+      <CommentVerificationPage
+        i18n={options.i18n}
+        current="blog"
+        action={localizeHref(
+          routes.blog.publishComment.href({ slug: options.post.slug }),
+          lang,
+        )}
+        backHref={`${articleHref}#comments`}
+        challenge={options.challenge}
+        eyebrow={copy.verificationEyebrow}
+        title={copy.verificationTitle}
+        description={copy.verificationDescription}
+        captchaAlt={copy.captchaAlt}
+        backLabel={copy.verificationBack}
+        error={options.error}
+      />,
+      { title: `${copy.verificationTitle} | Niapya` },
     ),
     noStore(options.status),
   );

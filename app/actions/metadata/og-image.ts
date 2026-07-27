@@ -3,14 +3,9 @@ import { maxLength } from "remix/data-schema/checks";
 import * as f from "remix/data-schema/form-data";
 import * as s from "remix/data-schema";
 import satori from "satori";
-import instrumentSerifBytes from "./fonts/og/InstrumentSerif-Regular.ttf" with {
-  type: "bytes",
-};
-import notoSerifScBytes from "./fonts/og/NotoSerifSC-Regular.ttf" with {
-  type: "bytes",
-};
 
 import { SITE_METADATA } from "@/constants/index.ts";
+import { RENDER_FONT_DATA } from "@/data/render-fonts.ts";
 import {
   getLangFromRequest,
   type Lang,
@@ -19,18 +14,6 @@ import {
 
 const WIDTH = 1200;
 const HEIGHT = 630;
-
-function toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
-  return bytes.buffer.slice(
-    bytes.byteOffset,
-    bytes.byteOffset + bytes.byteLength,
-  ) as ArrayBuffer;
-}
-
-const fonts = {
-  instrumentSerif: toArrayBuffer(instrumentSerifBytes),
-  notoSerifSc: toArrayBuffer(notoSerifScBytes),
-};
 
 const ogImageQuerySchema = f.object({
   title: f.field(s.defaulted(s.string().pipe(maxLength(120)), "")),
@@ -128,11 +111,15 @@ export async function ogImage({ request }: { request: Request }) {
     height: HEIGHT,
     fonts: [
       {
-        data: fonts.instrumentSerif,
+        data: RENDER_FONT_DATA.instrumentSerif,
         name: "Instrument Serif",
         weight: 400,
       },
-      { data: fonts.notoSerifSc, name: "Noto Serif SC", weight: 400 },
+      {
+        data: RENDER_FONT_DATA.notoSerifSc,
+        name: "Noto Serif SC",
+        weight: 400,
+      },
     ],
   });
   const png = new Resvg(svg, {

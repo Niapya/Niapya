@@ -18,10 +18,11 @@
     "tailwind-merge": "npm:tailwind-merge@2.6.0"
   },
   "tasks": {
-    "dev": "NODE_ENV=development deno run --unstable-no-legacy-abort --unstable-raw-imports --unstable-kv --watch --allow-env --allow-ffi --allow-read --allow-net deno.ts",
-    "start": "NODE_ENV=production deno run --unstable-no-legacy-abort --unstable-raw-imports --unstable-kv --allow-env --allow-ffi --allow-read --allow-net deno.ts",
-    "test": "NODE_ENV=test deno test --unstable-raw-imports --unstable-kv --allow-env --allow-ffi --allow-read --allow-net",
-    "check": "deno check --unstable-raw-imports --unstable-kv app/ deno.ts && deno lint",
+    "dev": "NODE_ENV=development deno run --unstable-no-legacy-abort --unstable-kv --watch --allow-env --allow-ffi --allow-read --allow-net deno.ts",
+    "start": "NODE_ENV=production deno run --unstable-no-legacy-abort --unstable-kv --allow-env --allow-ffi --allow-read --allow-net deno.ts",
+    "test": "NODE_ENV=test deno test --unstable-kv --allow-env --allow-ffi --allow-read --allow-net",
+    "cache": "deno cache deno.ts",
+    "check": "deno check --unstable-kv app/ deno.ts && deno lint",
     "fix": "deno fmt && deno lint --fix"
   },
   "compilerOptions": {

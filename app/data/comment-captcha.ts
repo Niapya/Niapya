@@ -1,12 +1,7 @@
 import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
-import instrumentSerifBytes from "@/actions/metadata/fonts/og/InstrumentSerif-Regular.ttf" with {
-  type: "bytes",
-};
-import notoSerifScBytes from "@/actions/metadata/fonts/og/NotoSerifSC-Regular.ttf" with {
-  type: "bytes",
-};
 import type { Lang } from "@/i18n/index.ts";
+import { RENDER_FONT_DATA } from "@/data/render-fonts.ts";
 
 export const COMMENT_CAPTCHA_WIDTH = 280;
 export const COMMENT_CAPTCHA_HEIGHT = 188;
@@ -20,18 +15,6 @@ const HIT_RADIUS = 20;
 
 const COLORS = ["#e85d4a", "#147d78", "#e5b83a", "#242424"] as const;
 const SHAPES = ["circle", "square", "diamond", "ring"] as const;
-
-function toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
-  return bytes.buffer.slice(
-    bytes.byteOffset,
-    bytes.byteOffset + bytes.byteLength,
-  ) as ArrayBuffer;
-}
-
-const fonts = {
-  instrumentSerif: toArrayBuffer(instrumentSerifBytes),
-  notoSerifSc: toArrayBuffer(notoSerifScBytes),
-};
 
 type CaptchaShape = typeof SHAPES[number];
 
@@ -86,11 +69,15 @@ export async function generateCommentCaptcha(
       height: COMMENT_CAPTCHA_HEIGHT,
       fonts: [
         {
-          data: fonts.instrumentSerif,
+          data: RENDER_FONT_DATA.instrumentSerif,
           name: "Instrument Serif",
           weight: 400,
         },
-        { data: fonts.notoSerifSc, name: "Noto Serif SC", weight: 400 },
+        {
+          data: RENDER_FONT_DATA.notoSerifSc,
+          name: "Noto Serif SC",
+          weight: 400,
+        },
       ],
     },
   );

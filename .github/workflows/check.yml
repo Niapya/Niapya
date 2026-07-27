@@ -26,5 +26,8 @@ jobs:
       - name: Install dependencies
         run: deno install --frozen
 
+      - name: Cache entrypoint
+        run: deno task cache
+
       - name: Check
         run: deno task check

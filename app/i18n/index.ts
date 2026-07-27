@@ -30,10 +30,13 @@ const messages = {
   "zh-cn": zhCn,
 } as const;
 
+export type Messages = typeof en;
+
 type DotKeys<T> = T extends object ? {
-    [K in Extract<keyof T, string>]: T[K] extends object
-      ? `${K}.${DotKeys<T[K]>}`
-      : K;
+    [K in Extract<keyof T, string>]: T[K] extends string ? K
+      : T[K] extends (...args: never[]) => unknown ? never
+      : T[K] extends object ? `${K}.${DotKeys<T[K]>}`
+      : never;
   }[Extract<keyof T, string>]
   : never;
 
@@ -99,10 +102,17 @@ export function getLangFromRequest(request: Request): Lang {
   return DEFAULT_LANG;
 }
 
+export function localizeHref(href: string, lang: Lang): string {
+  const url = new URL(href, "https://niapya.local");
+  url.searchParams.set("lang", lang);
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
 export function createI18n(lang: Lang) {
   return {
     lang,
     config: LANGUAGE_CONFIG[lang],
+    messages: messages[lang],
     t: (key: MessageKey) => t(key, lang),
   };
 }

@@ -11,10 +11,46 @@ import {
 } from "@twind/core";
 import presetAutoprefix from "@twind/preset-autoprefix";
 import presetTailwind from "@twind/preset-tailwind";
+import presetTypography from "@twind/preset-typography";
 import diff from "fast-diff";
 import type { Middleware } from "remix/router";
 
 const color = (variable: string) => `var(--${variable})`;
+
+const darkThemeVariables = {
+  colorScheme: "dark",
+  "--background": "oklch(0.145 0 0)",
+  "--foreground": "oklch(0.985 0 0)",
+  "--card": "oklch(0.205 0 0)",
+  "--card-foreground": "oklch(0.985 0 0)",
+  "--popover": "oklch(0.205 0 0)",
+  "--popover-foreground": "oklch(0.985 0 0)",
+  "--primary": "#60a5fa",
+  "--primary-foreground": "#172554",
+  "--secondary": "oklch(0.274 0.006 286.033)",
+  "--secondary-foreground": "oklch(0.985 0 0)",
+  "--muted": "oklch(0.269 0 0)",
+  "--muted-foreground": "oklch(0.708 0 0)",
+  "--accent": "oklch(0.269 0 0)",
+  "--accent-foreground": "oklch(0.985 0 0)",
+  "--destructive": "oklch(0.704 0.191 22.216)",
+  "--border": "oklch(1 0 0 / 10%)",
+  "--input": "oklch(1 0 0 / 15%)",
+  "--ring": "oklch(0.556 0 0)",
+  "--chart-1": "oklch(0.809 0.105 251.813)",
+  "--chart-2": "oklch(0.623 0.214 259.815)",
+  "--chart-3": "oklch(0.546 0.245 262.881)",
+  "--chart-4": "oklch(0.488 0.243 264.376)",
+  "--chart-5": "oklch(0.424 0.199 265.638)",
+  "--sidebar": "oklch(0.205 0 0)",
+  "--sidebar-foreground": "oklch(0.985 0 0)",
+  "--sidebar-primary": "oklch(0.623 0.214 259.815)",
+  "--sidebar-primary-foreground": "oklch(0.97 0.014 254.604)",
+  "--sidebar-accent": "oklch(0.269 0 0)",
+  "--sidebar-accent-foreground": "oklch(0.985 0 0)",
+  "--sidebar-border": "oklch(1 0 0 / 10%)",
+  "--sidebar-ring": "oklch(0.556 0 0)",
+} as const;
 
 const colors = {
   border: color("border"),
@@ -113,39 +149,80 @@ const themeVariables = {
     "--font-mono":
       "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
   },
+  "@media (prefers-color-scheme: dark)": {
+    ":root:not(.light)": darkThemeVariables,
+  },
+  "@view-transition": {
+    navigation: "auto",
+  },
+  "@keyframes page-view-out": {
+    to: {
+      opacity: "0",
+      transform: "translateY(-0.375rem)",
+    },
+  },
+  "@keyframes page-view-in": {
+    from: {
+      opacity: "0",
+      transform: "translateY(0.5rem)",
+    },
+  },
+  "::view-transition-old(root)": {
+    animation: "180ms cubic-bezier(0.4, 0, 1, 1) both page-view-out",
+  },
+  "::view-transition-new(root)": {
+    animation: "240ms cubic-bezier(0, 0, 0.2, 1) both page-view-in",
+  },
+  "@media (prefers-reduced-motion: reduce)": {
+    "::view-transition-old(root), ::view-transition-new(root)": {
+      animationDuration: "0.01ms",
+    },
+  },
+  "@supports not selector(::-webkit-scrollbar)": {
+    html: {
+      scrollbarColor:
+        "color-mix(in oklab, black 38%, var(--muted)) var(--muted)",
+      scrollbarWidth: "auto",
+    },
+  },
+  "@supports selector(::-webkit-scrollbar)": {
+    "html::-webkit-scrollbar": {
+      width: "1.5rem",
+      background: "var(--background)",
+    },
+    "html::-webkit-scrollbar-button": {
+      display: "none",
+    },
+    "html::-webkit-scrollbar-track": {
+      marginBlock: "0.5rem",
+      background: "var(--background)",
+    },
+    "html::-webkit-scrollbar-track-piece": {
+      borderInline: "0.375rem solid transparent",
+      backgroundClip: "padding-box",
+    },
+    "html::-webkit-scrollbar-track-piece:start": {
+      backgroundColor: "color-mix(in oklab, black 38%, var(--muted))",
+    },
+    "html::-webkit-scrollbar-track-piece:end": {
+      backgroundColor: "var(--muted)",
+    },
+    "html::-webkit-scrollbar-thumb": {
+      minHeight: "0.75rem",
+      borderRadius: "999rem",
+      background:
+        "radial-gradient(circle at center, black 0 0.375rem, transparent 0.4rem), linear-gradient(to bottom, color-mix(in oklab, black 38%, var(--muted)) 0 50%, var(--muted) 50% 100%) center / 0.75rem 100% no-repeat",
+    },
+    "html::-webkit-scrollbar-corner": {
+      background: "var(--background)",
+    },
+  },
   ".dark": {
-    colorScheme: "dark",
-    "--background": "oklch(0.145 0 0)",
-    "--foreground": "oklch(0.985 0 0)",
-    "--card": "oklch(0.205 0 0)",
-    "--card-foreground": "oklch(0.985 0 0)",
-    "--popover": "oklch(0.205 0 0)",
-    "--popover-foreground": "oklch(0.985 0 0)",
-    "--primary": "oklch(0.424 0.199 265.638)",
-    "--primary-foreground": "oklch(0.97 0.014 254.604)",
-    "--secondary": "oklch(0.274 0.006 286.033)",
-    "--secondary-foreground": "oklch(0.985 0 0)",
-    "--muted": "oklch(0.269 0 0)",
-    "--muted-foreground": "oklch(0.708 0 0)",
-    "--accent": "oklch(0.269 0 0)",
-    "--accent-foreground": "oklch(0.985 0 0)",
-    "--destructive": "oklch(0.704 0.191 22.216)",
-    "--border": "oklch(1 0 0 / 10%)",
-    "--input": "oklch(1 0 0 / 15%)",
-    "--ring": "oklch(0.556 0 0)",
-    "--chart-1": "oklch(0.809 0.105 251.813)",
-    "--chart-2": "oklch(0.623 0.214 259.815)",
-    "--chart-3": "oklch(0.546 0.245 262.881)",
-    "--chart-4": "oklch(0.488 0.243 264.376)",
-    "--chart-5": "oklch(0.424 0.199 265.638)",
-    "--sidebar": "oklch(0.205 0 0)",
-    "--sidebar-foreground": "oklch(0.985 0 0)",
-    "--sidebar-primary": "oklch(0.623 0.214 259.815)",
-    "--sidebar-primary-foreground": "oklch(0.97 0.014 254.604)",
-    "--sidebar-accent": "oklch(0.269 0 0)",
-    "--sidebar-accent-foreground": "oklch(0.985 0 0)",
-    "--sidebar-border": "oklch(1 0 0 / 10%)",
-    "--sidebar-ring": "oklch(0.556 0 0)",
+    ...darkThemeVariables,
+  },
+  html: {
+    overscrollBehavior: "none",
+    scrollBehavior: "smooth",
   },
   "*, ::before, ::after": {
     borderColor: "var(--border)",
@@ -154,12 +231,13 @@ const themeVariables = {
     backgroundColor: "var(--background)",
     color: "var(--foreground)",
     fontFamily: "var(--font-sans)",
+    overscrollBehavior: "none",
   },
 } as const satisfies CSSBase;
 
 const twindConfig = {
-  presets: [presetAutoprefix(), presetTailwind()],
-  darkMode: "class",
+  presets: [presetAutoprefix(), presetTailwind(), presetTypography()],
+  darkMode: "media",
   preflight: [themeVariables],
   theme: {
     extend: {

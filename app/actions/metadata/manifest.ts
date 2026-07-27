@@ -1,5 +1,5 @@
-import { SITE_METADATA } from "../../constants.ts";
-import { getLangFromRequest, LANGUAGE_CONFIG } from "../../i18n/index.ts";
+import { SITE_METADATA } from "@/constants/index.ts";
+import { getLangFromRequest, LANGUAGE_CONFIG } from "@/i18n/index.ts";
 
 export function manifest({ request }: { request: Request }) {
   const lang = getLangFromRequest(request);
@@ -18,9 +18,9 @@ export function manifest({ request }: { request: Request }) {
       background_color: SITE_METADATA.themeColor,
       icons: [{
         src: SITE_METADATA.favicon,
-        sizes: "any",
-        type: "image/svg+xml",
-        purpose: "any maskable",
+        sizes: "460x460",
+        type: "image/jpeg",
+        purpose: "any",
       }],
     }),
     {

@@ -55,7 +55,7 @@ const colors = {
 
 module.exports = {
   content: ["./app/**/*.{ts,tsx}", "./public/**/*.{html,svg}"],
-  darkMode: "class",
+  darkMode: "media",
   theme: {
     extend: {
       colors,

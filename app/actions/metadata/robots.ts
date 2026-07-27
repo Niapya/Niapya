@@ -1,4 +1,4 @@
-import { SITE_METADATA } from "../../constants.ts";
+import { SITE_METADATA } from "@/constants/index.ts";
 
 export function robots({ request }: { request: Request }) {
   const origin = new URL(request.url).origin;

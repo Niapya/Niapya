@@ -1,0 +1,1 @@
+export const COMMENT_FORM_MAX_BYTES = 16_384;

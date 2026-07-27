@@ -2,16 +2,21 @@
   "version": "5",
   "specifiers": {
     "jsr:@deno/gfm@0.12": "0.12.0",
+    "jsr:@deno/gfm@0.12.0": "0.12.0",
     "jsr:@denosaurs/emoji@~0.3.1": "0.3.1",
+    "jsr:@ryu/deno-lint-plugin-tailwindcss@0.2.0": "0.2.0",
     "jsr:@std/ulid@1": "1.0.0",
     "npm:@resvg/resvg-js@^2.6.2": "2.6.2",
     "npm:@twind/core@^1.1.3": "1.1.3",
     "npm:@twind/preset-autoprefix@^1.0.7": "1.0.7_@twind+core@1.1.3",
     "npm:@twind/preset-tailwind@^1.1.4": "1.1.4_@twind+core@1.1.3",
+    "npm:@twind/preset-typography@^1.0.7": "1.0.7_@twind+core@1.1.3",
+    "npm:clsx@^2.1.1": "2.1.1",
     "npm:fast-diff@^1.3.0": "1.3.0",
     "npm:github-slugger@2": "2.0.0",
     "npm:he@^1.2.0": "1.2.0",
     "npm:katex@0.16": "0.16.47",
+    "npm:lucide@^1.26.0": "1.26.0",
     "npm:marked-alert@^2.1.2": "2.1.2_marked@17.0.6",
     "npm:marked-footnote@^1.4.0": "1.4.0_marked@17.0.6",
     "npm:marked-gfm-heading-id@^4.1.3": "4.1.4_marked@17.0.6",
@@ -19,7 +24,9 @@
     "npm:prismjs@^1.30.0": "1.30.0",
     "npm:remix@^3.0.0-beta.5": "3.0.0-beta.5_@emnapi+core@1.11.2_@emnapi+runtime@1.11.2",
     "npm:sanitize-html@^2.17.0": "2.17.6",
-    "npm:satori@0.29": "0.29.0"
+    "npm:satori@0.29": "0.29.0",
+    "npm:simple-icons@^16.27.0": "16.27.0",
+    "npm:tailwind-merge@2.6.0": "2.6.0"
   },
   "jsr": {
     "@deno/gfm@0.12.0": {
@@ -39,6 +46,9 @@
     },
     "@denosaurs/emoji@0.3.1": {
       "integrity": "b0aed5f55dec99e83da7c9637fe0a36d1d6252b7c99deaaa3fc5dea3fcf3da8b"
+    },
+    "@ryu/deno-lint-plugin-tailwindcss@0.2.0": {
+      "integrity": "1522555fefd6c6f7e6722b15201a7d76ee0e4fc273d4fc28892d587be132ba13"
     },
     "@std/ulid@1.0.0": {
       "integrity": "d41c3d27a907714413649fee864b7cde8d42ee68437d22b79d5de4f81d808780"
@@ -1016,6 +1026,12 @@
         "@twind/core"
       ]
     },
+    "@twind/preset-typography@1.0.7_@twind+core@1.1.3": {
+      "integrity": "sha512-Xqh3dSFUnqWCVmVpsq4Xq7mAYpjVhd5ynq+uorTc5wEr/m/M+Bgz1QiC4bm/0F+NPq92K96uWz3t0clpHkTz5A==",
+      "dependencies": [
+        "@twind/core"
+      ]
+    },
     "@tybys/wasm-util@0.10.3": {
       "integrity": "sha512-F3fo1MYrRJYL3zER0OUOmkutjr1Vp23m7OsSgp7nq4SP6OqX6C/56XFIPAl5bt3zaBRjmW7SGz3u/6LwFpYcOg==",
       "dependencies": [
@@ -1042,6 +1058,9 @@
       "dependencies": [
         "readdirp"
       ]
+    },
+    "clsx@2.1.1": {
+      "integrity": "sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA=="
     },
     "color-name@1.1.4": {
       "integrity": "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA=="
@@ -1309,6 +1328,9 @@
         "unicode-trie"
       ]
     },
+    "lucide@1.26.0": {
+      "integrity": "sha512-koKiuPC/3VLiIGY+hXn9pSurD4b54LgvkNqb9FjF8A4l5ftgRwFgmpPHoOnMLPbNj8oiDjMfMsnU3FITuxZ6Mw=="
+    },
     "magic-string@0.30.21": {
       "integrity": "sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==",
       "dependencies": [
@@ -1571,6 +1593,9 @@
       "integrity": "sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==",
       "bin": true
     },
+    "simple-icons@16.27.0": {
+      "integrity": "sha512-Rk2dCRVCPHnla9/mHmztJOlbkfncPDUMSOPozQO3+c+vr6Uwy9jhNHeuxxvNZgbF9ZwpoT1BCu1LNB4Q07VmZQ=="
+    },
     "source-map-js@1.2.1": {
       "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="
     },
@@ -1585,6 +1610,9 @@
       "dependencies": [
         "has-flag"
       ]
+    },
+    "tailwind-merge@2.6.0": {
+      "integrity": "sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA=="
     },
     "tiny-inflate@1.0.3": {
       "integrity": "sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw=="
@@ -1619,9 +1647,15 @@
       "npm:@twind/core@^1.1.3",
       "npm:@twind/preset-autoprefix@^1.0.7",
       "npm:@twind/preset-tailwind@^1.1.4",
+      "npm:@twind/preset-typography@^1.0.7",
+      "npm:clsx@^2.1.1",
       "npm:fast-diff@^1.3.0",
+      "npm:lucide@^1.26.0",
+      "npm:prismjs@^1.30.0",
       "npm:remix@^3.0.0-beta.5",
-      "npm:satori@0.29"
+      "npm:satori@0.29",
+      "npm:simple-icons@^16.27.0",
+      "npm:tailwind-merge@2.6.0"
     ]
   }
 }

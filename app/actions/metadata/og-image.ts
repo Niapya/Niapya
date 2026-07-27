@@ -1,19 +1,21 @@
 import { Resvg } from "@resvg/resvg-js";
+import { maxLength } from "remix/data-schema/checks";
+import * as f from "remix/data-schema/form-data";
+import * as s from "remix/data-schema";
 import satori from "satori";
-import notoSansScBytes from "./fonts/og/NotoSansCJKsc-Regular.otf" with {
+import instrumentSerifBytes from "./fonts/og/InstrumentSerif-Regular.ttf" with {
   type: "bytes",
 };
-import robotoBoldBytes from "./fonts/og/Roboto-Bold.ttf" with { type: "bytes" };
-import robotoRegularBytes from "./fonts/og/Roboto-Regular.ttf" with {
+import notoSerifScBytes from "./fonts/og/NotoSerifSC-Regular.ttf" with {
   type: "bytes",
 };
 
-import { SITE_METADATA } from "../../constants.ts";
+import { SITE_METADATA } from "@/constants/index.ts";
 import {
   getLangFromRequest,
   type Lang,
   LANGUAGE_CONFIG,
-} from "../../i18n/index.ts";
+} from "@/i18n/index.ts";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -26,12 +28,13 @@ function toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
 }
 
 const fonts = {
-  roboto: {
-    regular: toArrayBuffer(robotoRegularBytes),
-    bold: toArrayBuffer(robotoBoldBytes),
-  },
-  notoSansSc: toArrayBuffer(notoSansScBytes),
+  instrumentSerif: toArrayBuffer(instrumentSerifBytes),
+  notoSerifSc: toArrayBuffer(notoSerifScBytes),
 };
+
+const ogImageQuerySchema = f.object({
+  title: f.field(s.defaulted(s.string().pipe(maxLength(120)), "")),
+});
 
 function textNode(text: string, style: Record<string, string | number>) {
   return {
@@ -40,27 +43,25 @@ function textNode(text: string, style: Record<string, string | number>) {
   };
 }
 
-function createCard(lang: Lang) {
+function createCard(lang: Lang, title: string) {
   const language = LANGUAGE_CONFIG[lang];
-  const fontFamily = lang === "zh-cn" ? "Noto Sans CJK SC" : "Roboto";
-  const title = SITE_METADATA.title[lang];
-  const description = SITE_METADATA.description[lang];
-  const footer = lang === "zh-cn"
-    ? "用心构建数字产品、界面与实验。"
-    : "Thoughtful digital products, interfaces, and experiments.";
+  const fontFamily = lang === "zh-cn" ? "Noto Serif SC" : "Instrument Serif";
 
   return {
     type: "div",
     props: {
       lang: language.htmlLang,
       style: {
+        position: "relative",
         width: WIDTH,
         height: HEIGHT,
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        padding: 72,
-        backgroundColor: SITE_METADATA.themeColor,
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        backgroundColor: "#f8fafb",
+        backgroundImage:
+          "linear-gradient(to bottom left, #2879be 0%, #86b6d3 30%, #e5edef 68%, #ffffff 100%)",
         color: "#171717",
         fontFamily,
       },
@@ -69,55 +70,45 @@ function createCard(lang: Lang) {
           type: "div",
           props: {
             style: {
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-            },
-            children: [
-              textNode(SITE_METADATA.siteName, {
-                fontSize: 28,
-                fontWeight: 700,
-                letterSpacing: 1,
-              }),
-              textNode("PORTFOLIO / 2026", {
-                fontSize: 18,
-                fontWeight: 400,
-                letterSpacing: 2,
-                color: "#6b665d",
-              }),
-            ],
-          },
-        },
-        {
-          type: "div",
-          props: {
-            style: {
+              width: 940,
+              minHeight: 340,
               display: "flex",
               flexDirection: "column",
-              gap: 24,
-              maxWidth: 980,
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "64px 80px 58px",
             },
             children: [
-              textNode(title, {
-                fontSize: 66,
-                fontWeight: 700,
-                lineHeight: 1.08,
-              }),
-              textNode(description, {
-                fontSize: 28,
+              textNode(`${SITE_METADATA.siteName}.`, {
+                fontFamily: "Instrument Serif",
+                fontSize: 112,
                 fontWeight: 400,
-                lineHeight: 1.35,
-                color: "#5c574f",
+                lineHeight: 1,
+                textAlign: "center",
+              }),
+              {
+                type: "div",
+                props: {
+                  style: {
+                    width: 64,
+                    height: 1,
+                    display: "flex",
+                    marginTop: 34,
+                    marginBottom: 28,
+                    backgroundColor: "rgba(23, 23, 23, 0.24)",
+                  },
+                },
+              },
+              textNode(title, {
+                maxWidth: 860,
+                fontSize: titleFontSize(title, lang),
+                fontWeight: 400,
+                lineHeight: 1.25,
+                textAlign: "center",
               }),
             ],
           },
         },
-        textNode(footer, {
-          fontSize: 18,
-          fontWeight: 400,
-          color: "#6b665d",
-        }),
       ],
     },
   };
@@ -125,14 +116,23 @@ function createCard(lang: Lang) {
 
 export async function ogImage({ request }: { request: Request }) {
   const lang = getLangFromRequest(request);
-  const svg = await satori(createCard(lang) as never, {
+  const parsed = s.parseSafe(
+    ogImageQuerySchema,
+    new URL(request.url).searchParams,
+  );
+  const title = parsed.success
+    ? displayTitle(parsed.value.title, lang)
+    : defaultTitle(lang);
+  const svg = await satori(createCard(lang, title), {
     width: WIDTH,
     height: HEIGHT,
     fonts: [
-      { data: fonts.roboto.regular, name: "Roboto", weight: 400 },
-      { data: fonts.roboto.bold, name: "Roboto", weight: 700 },
-      { data: fonts.notoSansSc, name: "Noto Sans CJK SC", weight: 400 },
-      { data: fonts.notoSansSc, name: "Noto Sans CJK SC", weight: 700 },
+      {
+        data: fonts.instrumentSerif,
+        name: "Instrument Serif",
+        weight: 400,
+      },
+      { data: fonts.notoSerifSc, name: "Noto Serif SC", weight: 400 },
     ],
   });
   const png = new Resvg(svg, {
@@ -150,4 +150,23 @@ export async function ogImage({ request }: { request: Request }) {
       Vary: "Accept-Language",
     },
   });
+}
+
+function defaultTitle(lang: Lang): string {
+  return lang === "zh-cn"
+    ? "独立设计师与开发者"
+    : "Independent Designer & Developer";
+}
+
+function displayTitle(value: string, lang: Lang): string {
+  const title = value.trim();
+  if (!title || title === SITE_METADATA.title[lang]) return defaultTitle(lang);
+  return title.replace(/\s*\|\s*Niapya$/i, "");
+}
+
+function titleFontSize(title: string, lang: Lang): number {
+  const length = Array.from(title).length;
+  if (length > 55) return 28;
+  if (length > 32) return 32;
+  return lang === "zh-cn" ? 38 : 36;
 }

@@ -1,6 +1,6 @@
 import { createContextKey, type Middleware } from "remix/router";
 
-import { DEFAULT_LANG, getLangFromRequest, type Lang } from "../i18n/index.ts";
+import { DEFAULT_LANG, getLangFromRequest, type Lang } from "@/i18n/index.ts";
 
 export const LangContext = createContextKey<Lang>(DEFAULT_LANG);
 

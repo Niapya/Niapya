@@ -8,7 +8,7 @@ export default {
   },
   home: {
     hero: {
-      titleBeforeImage: "我是 Niapya，一名常驻中国的独立设计师与开发者。",
+      titleBeforeImage: "我是 Niapya，一名立足中国的独立设计师和开发者。",
       titleAfterImage: "我正在设计并交付 AI 原生产品。",
       footerLead: "构建由 AI 驱动的产品",
       name: "Niapya",
@@ -17,7 +17,7 @@ export default {
     },
     designer: {
       titleGraphic: "UI/UX",
-      titleDesigner: "Designer",
+      titleDesigner: "设计师",
       available: "Available for work",
       collaboration: "Open to collaborations",
       imageAlt: "Niapya, UI/UX Designer",
@@ -35,8 +35,8 @@ export default {
     },
     developer: {
       title: {
-        lineOne: "不止设计",
-        lineTwo: "也做全栈",
+        lineOne: "同时是",
+        lineTwo: "全栈开发者",
       },
       sentenceOneBefore: "我构建 AI 原生产品，让",
       tokenTypedApis: {
@@ -108,8 +108,8 @@ export default {
       hire: "需要",
       me: "我？",
       backToTop: "返回顶部",
-      titleLineOne: "设计正在",
-      titleLineTwo: "到来的未来。",
+      titleLineOne: "设计下一个未来",
+      titleLineTwo: "与君共建",
       navigation: "页脚导航",
       remixCredit: {
         beforeRemix: "由 ",

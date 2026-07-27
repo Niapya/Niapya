@@ -28,7 +28,6 @@ type ContactProject = {
   edge: "top" | "bottom";
   column: "left" | "center" | "right";
   widthClass: string;
-  aspectRatio: string;
   anchorTransform: string;
   mediaTransform: string;
   range: string;
@@ -53,7 +52,6 @@ const CONTACT_PROJECTS = [
     edge: "top",
     column: "left",
     widthClass: "w-64 sm:w-80 md:w-72 lg:w-96",
-    aspectRatio: "4 / 3",
     anchorTransform: "translate3d(-34vw, -36dvh, 0)",
     mediaTransform: "rotate(-7deg) scale(0.92)",
     range: "entry 8% cover 60%",
@@ -78,7 +76,6 @@ const CONTACT_PROJECTS = [
     edge: "top",
     column: "center",
     widthClass: "w-72 sm:w-96 md:w-80 lg:w-96",
-    aspectRatio: "16 / 9",
     anchorTransform: "translate3d(-7vw, -36dvh, 0)",
     mediaTransform: "rotate(3deg) scale(0.88)",
     range: "entry 12% cover 68%",
@@ -103,7 +100,6 @@ const CONTACT_PROJECTS = [
     edge: "top",
     column: "right",
     widthClass: "w-56 sm:w-72 md:w-64 lg:w-80",
-    aspectRatio: "4 / 5",
     anchorTransform: "translate3d(33vw, -34dvh, 0)",
     mediaTransform: "rotate(8deg) scale(0.94)",
     range: "entry 6% cover 64%",
@@ -128,7 +124,6 @@ const CONTACT_PROJECTS = [
     edge: "bottom",
     column: "left",
     widthClass: "w-64 sm:w-80 md:w-72 lg:w-96",
-    aspectRatio: "4 / 5",
     anchorTransform: "translate3d(-34vw, 34dvh, 0)",
     mediaTransform: "rotate(7deg) scale(0.9)",
     range: "entry 14% cover 76%",
@@ -153,7 +148,6 @@ const CONTACT_PROJECTS = [
     edge: "bottom",
     column: "center",
     widthClass: "w-72 sm:w-96 md:w-80 lg:w-96",
-    aspectRatio: "16 / 9",
     anchorTransform: "translate3d(-7vw, 36dvh, 0)",
     mediaTransform: "rotate(-3deg) scale(0.96)",
     range: "entry 10% cover 72%",
@@ -178,7 +172,6 @@ const CONTACT_PROJECTS = [
     edge: "bottom",
     column: "right",
     widthClass: "w-56 sm:w-72 md:w-64 lg:w-80",
-    aspectRatio: "4 / 5",
     anchorTransform: "translate3d(33vw, 34dvh, 0)",
     mediaTransform: "rotate(-6deg) scale(0.9)",
     range: "entry 16% cover 80%",
@@ -349,9 +342,9 @@ export function Contact(handle: Handle<ContactProps>) {
                       keyframes={project.keyframes}
                     >
                       <figure
-                        class="overflow-hidden rounded-sm border-2 border-primary/40 bg-card shadow-lg"
+                        class="overflow-hidden rounded-sm border border-primary bg-card shadow-sm"
                         style={{
-                          aspectRatio: project.aspectRatio,
+                          aspectRatio: `${project.width} / ${project.height}`,
                           transform: project.mediaTransform,
                         }}
                       >

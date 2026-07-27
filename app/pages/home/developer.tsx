@@ -19,7 +19,7 @@ const DEVELOPER_PROJECTS = [
     cursorToneClass: "text-rose-300 dark:text-rose-200",
     cursorBubbleClass: "bg-rose-200",
     href: "https://github.com/HackHTU/RSSBook",
-    image: HOME_ASSETS.rssbook.src,
+    image: HOME_ASSETS.rssbook,
   },
   {
     id: "clawless",
@@ -29,7 +29,7 @@ const DEVELOPER_PROJECTS = [
     cursorToneClass: "text-sky-300 dark:text-sky-200",
     cursorBubbleClass: "bg-sky-200",
     href: "https://github.com/Niapya/clawless",
-    image: HOME_ASSETS.clawless.src,
+    image: HOME_ASSETS.clawless,
   },
   {
     id: "ai-sdk-x",
@@ -39,7 +39,7 @@ const DEVELOPER_PROJECTS = [
     cursorToneClass: "text-amber-300 dark:text-amber-200",
     cursorBubbleClass: "bg-amber-200",
     href: "https://github.com/Niapya/ai-sdk-x",
-    image: HOME_ASSETS.aiSdkX.src,
+    image: HOME_ASSETS.aiSdkX,
   },
 ] as const;
 
@@ -176,14 +176,13 @@ const projectSwitcherStyle = css({
     height: "clamp(13rem, 28dvh, 17rem)",
   },
   "& [data-project-card]": {
-    aspectRatio: "4 / 5",
     alignSelf: "start",
     gridArea: "stack",
     height: "auto",
     justifySelf: "center",
     maxHeight: "16rem",
-    maxWidth: "13rem",
-    width: "44vw",
+    maxWidth: "18rem",
+    width: "64vw",
     transformOrigin: "center 90%",
     transitionProperty: "transform, opacity, filter",
     transitionDuration: "700ms",
@@ -271,35 +270,35 @@ const projectSwitcherStyle = css({
     offsetDistance: "50%",
     visibility: "visible",
     transitionProperty: "offset-distance, opacity",
-    transitionDuration: "700ms, 180ms",
+    transitionDuration: "500ms, 140ms",
     transitionTimingFunction: "cubic-bezier(0.55, 0, 1, 0.45), linear",
-    transitionDelay: "0ms, 520ms",
+    transitionDelay: "0ms, 360ms",
   },
   "& [data-cursor-content]": {
-    animation: "developer-cursor-idle 1800ms ease-in-out 2200ms infinite",
+    animation: "developer-cursor-idle 1500ms ease-in-out 1600ms infinite",
   },
   "& [data-cursor-bubble]": {
     opacity: 0,
     transform: "scale(0.86) translateY(-0.25rem)",
     transformOrigin: "top left",
     transition:
-      "opacity 240ms linear, transform 240ms cubic-bezier(0.16, 1, 0.3, 1)",
+      "opacity 180ms linear, transform 180ms cubic-bezier(0.16, 1, 0.3, 1)",
   },
   "&:has(fieldset > input:nth-of-type(1):checked) [data-entry-cursor]": {
     animation:
-      "developer-cursor-enter-rose 1500ms cubic-bezier(0.16, 1, 0.3, 1) 700ms both",
+      "developer-cursor-enter-rose 1100ms cubic-bezier(0.16, 1, 0.3, 1) 400ms both",
     opacity: 1,
     offsetDistance: "50%",
   },
   "&:has(fieldset > input:nth-of-type(2):checked) [data-entry-cursor]": {
     animation:
-      "developer-cursor-enter-sky 1500ms cubic-bezier(0.16, 1, 0.3, 1) 700ms both",
+      "developer-cursor-enter-sky 1100ms cubic-bezier(0.16, 1, 0.3, 1) 400ms both",
     opacity: 1,
     offsetDistance: "50%",
   },
   "&:has(fieldset > input:nth-of-type(3):checked) [data-entry-cursor]": {
     animation:
-      "developer-cursor-enter-amber 1500ms cubic-bezier(0.16, 1, 0.3, 1) 700ms both",
+      "developer-cursor-enter-amber 1100ms cubic-bezier(0.16, 1, 0.3, 1) 400ms both",
     opacity: 1,
     offsetDistance: "50%",
   },
@@ -316,7 +315,7 @@ const projectSwitcherStyle = css({
   "&:has(fieldset > input:nth-of-type(1):checked) [data-entry-visual='0'] [data-cursor-bubble], &:has(fieldset > input:nth-of-type(2):checked) [data-entry-visual='1'] [data-cursor-bubble], &:has(fieldset > input:nth-of-type(3):checked) [data-entry-visual='2'] [data-cursor-bubble]":
     {
       animation:
-        "developer-cursor-bubble 240ms cubic-bezier(0.16, 1, 0.3, 1) 1850ms both",
+        "developer-cursor-bubble 180ms cubic-bezier(0.16, 1, 0.3, 1) 1250ms both",
       opacity: 1,
       transform: "scale(1) translateY(0)",
     },
@@ -518,7 +517,7 @@ export function Developer(handle: Handle<DeveloperProps>) {
           <header class="text-center lg:text-left">
             <h2
               id="developer-title"
-              class="font-display text-4xl leading-none sm:text-5xl lg:text-6xl"
+              class="font-display text-3xl leading-none sm:text-4xl lg:text-5xl"
             >
               <span class="block">{copy.title.lineOne}</span>
               <span class="block">{copy.title.lineTwo}</span>
@@ -596,10 +595,16 @@ export function Developer(handle: Handle<DeveloperProps>) {
                       data-project-card={String(index)}
                       aria-label={projectCopy.title}
                       class="relative focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                      style={{
+                        aspectRatio:
+                          `${project.image.width} / ${project.image.height}`,
+                      }}
                     >
-                      <div class="h-full overflow-hidden rounded-sm border border-border bg-muted shadow-lg">
+                      <div class="h-full overflow-hidden rounded-sm border border-primary bg-card shadow-sm">
                         <img
-                          src={project.image}
+                          src={project.image.src}
+                          width={project.image.width}
+                          height={project.image.height}
                           alt={projectCopy.imageAlt}
                           class="h-full w-full object-cover"
                           loading="lazy"

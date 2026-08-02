@@ -9,6 +9,7 @@ import type {
   CommentFormValues,
 } from "@/components/comments.tsx";
 import type { Post } from "@/posts/index.ts";
+import { postNeighbors } from "@/posts/index.ts";
 import { routes } from "@/routes.ts";
 import { MARKDOWN_HEAD_CSS } from "@/utils/markdown.ts";
 import { noStore } from "@/actions/http.ts";
@@ -26,8 +27,10 @@ export async function renderBlogPostFailure(options: {
   values: CommentFormValues;
   errors: CommentFormErrors;
   status: number;
+  url: URL;
 }): Promise<Response> {
   const comments = await listBlogComments(options.post.slug);
+  const neighbors = postNeighbors(options.post.slug);
 
   return options.render(
     page(
@@ -35,14 +38,32 @@ export async function renderBlogPostFailure(options: {
         i18n={options.i18n}
         post={options.post}
         comments={comments}
+        previousPost={neighbors.previous}
+        nextPost={neighbors.next}
         values={options.values}
         errors={options.errors}
         published={false}
+        shareUrl={blogPostShareUrl(
+          options.post,
+          options.i18n.lang,
+          options.url,
+        )}
       />,
       articleMetadata(options.post, options.i18n),
     ),
     noStore(options.status),
   );
+}
+
+export function blogPostShareUrl(
+  post: Post,
+  lang: I18n["lang"],
+  base: URL,
+): string {
+  return new URL(
+    localizeHref(routes.blog.article.href({ slug: post.slug }), lang),
+    base,
+  ).href;
 }
 
 export function renderBlogCommentVerification(options: {

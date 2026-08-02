@@ -30,6 +30,21 @@ export const allPosts = Object.values(posts).sort((left, right) =>
   right.updatedAt.localeCompare(left.updatedAt)
 );
 
+export type PostNeighbors = {
+  previous: Post | undefined;
+  next: Post | undefined;
+};
+
+/** Returns the adjacent posts around `slug` in `allPosts` order (previous is the newer entry above). */
+export function postNeighbors(slug: string): PostNeighbors {
+  const index = allPosts.findIndex((post) => post.slug === slug);
+  if (index < 0) return { previous: undefined, next: undefined };
+  return {
+    previous: allPosts[index - 1],
+    next: allPosts[index + 1],
+  };
+}
+
 async function loadPosts(): Promise<Record<string, Post>> {
   const filePaths = await findMarkdownFiles(POSTS_DIRECTORY);
   const loadedPosts = await Promise.all(filePaths.map(loadPost));

@@ -14,6 +14,7 @@ import { noStore, notFound, parseFormRequest } from "@/actions/http.ts";
 import {
   articleMetadata,
   blogCommentSuccessHref,
+  blogPostShareUrl,
   renderBlogCommentVerification,
   renderBlogPostFailure,
 } from "@/actions/blog/response.tsx";
@@ -28,7 +29,7 @@ import { LangContext } from "@/middleware/locale.ts";
 import { page } from "@/middleware/render.tsx";
 import { BlogIndexPage } from "@/pages/blog/index.tsx";
 import { BlogPostPage } from "@/pages/blog/post.tsx";
-import { allPosts, posts } from "@/posts/index.ts";
+import { allPosts, postNeighbors, posts } from "@/posts/index.ts";
 import { routes } from "@/routes.ts";
 
 const BLOG_PAGE_SIZE = 6;
@@ -70,6 +71,7 @@ export default createController(routes.blog, {
       const comments = await listBlogComments(post.slug);
       const verificationExpired = url.searchParams.get("verification") ===
         "expired";
+      const neighbors = postNeighbors(post.slug);
 
       return render(
         page(
@@ -77,11 +79,14 @@ export default createController(routes.blog, {
             i18n={i18n}
             post={post}
             comments={comments}
+            previousPost={neighbors.previous}
+            nextPost={neighbors.next}
             values={EMPTY_COMMENT_FORM}
             errors={verificationExpired
               ? { form: i18n.messages.blog.post.errors.captchaExpired }
               : {}}
             published={url.searchParams.get("commented") === "1"}
+            shareUrl={blogPostShareUrl(post, lang, url)}
           />,
           articleMetadata(post, i18n),
         ),
@@ -89,7 +94,7 @@ export default createController(routes.blog, {
       );
     },
 
-    async comment({ get, params, render, request }) {
+    async comment({ get, params, render, request, url }) {
       const post = posts[params.slug];
       if (!post) return notFound();
 
@@ -106,6 +111,7 @@ export default createController(routes.blog, {
           values: EMPTY_COMMENT_FORM,
           errors: { form: formFailureMessage(form.reason, copy.errors) },
           status: form.status,
+          url,
         });
       }
 
@@ -147,6 +153,7 @@ export default createController(routes.blog, {
           values,
           errors: commentIssuesToErrors(parsed.issues),
           status: 400,
+          url,
         });
       }
 

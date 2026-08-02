@@ -1,4 +1,4 @@
-import { Check, MessageSquare } from "lucide";
+import { ArrowLeft, Check, MessageSquare } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import type { BlogComment } from "@/data/blog-comments.ts";
@@ -15,18 +15,23 @@ import {
 import { Header } from "@/components/header.tsx";
 import { Icon } from "@/components/icon.tsx";
 import {
+  type MarkdownDocument,
   type MarkdownSection,
   renderMarkdownDocument,
 } from "@/utils/markdown.ts";
 import { blogPostTitleTransitionName } from "./view-transition.ts";
+import { ShareMenu } from "./share.tsx";
 
 type BlogPostPageProps = {
   i18n: I18n;
   post: Post;
+  previousPost: Post | undefined;
+  nextPost: Post | undefined;
   comments: readonly BlogComment[];
   values: CommentFormValues;
   errors: CommentFormErrors;
   published: boolean;
+  shareUrl: string;
 };
 
 const articleStyle = css({
@@ -201,6 +206,7 @@ const timelineRailStyle = css({
 const TARGET_TIMELINE_MARKS = 48;
 const MIN_CONTENT_MARKS = 24;
 const MAX_CONTENT_MARKS = 36;
+const WORDS_PER_MINUTE = 200;
 
 type TimelineMark = {
   key: string;
@@ -208,14 +214,33 @@ type TimelineMark = {
   section?: MarkdownSection;
 };
 
+function totalWords(document: MarkdownDocument): number {
+  return document.leadWordCount +
+    document.sections.reduce((sum, section) => sum + section.wordCount, 0);
+}
+
 export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
   return () => {
-    const { lang, post, comments, values, errors, published } = {
+    const {
+      lang,
+      post,
+      previousPost,
+      nextPost,
+      comments,
+      values,
+      errors,
+      published,
+      shareUrl,
+    } = {
       ...handle.props,
       lang: handle.props.i18n.lang,
     };
     const copy = handle.props.i18n.messages.blog.post;
     const markdownDocument = renderMarkdownDocument(post.content);
+    const readingMinutes = Math.max(
+      1,
+      Math.ceil(totalWords(markdownDocument) / WORDS_PER_MINUTE),
+    );
     const timelineSections: readonly MarkdownSection[] = [
       {
         id: "article-start",
@@ -234,6 +259,13 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
           <article lang={handle.props.i18n.config.htmlLang}>
             <header id="article-start" class="border-b border-border">
               <div class="mx-auto max-w-5xl px-5 pt-16 pb-14 sm:px-10 sm:pt-22 sm:pb-18 lg:px-20">
+                <a
+                  href={localizeHref(routes.blog.index.href(), lang)}
+                  class="mb-10 inline-flex w-fit cursor-pointer select-none items-center gap-2 text-muted-foreground text-sm outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <Icon icon={ArrowLeft} className="h-4 w-4" />
+                  {copy.back}
+                </a>
                 <h1
                   class="font-display font-normal text-5xl leading-none sm:text-6xl lg:text-7xl"
                   style={{
@@ -257,12 +289,23 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                     </time>
                   </span>
                   <span aria-hidden="true">/</span>
+                  <span>{copy.readingTime(readingMinutes)}</span>
+                  <span aria-hidden="true">/</span>
                   <a
                     href="#comments"
                     class="cursor-pointer select-none outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {copy.comments(comments.length)}
                   </a>
+                  <span aria-hidden="true">/</span>
+                  <ShareMenu
+                    url={shareUrl}
+                    title={post.title}
+                    copy={{
+                      share: copy.share,
+                      shareLabel: copy.shareLabel,
+                    }}
+                  />
                 </div>
               </div>
             </header>
@@ -283,6 +326,64 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
               </div>
             </div>
           </article>
+
+          <nav
+            aria-label={copy.postNavigation}
+            class="mx-auto max-w-5xl px-5 sm:px-10 lg:px-20"
+          >
+            <div class="grid grid-cols-2 gap-6 border-b border-border py-10">
+              {previousPost
+                ? (
+                  <a
+                    href={localizeHref(
+                      routes.blog.article.href({ slug: previousPost.slug }),
+                      lang,
+                    )}
+                    class="group flex min-w-0 flex-col cursor-pointer gap-2 outline-none"
+                  >
+                    <span class="font-mono text-muted-foreground text-xs uppercase">
+                      {copy.previousPost}
+                    </span>
+                    <span
+                      class="line-clamp-2 font-display text-xl leading-snug transition-colors group-hover:text-primary group-focus-visible:text-primary"
+                      style={{
+                        viewTransitionName: blogPostTitleTransitionName(
+                          previousPost.slug,
+                        ),
+                      }}
+                    >
+                      {previousPost.title}
+                    </span>
+                  </a>
+                )
+                : <span />}
+              {nextPost
+                ? (
+                  <a
+                    href={localizeHref(
+                      routes.blog.article.href({ slug: nextPost.slug }),
+                      lang,
+                    )}
+                    class="group flex min-w-0 flex-col cursor-pointer items-end gap-2 text-right outline-none"
+                  >
+                    <span class="font-mono text-muted-foreground text-xs uppercase">
+                      {copy.nextPost}
+                    </span>
+                    <span
+                      class="line-clamp-2 font-display text-xl leading-snug transition-colors group-hover:text-primary group-focus-visible:text-primary"
+                      style={{
+                        viewTransitionName: blogPostTitleTransitionName(
+                          nextPost.slug,
+                        ),
+                      }}
+                    >
+                      {nextPost.title}
+                    </span>
+                  </a>
+                )
+                : <span />}
+            </div>
+          </nav>
 
           <section id="comments" class="border-border border-t bg-muted">
             <div class="mx-auto max-w-8xl px-5 pt-14 pb-16 sm:px-10 sm:pt-20 sm:pb-20 lg:px-20">

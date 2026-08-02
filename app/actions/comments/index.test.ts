@@ -33,7 +33,7 @@ Deno.test("valid comment submission renders the verification step", async () => 
   const html = await response.text();
 
   assert.equal(response.status, 200);
-  assert.match(html, /One last check|Verify your note/);
+  assert.match(html, /One last check|Verify your message/);
   assert.match(html, /type="image"/);
   assert.match(html, /name="captchaToken" value="[0-9A-HJKMNP-TV-Z]{26}"/);
   assert.match(html, /action="\/comments\/verify\?lang=en"/);

@@ -3,6 +3,8 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import { basename, dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { extractYaml } from "@std/front-matter";
+
 import { slug } from "@/utils/slug.ts";
 
 export type Post = {
@@ -11,6 +13,12 @@ export type Post = {
   content: string;
   createdAt: string;
   updatedAt: string;
+};
+
+type PostFrontMatter = {
+  title?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 const POSTS_DIRECTORY = import.meta.dirname ??
@@ -45,10 +53,11 @@ async function findMarkdownFiles(directory: string): Promise<string[]> {
 }
 
 async function loadPost(filePath: string): Promise<Post> {
-  const [content, metadata] = await Promise.all([
+  const [raw, metadata] = await Promise.all([
     readFile(filePath, "utf8"),
     stat(filePath),
   ]);
+  const { attrs, body } = extractYaml<PostFrontMatter>(raw);
   const filename = basename(filePath, extname(filePath));
   const postSlug = slug(filename);
   if (!postSlug) {
@@ -57,11 +66,22 @@ async function loadPost(filePath: string): Promise<Post> {
 
   return {
     slug: postSlug,
-    title: titleFromPathSegment(filename),
-    content,
-    createdAt: createdTime(metadata).toISOString(),
-    updatedAt: metadata.mtime.toISOString(),
+    title: attrs.title ?? titleFromPathSegment(filename),
+    content: body,
+    createdAt: dateFromFrontMatter(attrs.createdAt, createdTime(metadata)),
+    updatedAt: dateFromFrontMatter(attrs.updatedAt, metadata.mtime),
   };
+}
+
+function dateFromFrontMatter(
+  value: string | undefined,
+  fallback: Date,
+): string {
+  if (!value) return fallback.toISOString();
+  const date = new Date(value);
+  return Number.isNaN(date.getTime())
+    ? fallback.toISOString()
+    : date.toISOString();
 }
 
 function createdTime(metadata: Stats): Date {

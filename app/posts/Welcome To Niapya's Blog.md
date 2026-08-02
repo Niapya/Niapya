@@ -1,3 +1,9 @@
+---
+title: Welcome To Niapya's Blog
+createdAt: 2026-07-27T03:25:00.000Z
+updatedAt: 2026-07-27T03:25:00.000Z
+---
+
 对，我终于有了一个博客。
 
 2026 年是 Vibe Coding 大火的一年，我们习惯了使用 Code Agent

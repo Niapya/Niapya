@@ -15,7 +15,7 @@ Deno.test("blog comments create a captcha only after valid submission", async ()
   const articleHtml = await articleResponse.text();
   assert.equal(articleResponse.status, 200);
   assert.match(articleHtml, /Continue to verification/);
-  assert.doesNotMatch(articleHtml, /type="image"/);
+  assert.doesNotMatch(articleHtml, /<input[^>]+type="image"/);
 
   const commentPath = routes.blog.comment.href({ slug: post.slug });
   const verificationResponse = await router.fetch(
@@ -36,7 +36,7 @@ Deno.test("blog comments create a captcha only after valid submission", async ()
 
   assert.equal(verificationResponse.status, 200);
   assert.match(verificationHtml, /One last check/);
-  assert.match(verificationHtml, /type="image"/);
+  assert.match(verificationHtml, /<input[^>]+type="image"/);
   assert.match(
     verificationHtml,
     /name="captchaToken" value="[0-9A-HJKMNP-TV-Z]{26}"/,

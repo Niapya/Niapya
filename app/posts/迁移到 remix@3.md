@@ -1,3 +1,9 @@
+---
+title: 迁移到 remix@3
+createdAt: 2026-07-29T21:24:00.000Z
+updatedAt: 2026-07-30T01:44:00.000Z
+---
+
 最近，我们把这个博客迁移到了 `remix@3`。
 
 Remix v3 不是 Remix v2 的一次常规升级，它抛弃了
@@ -514,7 +520,7 @@ const articleTimelineStyle = css({
 ```tsx
 <ScrollDrivenAnimation
   timeline="--article-reading"
-  range={`cover ${mark.progress}% cover ${end}%`}
+  range={`cover 40% cover 60%`}
   keyframes={{
     from: { color: "var(--border)" },
     to: { color: "var(--foreground)" },

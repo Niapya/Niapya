@@ -3,8 +3,6 @@
   "specifiers": {
     "jsr:@deno/gfm@0.12": "0.12.0",
     "jsr:@denosaurs/emoji@~0.3.1": "0.3.1",
-    "jsr:@logtape/logtape@*": "2.2.4",
-    "jsr:@logtape/logtape@^2.2.4": "2.2.4",
     "jsr:@ryu/deno-lint-plugin-tailwindcss@0.2.0": "0.2.0",
     "jsr:@std/collections@^1.1.3": "1.3.0",
     "jsr:@std/front-matter@^1.0.9": "1.0.9",
@@ -54,9 +52,6 @@
     },
     "@denosaurs/emoji@0.3.1": {
       "integrity": "b0aed5f55dec99e83da7c9637fe0a36d1d6252b7c99deaaa3fc5dea3fcf3da8b"
-    },
-    "@logtape/logtape@2.2.4": {
-      "integrity": "8ee23b7c8d4b2e28c43a3a16027a7a27ed3d453c395c7d91b9960640399201ec"
     },
     "@ryu/deno-lint-plugin-tailwindcss@0.2.0": {
       "integrity": "1522555fefd6c6f7e6722b15201a7d76ee0e4fc273d4fc28892d587be132ba13"
@@ -1721,7 +1716,6 @@
   "workspace": {
     "dependencies": [
       "jsr:@deno/gfm@0.12",
-      "jsr:@logtape/logtape@^2.2.4",
       "jsr:@std/front-matter@^1.0.9",
       "jsr:@std/ulid@1",
       "npm:@resvg/resvg-js@^2.6.2",

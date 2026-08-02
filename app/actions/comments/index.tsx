@@ -22,6 +22,7 @@ import {
   publishComment,
 } from "@/data/comments.ts";
 import { createI18n, localizeHref } from "@/i18n/index.ts";
+import { log } from "@/lib/log.ts";
 import { LangContext } from "@/middleware/locale.ts";
 import { page } from "@/middleware/render.tsx";
 import { CommentsPage } from "@/pages/comments/index.tsx";
@@ -72,6 +73,9 @@ export default createController(routes.comments, {
 
       const values = readCommentFormValues(form.formData);
       if (textField(form.formData, "organization").trim() !== "") {
+        log.warn("Comment form rejected by honeypot", {
+          pathname: new URL(request.url).pathname,
+        });
         return redirect(successHref(lang), 303);
       }
 
@@ -96,6 +100,10 @@ export default createController(routes.comments, {
       );
 
       if (!parsed.success) {
+        log.warn("Comment form validation failed", {
+          pathname: new URL(request.url).pathname,
+          issueCount: parsed.issues.length,
+        });
         return await renderCommentsFailure({
           render,
           i18n,
@@ -106,6 +114,9 @@ export default createController(routes.comments, {
       }
 
       const challenge = await createCaptchaChallenge(parsed.value, lang);
+      log.info("Comment captcha challenge created", {
+        pathname: new URL(request.url).pathname,
+      });
       return renderCommentsVerification({ render, i18n, challenge });
     },
 
@@ -125,7 +136,13 @@ export default createController(routes.comments, {
         createCaptchaAnswerSchema(copy),
         form.formData,
       );
-      if (!parsed.success) return redirect(expiredHref(lang), 303);
+      if (!parsed.success) {
+        log.warn("Comment captcha validation failed", {
+          pathname: new URL(request.url).pathname,
+          issueCount: parsed.issues.length,
+        });
+        return redirect(expiredHref(lang), 303);
+      }
 
       const result = await publishComment({
         token: parsed.value.captchaToken,
@@ -134,12 +151,31 @@ export default createController(routes.comments, {
       });
 
       if (result.ok || result.reason === "conflict") {
+        log.info("Comment published", {
+          pathname: new URL(request.url).pathname,
+          result: result.ok ? "ok" : "conflict",
+        });
         return redirect(successHref(lang), 303);
       }
-      if (result.reason === "expired") return redirect(expiredHref(lang), 303);
-      if (!("input" in result)) return redirect(expiredHref(lang), 303);
+      if (result.reason === "expired") {
+        log.warn("Comment captcha expired", {
+          pathname: new URL(request.url).pathname,
+        });
+        return redirect(expiredHref(lang), 303);
+      }
+      if (!("input" in result)) {
+        log.warn("Comment captcha submission failed", {
+          pathname: new URL(request.url).pathname,
+          reason: result.reason,
+        });
+        return redirect(expiredHref(lang), 303);
+      }
 
       const challenge = await createCaptchaChallenge(result.input, lang);
+      log.warn("Comment captcha rejected", {
+        pathname: new URL(request.url).pathname,
+        reason: result.reason,
+      });
       return renderCommentsVerification({
         render,
         i18n,

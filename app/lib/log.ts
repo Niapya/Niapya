@@ -1,21 +1,23 @@
-import { configure, getConsoleSink } from "@logtape/logtape";
+import { isLocalDevelopment } from "@/constants/index.ts";
 
-const isDevelopment = Deno.env.get("NODE_ENV") === "development";
+type ConsoleArguments = Parameters<typeof console.log>;
 
-await configure({
-  sinks: {
-    console: getConsoleSink(),
+const prefix = "[main]";
+
+export const log = {
+  debug(...args: ConsoleArguments): void {
+    if (isLocalDevelopment) console.debug(prefix, ...args);
   },
-  loggers: [
-    {
-      category: ["niapya"],
-      lowestLevel: isDevelopment ? "info" : "warning",
-      sinks: ["console"],
-    },
-    {
-      category: ["logtape", "meta"],
-      lowestLevel: "warning",
-      sinks: ["console"],
-    },
-  ],
-});
+
+  info(...args: ConsoleArguments): void {
+    if (isLocalDevelopment) console.info(prefix, ...args);
+  },
+
+  warn(...args: ConsoleArguments): void {
+    console.warn(prefix, ...args);
+  },
+
+  error(...args: ConsoleArguments): void {
+    console.error(prefix, ...args);
+  },
+};

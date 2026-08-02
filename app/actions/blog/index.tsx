@@ -25,6 +25,7 @@ import {
   publishBlogComment,
 } from "@/data/blog-comments.ts";
 import { createI18n, localizeHref } from "@/i18n/index.ts";
+import { log } from "@/lib/log.ts";
 import { LangContext } from "@/middleware/locale.ts";
 import { page } from "@/middleware/render.tsx";
 import { BlogIndexPage } from "@/pages/blog/index.tsx";
@@ -117,6 +118,9 @@ export default createController(routes.blog, {
 
       const values = readCommentFormValues(form.formData);
       if (textField(form.formData, "organization").trim() !== "") {
+        log.warn("Blog comment form rejected by honeypot", {
+          pathname: new URL(request.url).pathname,
+        });
         return redirect(blogCommentSuccessHref(post.slug, lang), 303);
       }
 
@@ -146,6 +150,10 @@ export default createController(routes.blog, {
       );
 
       if (!parsed.success) {
+        log.warn("Blog comment form validation failed", {
+          pathname: new URL(request.url).pathname,
+          issueCount: parsed.issues.length,
+        });
         return await renderBlogPostFailure({
           render,
           i18n,
@@ -161,6 +169,9 @@ export default createController(routes.blog, {
         { postSlug: post.slug, ...parsed.value },
         lang,
       );
+      log.info("Blog comment captcha challenge created", {
+        pathname: new URL(request.url).pathname,
+      });
       return renderBlogCommentVerification({
         render,
         i18n,
@@ -188,7 +199,13 @@ export default createController(routes.blog, {
         createCaptchaAnswerSchema(copy),
         form.formData,
       );
-      if (!parsed.success) return redirect(expiredHref(post.slug, lang), 303);
+      if (!parsed.success) {
+        log.warn("Blog comment captcha validation failed", {
+          pathname: new URL(request.url).pathname,
+          issueCount: parsed.issues.length,
+        });
+        return redirect(expiredHref(post.slug, lang), 303);
+      }
 
       const result = await publishBlogComment(post.slug, {
         token: parsed.value.captchaToken,
@@ -197,16 +214,31 @@ export default createController(routes.blog, {
       });
 
       if (result.ok || result.reason === "conflict") {
+        log.info("Blog comment published", {
+          pathname: new URL(request.url).pathname,
+          result: result.ok ? "ok" : "conflict",
+        });
         return redirect(blogCommentSuccessHref(post.slug, lang), 303);
       }
       if (result.reason === "expired") {
+        log.warn("Blog comment captcha expired", {
+          pathname: new URL(request.url).pathname,
+        });
         return redirect(expiredHref(post.slug, lang), 303);
       }
       if (!("input" in result)) {
+        log.warn("Blog comment captcha submission failed", {
+          pathname: new URL(request.url).pathname,
+          reason: result.reason,
+        });
         return redirect(expiredHref(post.slug, lang), 303);
       }
 
       const challenge = await createBlogCommentChallenge(result.input, lang);
+      log.warn("Blog comment captcha rejected", {
+        pathname: new URL(request.url).pathname,
+        reason: result.reason,
+      });
       return renderBlogCommentVerification({
         render,
         i18n,

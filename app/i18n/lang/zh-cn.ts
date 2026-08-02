@@ -1,4 +1,7 @@
 export default {
+  site: {
+    tagline: "独立设计师与开发者",
+  },
   nav: {
     home: "首页",
     blog: "博客",

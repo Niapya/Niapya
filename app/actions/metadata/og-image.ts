@@ -10,6 +10,7 @@ import {
   getLangFromRequest,
   type Lang,
   LANGUAGE_CONFIG,
+  t,
 } from "@/i18n/index.ts";
 
 const WIDTH = 1200;
@@ -140,9 +141,7 @@ export async function ogImage({ request }: { request: Request }) {
 }
 
 function defaultTitle(lang: Lang): string {
-  return lang === "zh-cn"
-    ? "独立设计师与开发者"
-    : "Independent Designer & Developer";
+  return t("site.tagline", lang);
 }
 
 function displayTitle(value: string, lang: Lang): string {

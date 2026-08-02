@@ -1,4 +1,7 @@
 export default {
+  site: {
+    tagline: "Independent Designer & Developer",
+  },
   nav: {
     home: "Home",
     blog: "Blog",

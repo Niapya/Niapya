@@ -1,5 +1,12 @@
 import { SITE_METADATA } from "@/constants/index.ts";
-import { getLangFromRequest, LANGUAGE_CONFIG } from "@/i18n/index.ts";
+import { cachePolicies } from "@/lib/cache.ts";
+import {
+  getLangFromRequest,
+  LANGUAGE_CONFIG,
+  usesAcceptLanguage,
+} from "@/i18n/index.ts";
+
+const { public: publicCache } = cachePolicies;
 
 export function manifest({ request }: { request: Request }) {
   const lang = getLangFromRequest(request);
@@ -24,11 +31,12 @@ export function manifest({ request }: { request: Request }) {
       }],
     }),
     {
-      headers: {
-        "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
-        "Content-Type": "application/manifest+json; charset=utf-8",
-        Vary: "Accept-Language",
-      },
+      headers: publicCache({
+        vary: usesAcceptLanguage(request) ? "Accept-Language" : undefined,
+        headers: {
+          "Content-Type": "application/manifest+json; charset=utf-8",
+        },
+      }).headers,
     },
   );
 }

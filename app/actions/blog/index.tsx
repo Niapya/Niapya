@@ -3,6 +3,10 @@ import { redirect } from "remix/response/redirect";
 import { createController } from "remix/router";
 
 import {
+  blogPostResponseInit,
+  invalidateBlogPostCache,
+} from "@/actions/blog/cache.ts";
+import {
   commentIssuesToErrors,
   createCaptchaAnswerSchema,
   createCommentSchema,
@@ -10,7 +14,7 @@ import {
   readCommentFormValues,
   textField,
 } from "@/actions/comment-form.ts";
-import { noStore, notFound, parseFormRequest } from "@/actions/http.ts";
+import { notFound, parseFormRequest } from "@/actions/http.ts";
 import {
   articleMetadata,
   blogCommentSuccessHref,
@@ -63,7 +67,7 @@ export default createController(routes.blog, {
       );
     },
 
-    async article({ get, params, render, url }) {
+    async article({ get, params, render, request, url }) {
       const post = posts[params.slug];
       if (!post) return notFound();
 
@@ -91,7 +95,7 @@ export default createController(routes.blog, {
           />,
           articleMetadata(post, i18n),
         ),
-        noStore(),
+        blogPostResponseInit(request, url, post.slug),
       );
     },
 
@@ -214,6 +218,9 @@ export default createController(routes.blog, {
       });
 
       if (result.ok || result.reason === "conflict") {
+        if (result.ok) {
+          await invalidateBlogPostCache(post.slug);
+        }
         log.info("Blog comment published", {
           pathname: new URL(request.url).pathname,
           result: result.ok ? "ok" : "conflict",

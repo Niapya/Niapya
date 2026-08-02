@@ -3,6 +3,10 @@ import { redirect } from "remix/response/redirect";
 import { createController } from "remix/router";
 
 import {
+  commentsPageResponseInit,
+  invalidateCommentsCache,
+} from "@/actions/comments/cache.ts";
+import {
   commentIssuesToErrors,
   createCaptchaAnswerSchema,
   createCommentSchema,
@@ -10,7 +14,7 @@ import {
   readCommentFormValues,
   textField,
 } from "@/actions/comment-form.ts";
-import { noStore, parseFormRequest } from "@/actions/http.ts";
+import { parseFormRequest } from "@/actions/http.ts";
 import {
   renderCommentsFailure,
   renderCommentsVerification,
@@ -30,7 +34,7 @@ import { routes } from "@/routes.ts";
 
 export default createController(routes.comments, {
   actions: {
-    async index({ get, render, url }) {
+    async index({ get, render, request, url }) {
       const lang = get(LangContext);
       const i18n = createI18n(lang);
       const copy = i18n.messages.commentsPage;
@@ -51,7 +55,7 @@ export default createController(routes.comments, {
           />,
           { title: copy.metaTitle, description: copy.metaDescription },
         ),
-        noStore(),
+        commentsPageResponseInit(request, url),
       );
     },
 
@@ -151,6 +155,9 @@ export default createController(routes.comments, {
       });
 
       if (result.ok || result.reason === "conflict") {
+        if (result.ok) {
+          await invalidateCommentsCache();
+        }
         log.info("Comment published", {
           pathname: new URL(request.url).pathname,
           result: result.ok ? "ok" : "conflict",

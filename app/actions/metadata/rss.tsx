@@ -2,15 +2,19 @@
 // deno-lint-ignore-file jsx-void-dom-elements-no-children
 
 import { SITE_METADATA } from "@/constants/index.ts";
+import { cachePolicies } from "@/lib/cache.ts";
 import {
   getLangFromRequest,
   LANGUAGE_CONFIG,
   localizeHref,
+  usesAcceptLanguage,
 } from "@/i18n/index.ts";
 import { allPosts } from "@/posts/index.ts";
 import { routes } from "@/routes.ts";
 import { buildXml } from "@/utils/jsx-xml.ts";
 import { renderMarkdown } from "@/utils/markdown.ts";
+
+const { public: publicCache } = cachePolicies;
 
 export function rss({ request }: { request: Request }) {
   const origin = new URL(request.url).origin;
@@ -53,9 +57,11 @@ export function rss({ request }: { request: Request }) {
   );
 
   return new Response(xml, {
-    headers: {
-      "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
-      "Content-Type": "application/rss+xml; charset=utf-8",
-    },
+    headers: publicCache({
+      vary: usesAcceptLanguage(request) ? "Accept-Language" : undefined,
+      headers: {
+        "Content-Type": "application/rss+xml; charset=utf-8",
+      },
+    }).headers,
   });
 }

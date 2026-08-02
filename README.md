@@ -1,6 +1,8 @@
 <img align="right" width="30%" alt="Tech constellation" src="https://skillicons.dev/icons?i=react,vue,nuxt,nextjs,ts,js,python,swift,tauri,figma,bun,redis&perline=4" />
 
-### [Niapya](https://portfolio.niapya.deno.net)
+### [Niapya Blog](https://portfolio.niapya.deno.net/blog)
+
+[Portfolio](https://portfolio.niapya.deno.net)
 
 I am Designing and Shipping AI-native Products.
 

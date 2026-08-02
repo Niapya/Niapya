@@ -4,9 +4,13 @@ import type { RemixNode } from "remix/ui";
 import { renderToStream } from "remix/ui/server";
 
 import { SITE_METADATA } from "@/constants/index.ts";
+import { cachePolicies } from "@/lib/cache.ts";
 import { Document } from "@/components/document.tsx";
+import { usesAcceptLanguage } from "@/i18n/index.ts";
 import { LangContext } from "./locale.ts";
 import { type OpenGraph, OpenGraphContext } from "./open-graph.ts";
+
+const { public: publicCache } = cachePolicies;
 
 type PageMetadata = {
   title?: string;
@@ -31,6 +35,9 @@ export function render() {
     (context) => {
       const { request } = context;
       const lang = context.get(LangContext);
+      const pageCache = publicCache({
+        vary: usesAcceptLanguage(request) ? "Accept-Language" : undefined,
+      });
       const canonicalUrl = new URL(request.url);
       canonicalUrl.search = "";
       canonicalUrl.hash = "";
@@ -74,7 +81,14 @@ export function render() {
           },
         });
 
-        return createHtmlResponse(stream, init);
+        const headers = new Headers(init?.headers);
+        if (!headers.has("Cache-Control")) {
+          for (const [name, value] of pageCache.headers) {
+            headers.set(name, value);
+          }
+        }
+
+        return createHtmlResponse(stream, { ...init, headers });
       };
     },
   );

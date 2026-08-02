@@ -2,19 +2,24 @@ import { Resvg } from "@resvg/resvg-js";
 import { maxLength } from "remix/data-schema/checks";
 import * as f from "remix/data-schema/form-data";
 import * as s from "remix/data-schema";
+import { redirect } from "remix/response/redirect";
 import satori from "satori";
 
 import { SITE_METADATA } from "@/constants/index.ts";
+import { cachePolicies } from "@/lib/cache.ts";
 import { RENDER_FONT_DATA } from "@/data/render-fonts.ts";
 import {
   getLangFromRequest,
   type Lang,
   LANGUAGE_CONFIG,
   t,
+  usesAcceptLanguage,
 } from "@/i18n/index.ts";
+import { allPosts } from "@/posts/index.ts";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
+const { public: publicCache } = cachePolicies;
 
 const ogImageQuerySchema = f.object({
   title: f.field(s.defaulted(s.string().pipe(maxLength(120)), "")),
@@ -104,9 +109,15 @@ export async function ogImage({ request }: { request: Request }) {
     ogImageQuerySchema,
     new URL(request.url).searchParams,
   );
-  const title = parsed.success
-    ? displayTitle(parsed.value.title, lang)
-    : defaultTitle(lang);
+  if (!parsed.success) return redirect(defaultImageHref(request, lang));
+
+  const requestedTitle = parsed.value.title.trim();
+  if (
+    parsed.value.title !== "" &&
+    !isKnownPageTitle(requestedTitle, lang)
+  ) return redirect(defaultImageHref(request, lang));
+
+  const title = displayTitle(requestedTitle, lang);
   const svg = await satori(createCard(lang, title), {
     width: WIDTH,
     height: HEIGHT,
@@ -132,16 +143,35 @@ export async function ogImage({ request }: { request: Request }) {
   ) as ArrayBuffer;
 
   return new Response(body, {
-    headers: {
-      "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
-      "Content-Type": "image/png",
-      Vary: "Accept-Language",
-    },
+    headers: publicCache({
+      vary: usesAcceptLanguage(request) ? "Accept-Language" : undefined,
+      headers: {
+        "Content-Type": "image/png",
+      },
+    }).headers,
   });
 }
 
 function defaultTitle(lang: Lang): string {
   return t("site.tagline", lang);
+}
+
+function defaultImageHref(request: Request, lang: Lang): string {
+  const url = new URL(request.url);
+  url.search = "";
+  url.searchParams.set("lang", lang);
+  return url.href;
+}
+
+function isKnownPageTitle(value: string, lang: Lang): boolean {
+  return [
+    SITE_METADATA.title[lang],
+    t("blog.index.metaTitle", lang),
+    t("commentsPage.metaTitle", lang),
+    `${t("blog.post.verificationTitle", lang)} | Niapya`,
+    `${t("commentsPage.verificationTitle", lang)} | Niapya`,
+    ...allPosts.map((post) => `${post.title} | Niapya`),
+  ].includes(value);
 }
 
 function displayTitle(value: string, lang: Lang): string {

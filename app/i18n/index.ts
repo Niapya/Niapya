@@ -102,6 +102,11 @@ export function getLangFromRequest(request: Request): Lang {
   return DEFAULT_LANG;
 }
 
+export function usesAcceptLanguage(request: Request): boolean {
+  return parseLang(new URL(request.url).searchParams.get("lang")) ===
+    undefined;
+}
+
 export function localizeHref(href: string, lang: Lang): string {
   const url = new URL(href, "https://niapya.local");
   url.searchParams.set("lang", lang);

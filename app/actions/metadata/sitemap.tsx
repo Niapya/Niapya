@@ -1,6 +1,9 @@
 import { allPosts } from "@/posts/index.ts";
+import { cachePolicies } from "@/lib/cache.ts";
 import { routes } from "@/routes.ts";
 import { buildXml } from "@/utils/jsx-xml.ts";
+
+const { public: publicCache } = cachePolicies;
 
 type SitemapEntry = {
   href: string;
@@ -43,9 +46,8 @@ export function sitemap({ request }: { request: Request }) {
   );
 
   return new Response(xml, {
-    headers: {
-      "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
-      "Content-Type": "application/xml; charset=utf-8",
-    },
+    headers: publicCache({
+      headers: { "Content-Type": "application/xml; charset=utf-8" },
+    }).headers,
   });
 }

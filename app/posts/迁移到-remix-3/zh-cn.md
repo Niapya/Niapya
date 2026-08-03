@@ -1,7 +1,7 @@
 ---
 title: 迁移到 remix@3
-createdAt: '2026-07-29T21:24:00.000Z'
-updatedAt: '2026-07-30T01:44:00.000Z'
+createdAt: "2026-07-29T21:24:00.000Z"
+updatedAt: "2026-07-30T01:44:00.000Z"
 language: zh-cn
 generated: false
 summary: >-

@@ -63,7 +63,8 @@ const SHARE_TARGETS: readonly ShareTarget[] = [
     platform: "x",
     label: "X",
     href: ({ url, title }) =>
-      `https://twitter.com/intent/tweet?text=${encode(title)}&url=${encode(url)
+      `https://twitter.com/intent/tweet?text=${encode(title)}&url=${
+        encode(url)
       }`,
   },
   {
@@ -82,28 +83,32 @@ const SHARE_TARGETS: readonly ShareTarget[] = [
     platform: "hacker-news",
     label: "Hacker News",
     href: ({ url, title }) =>
-      `https://news.ycombinator.com/submitlink?u=${encode(url)}&t=${encode(title)
+      `https://news.ycombinator.com/submitlink?u=${encode(url)}&t=${
+        encode(title)
       }`,
   },
   {
     platform: "weibo",
     label: "Weibo",
     href: ({ url, title }) =>
-      `https://service.weibo.com/share/share.php?url=${encode(url)}&title=${encode(title)
+      `https://service.weibo.com/share/share.php?url=${encode(url)}&title=${
+        encode(title)
       }`,
   },
   {
     platform: "qq",
     label: "QQ",
     href: ({ url, title }) =>
-      `https://connect.qq.com/widget/shareqq/index.html?url=${encode(url)
+      `https://connect.qq.com/widget/shareqq/index.html?url=${
+        encode(url)
       }&title=${encode(title)}`,
   },
   {
     platform: "qzone",
     label: "QZone",
     href: ({ url }) =>
-      `https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${encode(url)
+      `https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${
+        encode(url)
       }`,
   },
 ];

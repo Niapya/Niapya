@@ -34,7 +34,13 @@ import { LangContext } from "@/middleware/locale.ts";
 import { page } from "@/middleware/render.tsx";
 import { BlogIndexPage } from "@/pages/blog/index.tsx";
 import { BlogPostPage } from "@/pages/blog/post.tsx";
-import { allPosts, postNeighbors, posts } from "@/posts/index.ts";
+import {
+  allPosts,
+  articleLanguages,
+  postNeighbors,
+  posts,
+  selectPost,
+} from "@/data/posts.ts";
 import { routes } from "@/routes.ts";
 
 const BLOG_PAGE_SIZE = 6;
@@ -57,7 +63,9 @@ export default createController(routes.blog, {
         page(
           <BlogIndexPage
             i18n={i18n}
-            posts={allPosts.slice(start, start + BLOG_PAGE_SIZE)}
+            posts={allPosts.slice(start, start + BLOG_PAGE_SIZE).map((
+              article,
+            ) => selectPost(article, lang).post)}
             page={currentPage}
             totalPages={totalPages}
             totalPosts={allPosts.length}
@@ -68,21 +76,25 @@ export default createController(routes.blog, {
     },
 
     async article({ get, params, render, request, url }) {
-      const post = posts[params.slug];
-      if (!post) return notFound();
+      const article = posts.get(params.slug);
+      if (!article) return notFound();
 
       const lang = get(LangContext);
       const i18n = createI18n(lang);
+      const selected = selectPost(article, lang);
+      const post = selected.post;
       const comments = await listBlogComments(post.slug);
       const verificationExpired = url.searchParams.get("verification") ===
         "expired";
-      const neighbors = postNeighbors(post.slug);
+      const neighbors = postNeighbors(post.slug, lang);
 
       return render(
         page(
           <BlogPostPage
             i18n={i18n}
             post={post}
+            availableLanguages={articleLanguages(article)}
+            fallback={selected.fallback}
             comments={comments}
             previousPost={neighbors.previous}
             nextPost={neighbors.next}
@@ -100,11 +112,13 @@ export default createController(routes.blog, {
     },
 
     async comment({ get, params, render, request, url }) {
-      const post = posts[params.slug];
-      if (!post) return notFound();
+      const article = posts.get(params.slug);
+      if (!article) return notFound();
 
       const lang = get(LangContext);
       const i18n = createI18n(lang);
+      const selected = selectPost(article, lang);
+      const post = selected.post;
       const copy = i18n.messages.blog.post;
       const form = await parseFormRequest(request);
 
@@ -113,6 +127,8 @@ export default createController(routes.blog, {
           render,
           i18n,
           post,
+          availableLanguages: articleLanguages(article),
+          fallback: selected.fallback,
           values: EMPTY_COMMENT_FORM,
           errors: { form: formFailureMessage(form.reason, copy.errors) },
           status: form.status,
@@ -162,6 +178,8 @@ export default createController(routes.blog, {
           render,
           i18n,
           post,
+          availableLanguages: articleLanguages(article),
+          fallback: selected.fallback,
           values,
           errors: commentIssuesToErrors(parsed.issues),
           status: 400,
@@ -185,11 +203,12 @@ export default createController(routes.blog, {
     },
 
     async publishComment({ get, params, render, request }) {
-      const post = posts[params.slug];
-      if (!post) return notFound();
+      const article = posts.get(params.slug);
+      if (!article) return notFound();
 
       const lang = get(LangContext);
       const i18n = createI18n(lang);
+      const post = selectPost(article, lang).post;
       const copy = i18n.messages.blog.post;
       const form = await parseFormRequest(request);
 

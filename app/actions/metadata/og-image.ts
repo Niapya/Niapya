@@ -7,7 +7,7 @@ import satori from "satori";
 
 import { SITE_METADATA } from "@/constants/index.ts";
 import { cachePolicies } from "@/lib/cache.ts";
-import { RENDER_FONT_DATA } from "@/data/render-fonts.ts";
+import { RENDER_FONT_DATA } from "@/lib/render-fonts.ts";
 import {
   getLangFromRequest,
   type Lang,
@@ -15,7 +15,7 @@ import {
   t,
   usesAcceptLanguage,
 } from "@/i18n/index.ts";
-import { allPosts } from "@/posts/index.ts";
+import { allPosts, selectPost } from "@/data/posts.ts";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -170,7 +170,9 @@ function isKnownPageTitle(value: string, lang: Lang): boolean {
     t("commentsPage.metaTitle", lang),
     `${t("blog.post.verificationTitle", lang)} | Niapya`,
     `${t("commentsPage.verificationTitle", lang)} | Niapya`,
-    ...allPosts.map((post) => `${post.title} | Niapya`),
+    ...allPosts.map((article) =>
+      `${selectPost(article, lang).post.title} | Niapya`
+    ),
   ].includes(value);
 }
 

@@ -1,9 +1,14 @@
-import { ArrowLeft, Check, MessageSquare } from "lucide";
+import { ArrowLeft, Check, Languages, MessageSquare, Sparkles } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import type { BlogComment } from "@/data/blog-comments.ts";
-import { type I18n, type Lang, localizeHref } from "@/i18n/index.ts";
-import type { Post } from "@/posts/index.ts";
+import {
+  type I18n,
+  type Lang,
+  LANGUAGE_CONFIG,
+  localizeHref,
+} from "@/i18n/index.ts";
+import type { Post } from "@/data/posts.ts";
 import { routes } from "@/routes.ts";
 import { ScrollDrivenAnimation } from "@/components/animation/scroll-driven.tsx";
 import {
@@ -17,6 +22,7 @@ import { Icon } from "@/components/icon.tsx";
 import {
   type MarkdownDocument,
   type MarkdownSection,
+  renderMarkdown,
   renderMarkdownDocument,
 } from "@/utils/markdown.ts";
 import { blogPostTitleTransitionName } from "./view-transition.ts";
@@ -25,6 +31,8 @@ import { ShareMenu } from "./share.tsx";
 type BlogPostPageProps = {
   i18n: I18n;
   post: Post;
+  availableLanguages: readonly Lang[];
+  fallback: boolean;
   previousPost: Post | undefined;
   nextPost: Post | undefined;
   comments: readonly BlogComment[];
@@ -224,6 +232,8 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
     const {
       lang,
       post,
+      availableLanguages,
+      fallback,
       previousPost,
       nextPost,
       comments,
@@ -256,7 +266,7 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
         <Header current="blog" i18n={handle.props.i18n} />
 
         <main>
-          <article lang={handle.props.i18n.config.htmlLang}>
+          <article lang={LANGUAGE_CONFIG[post.language].htmlLang}>
             <header id="article-start" class="border-b border-border">
               <div class="mx-auto max-w-5xl px-5 pt-16 pb-14 sm:px-10 sm:pt-22 sm:pb-18 lg:px-20">
                 <a
@@ -266,6 +276,26 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                   <Icon icon={ArrowLeft} className="h-4 w-4" />
                   {copy.back}
                 </a>
+                {(post.generated || fallback) && (
+                  <div class="mb-7 flex flex-wrap items-center gap-3">
+                    {post.generated && (
+                      <span class="inline-flex items-center gap-2 border border-primary bg-primary px-3 py-2 font-semibold text-primary-foreground text-sm">
+                        <Icon icon={Sparkles} className="h-4 w-4" />
+                        {copy.generatedNotice}
+                      </span>
+                    )}
+                    {fallback && (
+                      <span
+                        class="border border-border bg-muted px-3 py-2 text-muted-foreground text-sm"
+                        role="status"
+                      >
+                        {copy.languageFallback(
+                          LANGUAGE_CONFIG[post.language].nativeLabel,
+                        )}
+                      </span>
+                    )}
+                  </div>
+                )}
                 <h1
                   class="font-display font-normal text-5xl leading-none sm:text-6xl lg:text-7xl"
                   style={{
@@ -307,6 +337,35 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                     }}
                   />
                 </div>
+                <nav
+                  aria-label={copy.languageVersions}
+                  class="mt-7 flex flex-wrap items-center gap-2"
+                >
+                  <span class="mr-2 inline-flex items-center gap-2 font-mono text-muted-foreground text-xs uppercase">
+                    <Icon icon={Languages} className="h-4 w-4" />
+                    {copy.languageVersions}
+                  </span>
+                  {availableLanguages.map((language) => (
+                    <a
+                      key={language}
+                      href={localizeHref(
+                        routes.blog.article.href({ slug: post.slug }),
+                        language,
+                      )}
+                      aria-current={post.language === language
+                        ? "page"
+                        : undefined}
+                      title={post.language === language
+                        ? copy.currentLanguage
+                        : undefined}
+                      class={post.language === language
+                        ? "border border-foreground bg-foreground px-3 py-2 font-semibold text-background text-sm"
+                        : "border border-border px-3 py-2 text-muted-foreground text-sm outline-none transition-colors hover:border-primary hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"}
+                    >
+                      {LANGUAGE_CONFIG[language].nativeLabel}
+                    </a>
+                  ))}
+                </nav>
               </div>
             </header>
 
@@ -318,11 +377,32 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                 />
               </aside>
               <div mix={articleLayoutStyle}>
-                <div
-                  class="dark:prose-invert prose prose-neutral max-w-none cursor-text select-text"
-                  mix={[articleStyle, articleContentStyle]}
-                  innerHTML={markdownDocument.html}
-                />
+                <div mix={articleContentStyle}>
+                  {post.summary && (
+                    <section
+                      aria-labelledby="article-summary-title"
+                      class="mb-14 border-l-4 border-primary bg-muted px-6 py-6 sm:px-8"
+                    >
+                      <h2
+                        id="article-summary-title"
+                        class="mb-4 flex items-center gap-2 font-mono font-semibold text-primary text-xs uppercase"
+                      >
+                        <Icon icon={Sparkles} className="h-4 w-4" />
+                        {copy.summary}
+                      </h2>
+                      <div
+                        class="dark:prose-invert prose prose-neutral max-w-none text-foreground"
+                        mix={articleStyle}
+                        innerHTML={renderMarkdown(post.summary)}
+                      />
+                    </section>
+                  )}
+                  <div
+                    class="dark:prose-invert prose prose-neutral max-w-none cursor-text select-text"
+                    mix={articleStyle}
+                    innerHTML={markdownDocument.html}
+                  />
+                </div>
               </div>
             </div>
           </article>

@@ -1,4 +1,4 @@
-import { allPosts } from "@/posts/index.ts";
+import { allPosts } from "@/data/posts.ts";
 import { cachePolicies } from "@/lib/cache.ts";
 import { routes } from "@/routes.ts";
 import { buildXml } from "@/utils/jsx-xml.ts";

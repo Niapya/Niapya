@@ -147,6 +147,12 @@ export default {
       comments: (count: number) => `${count} 条评论`,
       timeline: "文章时间线",
       readingTime: (minutes: number) => `预计阅读 ${minutes} 分钟`,
+      generatedNotice: "AI 生成的翻译",
+      summary: "AI 总结",
+      languageVersions: "文章语言版本",
+      currentLanguage: "当前语言",
+      languageFallback: (language: string) =>
+        `请求的语言版本暂不可用，当前显示${language}。`,
       share: "分享",
       shareLabel: "分享这篇文章",
       postNavigation: "更多文章",

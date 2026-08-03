@@ -1,7 +1,16 @@
 ---
 title: 迁移到 remix@3
-createdAt: 2026-07-29T21:24:00.000Z
-updatedAt: 2026-07-30T01:44:00.000Z
+createdAt: '2026-07-29T21:24:00.000Z'
+updatedAt: '2026-07-30T01:44:00.000Z'
+language: zh-cn
+generated: false
+summary: >-
+  迁移到 Remix v3 后，我们发现它抛弃了 React，改用自研的 TypeScript UI 框架和显式的 Islands 模型，默认在服务器生成完整
+  HTML，仅在标记为 `clientEntry` 的组件中才会注入 JavaScript。借助 Remix 内置的 TypeScript/JSX
+  loader 与 asset server，实现了“无构建步骤”的按需 ESM 加载，同时配合 Twind 动态生成 Tailwind
+  CSS、Satori + Resvg 生成 SVG/PNG 动态图片，让交互可以完全依赖原生表单或视图过渡。尽管框架仍在
+  Beta、生态尚不成熟，需要自行编写中间件并适配部署平台，但作者认为 Remix v3 已经能够在保持类型安全、组件化与渐进增强的前提下，实现无需
+  bundle 的现代 Web 应用，并计划继续关注其发展。
 ---
 
 最近，我们把这个博客迁移到了 `remix@3`。

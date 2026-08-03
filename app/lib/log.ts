@@ -1,4 +1,6 @@
-import { isLocalDevelopment } from "@/constants/index.ts";
+import process from "node:process";
+
+const isLocalDevelopment = process.env.NODE_ENV === "development";
 
 type ConsoleArguments = Parameters<typeof console.log>;
 

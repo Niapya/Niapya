@@ -2,7 +2,7 @@ import process from "node:process";
 
 import type { Lang } from "@/i18n/index.ts";
 import { createUniqueId, createUniqueToken } from "@/utils/id.ts";
-import { atomic, createKvFeature } from "./kv.ts";
+import { atomic, createKvFeature } from "@/lib/kv.ts";
 import {
   COMMENT_CAPTCHA_HEIGHT,
   COMMENT_CAPTCHA_WIDTH,

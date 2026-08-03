@@ -2,7 +2,7 @@ import { ArrowLeft, ArrowRight } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import { type I18n, type Lang, localizeHref } from "@/i18n/index.ts";
-import type { Post } from "@/posts/index.ts";
+import type { Post } from "@/data/posts.ts";
 import { routes } from "@/routes.ts";
 import { Header } from "@/components/header.tsx";
 import { Icon } from "@/components/icon.tsx";

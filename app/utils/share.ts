@@ -63,8 +63,7 @@ const SHARE_TARGETS: readonly ShareTarget[] = [
     platform: "x",
     label: "X",
     href: ({ url, title }) =>
-      `https://twitter.com/intent/tweet?text=${encode(title)}&url=${
-        encode(url)
+      `https://twitter.com/intent/tweet?text=${encode(title)}&url=${encode(url)
       }`,
   },
   {
@@ -83,39 +82,34 @@ const SHARE_TARGETS: readonly ShareTarget[] = [
     platform: "hacker-news",
     label: "Hacker News",
     href: ({ url, title }) =>
-      `https://news.ycombinator.com/submitlink?u=${encode(url)}&t=${
-        encode(title)
+      `https://news.ycombinator.com/submitlink?u=${encode(url)}&t=${encode(title)
       }`,
   },
   {
     platform: "weibo",
     label: "Weibo",
     href: ({ url, title }) =>
-      `https://service.weibo.com/share/share.php?url=${encode(url)}&title=${
-        encode(title)
+      `https://service.weibo.com/share/share.php?url=${encode(url)}&title=${encode(title)
       }`,
   },
   {
     platform: "qq",
     label: "QQ",
     href: ({ url, title }) =>
-      `https://connect.qq.com/widget/shareqq/index.html?url=${
-        encode(url)
+      `https://connect.qq.com/widget/shareqq/index.html?url=${encode(url)
       }&title=${encode(title)}`,
   },
   {
     platform: "qzone",
     label: "QZone",
     href: ({ url }) =>
-      `https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${
-        encode(url)
+      `https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${encode(url)
       }`,
   },
 ];
 
 /**
- * 生成各平台的分享链接（纯服务端 URL，不依赖客户端 JS）。
- * 参数需为文章的绝对地址与标题。
+ * Generate share links for various platforms based on the provided URL and title.
  */
 export function createShareLinks(input: ShareInput): ShareLink[] {
   return SHARE_TARGETS.map(({ platform, label, href }) => ({

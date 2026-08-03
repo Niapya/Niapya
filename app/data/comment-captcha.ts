@@ -1,7 +1,7 @@
 import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
 import type { Lang } from "@/i18n/index.ts";
-import { RENDER_FONT_DATA } from "@/data/render-fonts.ts";
+import { RENDER_FONT_DATA } from "@/lib/render-fonts.ts";
 
 export const COMMENT_CAPTCHA_WIDTH = 280;
 export const COMMENT_CAPTCHA_HEIGHT = 188;

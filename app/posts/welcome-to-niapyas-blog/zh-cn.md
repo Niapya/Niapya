@@ -1,7 +1,14 @@
 ---
 title: Welcome To Niapya's Blog
-createdAt: 2026-07-27T03:25:00.000Z
-updatedAt: 2026-07-27T03:25:00.000Z
+createdAt: '2026-07-27T03:25:00.000Z'
+updatedAt: '2026-07-27T03:25:00.000Z'
+language: zh-cn
+generated: false
+summary: >-
+  作者认为博客应由作者完全掌控，于是从零实现了一个基于 Hono/JSX 的静态站点生成器，使用 `marked` 解析 Markdown、`UnoCSS`
+  生成原子化 CSS，并在构建时渲染成纯 HTML 文件，从而避免任何客户端
+  JavaScript。文章展示了内容获取、模板渲染和文件输出的完整流程，并说明了选择轻量化方案的理由。作者计划将该项目发展为完整的框架并提供 UI
+  组件库、插件化 RSS/Sitemap、表单搜索评论等功能，甚至支持在浏览器中运行。
 ---
 
 对，我终于有了一个博客。

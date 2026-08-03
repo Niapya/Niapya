@@ -158,9 +158,9 @@ const inlineTokenStyle = css({
 });
 
 const collectionsStyle = css({
-  marginTop: "2rem",
+  marginTop: "3rem",
   "@media (min-width: 48rem)": {
-    marginTop: "2.5rem",
+    marginTop: "4rem",
   },
   "@media (max-height: 50rem)": {
     marginTop: "1.5rem",
@@ -173,16 +173,16 @@ const collectionsStyle = css({
 const projectSwitcherStyle = css({
   "& [data-project-stack]": {
     gridTemplateAreas: '"stack"',
-    height: "clamp(13rem, 28dvh, 17rem)",
+    height: "clamp(10rem, 22dvh, 13rem)",
   },
   "& [data-project-card]": {
     alignSelf: "start",
     gridArea: "stack",
     height: "auto",
     justifySelf: "center",
-    maxHeight: "16rem",
-    maxWidth: "18rem",
-    width: "64vw",
+    maxHeight: "14rem",
+    maxWidth: "16rem",
+    width: "60vw",
     transformOrigin: "center 90%",
     transitionProperty: "transform, opacity, filter",
     transitionDuration: "700ms",
@@ -403,7 +403,7 @@ const projectSwitcherStyle = css({
   },
   "@media (max-height: 50rem)": {
     "& [data-project-stack]": {
-      height: "16rem",
+      height: "10rem",
     },
     "& fieldset": {
       marginTop: "1.5rem",
@@ -411,7 +411,7 @@ const projectSwitcherStyle = css({
   },
   "@media (max-height: 46rem)": {
     "& [data-project-stack]": {
-      height: "clamp(9rem, 22dvh, 11rem)",
+      height: "clamp(7rem, 16dvh, 9rem)",
     },
     "& [data-project-card]": {
       maxWidth: "7rem",
@@ -511,74 +511,76 @@ export function Developer(handle: Handle<DeveloperProps>) {
         mix={sectionStyle}
       >
         <div
-          class="mx-auto flex h-full w-full max-w-8xl flex-col justify-center px-5 sm:px-10 lg:justify-start lg:px-16"
+          class="mx-auto flex h-full w-full max-w-8xl flex-col justify-center px-5 sm:px-10 lg:px-16"
           mix={contentStyle}
         >
-          <header class="text-center lg:text-left">
-            <h2
-              id="developer-title"
-              class="font-display text-3xl leading-none sm:text-4xl lg:text-5xl"
-            >
-              <span class="block">{copy.title.lineOne}</span>
-              <span class="block">{copy.title.lineTwo}</span>
-            </h2>
-          </header>
+          <div class="flex min-h-0 flex-1 flex-col justify-center">
+            <header class="text-center">
+              <h2
+                id="developer-title"
+                class="font-display text-3xl leading-none sm:text-4xl lg:text-5xl"
+              >
+                <span class="block">{copy.title.lineOne}</span>
+                <span class="block">{copy.title.lineTwo}</span>
+              </h2>
+            </header>
 
-          <div
-            role="paragraph"
-            class="mx-auto max-w-3xl text-center font-medium font-sans"
-            mix={copyStyle}
-          >
-            <ScrollDrivenAnimation
-              class="developer-copy-sentence block"
-              range="entry 20% cover 20%"
-              easing="linear"
-              keyframes={TEXT_HIGHLIGHT_KEYFRAMES}
+            <div
+              role="paragraph"
+              class="mx-auto max-w-3xl text-center font-medium font-sans"
+              mix={copyStyle}
             >
-              {copy.sentenceOneBefore}
-              <InlineToken
-                emphasis={copy.tokenTypedApis.emphasis}
-                indicator="code"
-                joiner={copy.tokenTypedApis.joiner}
-                suffix={copy.tokenTypedApis.suffix}
-              />
-              {copy.sentenceOneMiddle}
-              <InlineToken
-                emphasis={copy.tokenResponsiveUi.emphasis}
-                indicator="layout"
-                joiner={copy.tokenResponsiveUi.joiner}
-                suffix={copy.tokenResponsiveUi.suffix}
-              />
-              {copy.sentenceOneAfter}
-            </ScrollDrivenAnimation>{" "}
-            <ScrollDrivenAnimation
-              class="developer-copy-sentence block"
-              range="entry 24% cover 44%"
-              easing="linear"
-              keyframes={TEXT_HIGHLIGHT_KEYFRAMES}
-            >
-              {copy.sentenceTwo}
-            </ScrollDrivenAnimation>{" "}
-            <ScrollDrivenAnimation
-              class="developer-copy-sentence block"
-              range="entry 48% cover 68%"
-              easing="linear"
-              keyframes={TEXT_HIGHLIGHT_KEYFRAMES}
-            >
-              {copy.sentenceThreeBefore}
-              <InlineToken
-                emphasis={copy.tokenProductionReady.emphasis}
-                indicator="status"
-                joiner={copy.tokenProductionReady.joiner}
-                suffix={copy.tokenProductionReady.suffix}
-              />
-              {copy.sentenceThreeAfter}
-            </ScrollDrivenAnimation>
+              <ScrollDrivenAnimation
+                class="developer-copy-sentence block"
+                range="entry 20% cover 20%"
+                easing="linear"
+                keyframes={TEXT_HIGHLIGHT_KEYFRAMES}
+              >
+                {copy.sentenceOneBefore}
+                <InlineToken
+                  emphasis={copy.tokenTypedApis.emphasis}
+                  indicator="code"
+                  joiner={copy.tokenTypedApis.joiner}
+                  suffix={copy.tokenTypedApis.suffix}
+                />
+                {copy.sentenceOneMiddle}
+                <InlineToken
+                  emphasis={copy.tokenResponsiveUi.emphasis}
+                  indicator="layout"
+                  joiner={copy.tokenResponsiveUi.joiner}
+                  suffix={copy.tokenResponsiveUi.suffix}
+                />
+                {copy.sentenceOneAfter}
+              </ScrollDrivenAnimation>{" "}
+              <ScrollDrivenAnimation
+                class="developer-copy-sentence block"
+                range="entry 24% cover 44%"
+                easing="linear"
+                keyframes={TEXT_HIGHLIGHT_KEYFRAMES}
+              >
+                {copy.sentenceTwo}
+              </ScrollDrivenAnimation>{" "}
+              <ScrollDrivenAnimation
+                class="developer-copy-sentence block"
+                range="entry 48% cover 68%"
+                easing="linear"
+                keyframes={TEXT_HIGHLIGHT_KEYFRAMES}
+              >
+                {copy.sentenceThreeBefore}
+                <InlineToken
+                  emphasis={copy.tokenProductionReady.emphasis}
+                  indicator="status"
+                  joiner={copy.tokenProductionReady.joiner}
+                  suffix={copy.tokenProductionReady.suffix}
+                />
+                {copy.sentenceThreeAfter}
+              </ScrollDrivenAnimation>
+            </div>
           </div>
 
           <div
             data-collections
-            class="relative lg:min-h-0 lg:flex-1"
+            class="relative bottom-4 shrink-0"
             mix={[collectionsStyle, projectSwitcherStyle]}
           >
             <div class="relative mx-auto max-w-6xl">

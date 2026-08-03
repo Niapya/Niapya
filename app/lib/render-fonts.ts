@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 
 const fontDirectory = new URL(
-  "../actions/metadata/fonts/og/",
+  "../assets/fonts/og/",
   import.meta.url,
 );
 

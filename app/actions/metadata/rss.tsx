@@ -9,7 +9,7 @@ import {
   localizeHref,
   usesAcceptLanguage,
 } from "@/i18n/index.ts";
-import { allPosts } from "@/posts/index.ts";
+import { allPosts, selectPost } from "@/data/posts.ts";
 import { routes } from "@/routes.ts";
 import { buildXml } from "@/utils/jsx-xml.ts";
 import { renderMarkdown } from "@/utils/markdown.ts";
@@ -36,7 +36,8 @@ export function rss({ request }: { request: Request }) {
             {new Date(latestPost.updatedAt).toUTCString()}
           </lastBuildDate>
         )}
-        {allPosts.map((post) => {
+        {allPosts.map((article) => {
+          const post = selectPost(article, lang).post;
           const articleUrl = new URL(
             localizeHref(routes.blog.article.href({ slug: post.slug }), lang),
             origin,
@@ -48,7 +49,13 @@ export function rss({ request }: { request: Request }) {
               <link>{articleUrl}</link>
               <guid isPermaLink>{articleUrl}</guid>
               <pubDate>{new Date(post.createdAt).toUTCString()}</pubDate>
-              <description>{renderMarkdown(post.content)}</description>
+              <description>
+                {renderMarkdown(
+                  post.summary
+                    ? `${post.summary}\n\n---\n\n${post.content}`
+                    : post.content,
+                )}
+              </description>
             </item>
           );
         })}

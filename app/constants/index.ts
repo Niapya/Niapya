@@ -1,8 +1,5 @@
-import process from "node:process";
-
 export const APP_NAME = "Niapya";
 export const GITHUB_AVATAR_URL = "https://avatars.githubusercontent.com/niapya";
-export const isLocalDevelopment = process.env.NODE_ENV === "development";
 
 export const SITE_METADATA = {
   siteName: APP_NAME,

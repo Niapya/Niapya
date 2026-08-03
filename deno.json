@@ -13,7 +13,9 @@
     "@std/ulid": "jsr:@std/ulid@^1.0.0",
     "@deno/gfm": "jsr:@deno/gfm@^0.12.0",
     "@std/front-matter": "jsr:@std/front-matter@^1.0.9",
+    "@std/yaml": "jsr:@std/yaml@^1.2.0",
     "@/": "./app/",
+    "openai": "npm:openai@^7.3.0",
     "satori": "npm:satori@^0.29.0",
     "simple-icons": "npm:simple-icons@^16.27.0",
     "tailwind-merge": "npm:tailwind-merge@2.6.0"
@@ -21,9 +23,11 @@
   "tasks": {
     "dev": "NODE_ENV=development deno run --unstable-no-legacy-abort --unstable-kv --watch --allow-env --allow-ffi --allow-read --allow-net deno.ts",
     "start": "NODE_ENV=production deno run --unstable-no-legacy-abort --unstable-kv --allow-env --allow-ffi --allow-read --allow-net deno.ts",
-    "test": "NODE_ENV=test deno test --unstable-kv --allow-env --allow-ffi --allow-read --allow-net",
+    "test": "NODE_ENV=test deno test --unstable-kv --allow-env --allow-ffi --allow-read --allow-write=.tmp --allow-net",
+    "posts": "deno run --allow-read=app/posts --allow-write=app/posts scripts/posts.ts",
+    "posts:translate": "deno run --env-file=.env --allow-env=OPENAI_API_KEY,OPENAI_BASE_URL,OPENAI_MODEL,OPENAI_CUSTOM_HEADERS --allow-read=app/posts,.tmp --allow-write=app/posts,.tmp --allow-net scripts/translate-posts.ts",
     "cache": "deno cache deno.ts",
-    "check": "deno check --unstable-kv app/ deno.ts && deno lint",
+    "check": "deno check --unstable-kv app/ scripts/ deno.ts && deno lint",
     "fix": "deno fmt && deno lint --fix"
   },
   "compilerOptions": {
@@ -42,6 +46,7 @@
   "nodeModulesDir": "auto",
   "include": [
     "app/",
+    "scripts/",
     "deno.ts"
   ],
   "exclude": [
@@ -54,6 +59,7 @@
     ],
     "include": [
       "./app/",
+      "./scripts/",
       "./deno.ts"
     ],
     "exclude": [
@@ -63,6 +69,7 @@
   "fmt": {
     "include": [
       "./app/",
+      "./scripts/",
       "./tailwind.config.cjs",
       "./deno.ts"
     ],

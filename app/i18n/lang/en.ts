@@ -150,6 +150,12 @@ export default {
         `${count} ${count === 1 ? "comment" : "comments"}`,
       timeline: "Article timeline",
       readingTime: (minutes: number) => `${minutes} min read`,
+      generatedNotice: "AI-generated translation",
+      summary: "AI summary",
+      languageVersions: "Article languages",
+      currentLanguage: "Current language",
+      languageFallback: (language: string) =>
+        `The requested language is unavailable. Showing ${language}.`,
       share: "Share",
       shareLabel: "Share this post",
       postNavigation: "More posts",

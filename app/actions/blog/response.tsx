@@ -1,4 +1,4 @@
-import type { I18n } from "@/i18n/index.ts";
+import type { I18n, Lang } from "@/i18n/index.ts";
 import { listBlogComments } from "@/data/blog-comments.ts";
 import type { CommentCaptchaChallenge } from "@/data/comment-captcha.ts";
 import { page } from "@/middleware/render.tsx";
@@ -8,8 +8,8 @@ import type {
   CommentFormErrors,
   CommentFormValues,
 } from "@/components/comments.tsx";
-import type { Post } from "@/posts/index.ts";
-import { postNeighbors } from "@/posts/index.ts";
+import type { Post } from "@/data/posts.ts";
+import { postNeighbors } from "@/data/posts.ts";
 import { routes } from "@/routes.ts";
 import { MARKDOWN_HEAD_CSS } from "@/utils/markdown.ts";
 import { noStore } from "@/actions/http.ts";
@@ -24,19 +24,23 @@ export async function renderBlogPostFailure(options: {
   render: Render;
   i18n: I18n;
   post: Post;
+  availableLanguages: readonly Lang[];
+  fallback: boolean;
   values: CommentFormValues;
   errors: CommentFormErrors;
   status: number;
   url: URL;
 }): Promise<Response> {
   const comments = await listBlogComments(options.post.slug);
-  const neighbors = postNeighbors(options.post.slug);
+  const neighbors = postNeighbors(options.post.slug, options.i18n.lang);
 
   return options.render(
     page(
       <BlogPostPage
         i18n={options.i18n}
         post={options.post}
+        availableLanguages={options.availableLanguages}
+        fallback={options.fallback}
         comments={comments}
         previousPost={neighbors.previous}
         nextPost={neighbors.next}
@@ -108,7 +112,7 @@ export function renderBlogCommentVerification(options: {
 export function articleMetadata(post: Post, i18n: I18n) {
   return {
     title: `${post.title} | Niapya`,
-    description: i18n.messages.blog.post.articleDescription,
+    description: post.summary ?? i18n.messages.blog.post.articleDescription,
     head: (
       <>
         <link

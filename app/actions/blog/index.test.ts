@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 
 import { blogPostCacheTag } from "@/actions/blog/cache.ts";
-import { allPosts } from "@/posts/index.ts";
+import { allPosts } from "@/data/posts.ts";
 import { router } from "@/router.ts";
 import { routes } from "@/routes.ts";
 

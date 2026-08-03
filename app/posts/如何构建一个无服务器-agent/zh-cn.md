@@ -1,7 +1,15 @@
 ---
 title: 如何构建一个无服务器 Agent
-createdAt: 2026-07-27T03:25:00.000Z
-updatedAt: 2026-07-27T04:10:00.000Z
+createdAt: '2026-07-27T03:25:00.000Z'
+updatedAt: '2026-07-27T04:10:00.000Z'
+language: zh-cn
+generated: false
+summary: >-
+  ClawLess 通过 Vercel Workflow 将 Agent 的运行时设为 Serverless，只在收到消息、Webhook
+  或定时任务时唤醒，从而实现低成本、无需长期在线的服务器。文章阐述了使用 Next.js、Vercel AI SDK、Workflow hook 与
+  DurableAgent 组合，实现可挂起、持久化的对话流、上下文压缩与工具调用等功能。通过 KV、Blob、Postgres Vector 等存储以及
+  Bash 沙箱、记忆、技能等工具，构建了既可交互又具扩展性的完整 Agent。作者认为，这种基于 Workflow 的 Serverless
+  方案是构建持久且成本友好的 AI Agent 的最佳路径。
 ---
 
 4 月初，我们开源了 Serverless 项目

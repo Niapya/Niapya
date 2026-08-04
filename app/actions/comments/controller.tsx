@@ -13,7 +13,7 @@ import {
   getIssuePathKey,
   readCommentFormValues,
   textField,
-} from "@/actions/comment-form.ts";
+} from "@/utils/comment-form.ts";
 import { parseFormRequest } from "@/actions/http.ts";
 import {
   renderCommentsFailure,
@@ -28,7 +28,7 @@ import {
 import { createI18n, localizeHref } from "@/i18n/index.ts";
 import { log } from "@/lib/log.ts";
 import { LangContext } from "@/middleware/locale.ts";
-import { page } from "@/middleware/render.tsx";
+import { page } from "@/actions/render.tsx";
 import { CommentsPage } from "@/pages/comments/index.tsx";
 import { routes } from "@/routes.ts";
 

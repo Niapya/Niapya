@@ -5,7 +5,7 @@ import type {
 import type { CommentCaptchaChallenge } from "@/data/comment-captcha.ts";
 import { listComments } from "@/data/comments.ts";
 import { type I18n, localizeHref } from "@/i18n/index.ts";
-import { page } from "@/middleware/render.tsx";
+import { page } from "@/actions/render.tsx";
 import { CommentsPage } from "@/pages/comments/index.tsx";
 import { CommentVerificationPage } from "@/pages/comments/verify.tsx";
 import { noStore } from "@/actions/http.ts";

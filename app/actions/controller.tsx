@@ -1,10 +1,10 @@
 import { createController } from "remix/router";
 
-import { manifest } from "@/actions/metadata/manifest.ts";
-import { ogImage } from "@/actions/metadata/og-image.ts";
-import { robots } from "@/actions/metadata/robots.ts";
-import { rss } from "@/actions/metadata/rss.tsx";
-import { sitemap } from "@/actions/metadata/sitemap.tsx";
+import { manifest } from "@/actions/manifest.ts";
+import { ogImage } from "@/actions/og-image.ts";
+import { robots } from "@/actions/robots.ts";
+import { rss } from "@/actions/rss.tsx";
+import { sitemap } from "@/actions/sitemap.tsx";
 import { createI18n } from "@/i18n/index.ts";
 import { LangContext } from "@/middleware/locale.ts";
 import { Home } from "@/pages/home/index.tsx";

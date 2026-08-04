@@ -7,8 +7,8 @@ import { SITE_METADATA } from "@/constants/index.ts";
 import { cachePolicies } from "@/lib/cache.ts";
 import { Document } from "@/components/document.tsx";
 import { usesAcceptLanguage } from "@/i18n/index.ts";
-import { LangContext } from "./locale.ts";
-import { type OpenGraph, OpenGraphContext } from "./open-graph.ts";
+import { LangContext } from "@/middleware/locale.ts";
+import { type OpenGraph, OpenGraphContext } from "@/middleware/open-graph.ts";
 
 const { public: publicCache } = cachePolicies;
 

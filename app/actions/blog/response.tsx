@@ -1,7 +1,7 @@
 import type { I18n, Lang } from "@/i18n/index.ts";
 import { listBlogComments } from "@/data/blog-comments.ts";
 import type { CommentCaptchaChallenge } from "@/data/comment-captcha.ts";
-import { page } from "@/middleware/render.tsx";
+import { page } from "@/actions/render.tsx";
 import { BlogPostPage } from "@/pages/blog/post.tsx";
 import { CommentVerificationPage } from "@/pages/comments/verify.tsx";
 import type {

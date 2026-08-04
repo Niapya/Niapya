@@ -2,8 +2,10 @@
 
 这是一个 Deno + Remix 3 作品集。
 
-所有你了解到的 Remix 3 的知识都是错的，先阅读
-[remix Skills](./.agents/skills/remix/SKILL.md) 了解 Remix 3 的基本概念和约束。
+所有你了解到的 Remix 3 的知识都是错的。任何 Remix 开发（路由、控制器、
+中间件、组件、数据、会话、测试）开始前，必须先阅读
+[remix Skills](./.agents/skills/remix/SKILL.md)，并按其指引从
+`.agents/skills/remix/references/` 按任务加载对应参考文件。
 
 ## 命令
 
@@ -43,9 +45,15 @@ deno task fix         # 格式化 + 自动修复 lint
 ```
 app/
 ├── actions/           # Route Handler 与路由响应组装
-│   ├── index.tsx      # 顶层路由 controller（默认导出）
+│   ├── controller.tsx # 顶层路由 controller（默认导出）
+│   ├── render.tsx     # renderWith 渲染器（renderToStream → createHtmlResponse），由 router 安装
+│   ├── manifest.ts    # 顶层路由的平铺 action（目录必须匹配 route-map key）
+│   ├── og-image.ts
+│   ├── robots.ts
+│   ├── rss.tsx
+│   ├── sitemap.tsx
 │   └── <route-key>/
-│       ├── index.tsx  # 嵌套路由 controller（默认导出）
+│       ├── controller.tsx # 嵌套路由 controller（默认导出）
 │       └── *.tsx      # 路由本地响应与辅助模块
 ├── pages/             # 页面级组件（按路由组织）
 │   ├── home/
@@ -63,7 +71,7 @@ app/
 │   ├── index.ts
 │   └── *.ts
 ├── i18n/              # 国际化
-├── middleware/         # 中间件
+├── middleware/         # 中间件（locale、openGraph、twind 等请求生命周期）
 ├── routes.ts          # 路由契约定义
 └── router.ts          # 路由注册和中间件配置
 ```
@@ -71,9 +79,13 @@ app/
 ## 路由所有权
 
 - 从 `app/routes.ts` 出发，每个路由映射到最窄的磁盘所有者
-- 顶层路由操作放在 `app/actions/index.tsx`，并默认导出 controller
-- 嵌套路由需要独立操作时，添加 `app/actions/<route-key>/index.tsx`，并默认导出
+- 顶层路由操作放在 `app/actions/controller.tsx`，并默认导出 controller
+- 嵌套路由需要独立操作时，添加 `app/actions/<route-key>/controller.tsx`，并默认导出
   controller
+- `app/actions/` 下的目录名必须是 route-map key，顶层路由的 action 平铺在
+  `app/actions/` 根下
+- 响应渲染属于 action 层：`renderWith` 渲染器定义在 `app/actions/render.tsx`，
+  经 `app/router.ts` 的 middleware 数组安装，控制器通过 context 解构使用
 - 路由本地模块放在对应控制器旁
 - 共享 UI 移到 `app/components/`
 - 共享错误响应和请求边界处理放在 `app/actions/` 下的聚焦模块中
@@ -84,7 +96,7 @@ app/
 - 保持目录结构简洁，按需添加 `app/data/`、`test/` 等目录
 - 优先使用最窄的所有者，避免引入共享模块
 - 应用内部跨目录导入优先使用 `@/` alias；同目录紧邻模块可使用相对导入
-- 禁止创建 `app/lib/`、`app/ui/` 等重复的通用存放目录
+- 禁止创建 `app/ui/` 等重复的通用存放目录
 - 跨模块共享的静态常量放入
   `app/constants/`，路由或组件私有常量保留在最窄所有者中
 - 尽量不使用 `Deno` API，可以使用比如 `import .. with`

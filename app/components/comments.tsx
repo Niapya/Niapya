@@ -1,4 +1,3 @@
-import { ArrowUpRight, MapPin, Send } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import { EMPTY_COMMENT_FORM } from "@/constants/index.ts";
@@ -264,7 +263,7 @@ export function CommentForm(handle: Handle<CommentFormProps>) {
             type="submit"
             class="inline-flex min-h-12 cursor-pointer select-none items-center justify-center gap-2 rounded-sm bg-primary px-6 py-3 font-semibold text-primary-foreground text-sm outline-none transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-background focus-visible:ring-ring"
           >
-            <Icon icon={Send} className="h-4 w-4" />
+            <Icon name="lucide:send" className="h-4 w-4" />
             {copy.submit}
           </button>
         </form>
@@ -329,7 +328,7 @@ export function CommentList(handle: Handle<CommentListProps>) {
                   </time>
                   {comment.location && (
                     <p class="mt-3 flex items-center gap-1.5 text-muted-foreground text-xs">
-                      <Icon icon={MapPin} className="h-3.5 w-3.5" />
+                      <Icon name="lucide:map-pin" className="h-3.5 w-3.5" />
                       {comment.location}
                     </p>
                   )}
@@ -341,7 +340,10 @@ export function CommentList(handle: Handle<CommentListProps>) {
                       class="mt-3 inline-flex cursor-pointer select-none items-center gap-1.5 font-semibold text-foreground text-xs underline decoration-border underline-offset-4 outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {websiteLabel}
-                      <Icon icon={ArrowUpRight} className="h-3.5 w-3.5" />
+                      <Icon
+                        name="lucide:arrow-up-right"
+                        className="h-3.5 w-3.5"
+                      />
                     </a>
                   )}
                 </div>

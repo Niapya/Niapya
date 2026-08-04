@@ -1,4 +1,3 @@
-import { MousePointer2 } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import { createI18n, DEFAULT_LANG, type I18n } from "@/i18n/index.ts";
@@ -445,11 +444,8 @@ function MousePointerIcon(handle: Handle<MousePointerIconProps>) {
 
     return (
       <Icon
-        icon={MousePointer2}
+        name="lucide:mouse-pointer-2"
         className={`h-8 w-8 overflow-visible drop-shadow-sm ${toneClass}`}
-        fill="currentColor"
-        stroke="white"
-        strokeWidth={1.5}
       />
     );
   };

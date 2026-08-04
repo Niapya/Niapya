@@ -1,44 +1,38 @@
-import type { IconNode } from "lucide";
-import type { Handle } from "remix/ui";
+import { css, type Handle } from "remix/ui";
+
+const ICONIFY_CDN = "https://api.iconify.design";
 
 type IconProps = {
-  icon: IconNode;
+  name: string;
   className?: string;
-  fill?: string;
-  stroke?: string;
-  strokeWidth?: number;
+  color?: string;
 };
 
+const iconSizeStyle = css({
+  display: "inline-block",
+  width: "1em",
+  height: "1em",
+});
+
 export function Icon(handle: Handle<IconProps>) {
-  return () => (
-    <svg
-      aria-hidden="true"
-      class={`select-none ${handle.props.className ?? ""}`}
-      viewBox="0 0 24 24"
-      fill={handle.props.fill ?? "none"}
-      stroke={handle.props.stroke ?? "currentColor"}
-      stroke-width={handle.props.strokeWidth ?? 2}
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      {handle.props.icon.map(([tag, attributes], index) => {
-        switch (tag) {
-          case "circle":
-            return <circle key={`icon-${index}`} {...attributes} />;
-          case "line":
-            return <line key={`icon-${index}`} {...attributes} />;
-          case "path":
-            return <path key={`icon-${index}`} {...attributes} />;
-          case "polygon":
-            return <polygon key={`icon-${index}`} {...attributes} />;
-          case "polyline":
-            return <polyline key={`icon-${index}`} {...attributes} />;
-          case "rect":
-            return <rect key={`icon-${index}`} {...attributes} />;
-          default:
-            return null;
-        }
-      })}
-    </svg>
-  );
+  return () => {
+    const maskImage = `url("${ICONIFY_CDN}/${handle.props.name}.svg")`;
+    return (
+      <span
+        aria-hidden="true"
+        class={`select-none ${handle.props.className ?? ""}`}
+        style={{
+          color: handle.props.color,
+          backgroundColor: "currentColor",
+          maskImage,
+          WebkitMaskImage: maskImage,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskSize: "100% 100%",
+          WebkitMaskSize: "100% 100%",
+        }}
+        mix={iconSizeStyle}
+      />
+    );
+  };
 }

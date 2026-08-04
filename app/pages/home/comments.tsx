@@ -1,35 +1,3 @@
-import cloudflareSvg from "simple-icons/icons/cloudflare.svg" with {
-  type: "text",
-};
-import drizzleSvg from "simple-icons/icons/drizzle.svg" with { type: "text" };
-import figmaSvg from "simple-icons/icons/figma.svg" with { type: "text" };
-import honoSvg from "simple-icons/icons/hono.svg" with { type: "text" };
-import nextSvg from "simple-icons/icons/nextdotjs.svg" with { type: "text" };
-import nuxtSvg from "simple-icons/icons/nuxt.svg" with { type: "text" };
-import nodeSvg from "simple-icons/icons/nodedotjs.svg" with { type: "text" };
-import npmSvg from "simple-icons/icons/npm.svg" with { type: "text" };
-import openApiSvg from "simple-icons/icons/openapiinitiative.svg" with {
-  type: "text",
-};
-import pythonSvg from "simple-icons/icons/python.svg" with { type: "text" };
-import reactSvg from "simple-icons/icons/react.svg" with { type: "text" };
-import redisSvg from "simple-icons/icons/redis.svg" with { type: "text" };
-import serverlessSvg from "simple-icons/icons/serverless.svg" with {
-  type: "text",
-};
-import svelteSvg from "simple-icons/icons/svelte.svg" with { type: "text" };
-import swiftSvg from "simple-icons/icons/swift.svg" with { type: "text" };
-import tailwindSvg from "simple-icons/icons/tailwindcss.svg" with {
-  type: "text",
-};
-import tauriSvg from "simple-icons/icons/tauri.svg" with { type: "text" };
-import typescriptSvg from "simple-icons/icons/typescript.svg" with {
-  type: "text",
-};
-import vercelSvg from "simple-icons/icons/vercel.svg" with { type: "text" };
-import viteSvg from "simple-icons/icons/vite.svg" with { type: "text" };
-import vueSvg from "simple-icons/icons/vuedotjs.svg" with { type: "text" };
-import { ArrowUpRight } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import {
@@ -39,7 +7,6 @@ import {
   localizeHref,
 } from "@/i18n/index.ts";
 import { routes } from "@/routes.ts";
-import { BrandIcon } from "@/components/brand-icon.tsx";
 import { Icon } from "@/components/icon.tsx";
 import { createDomId } from "@/utils/id.ts";
 import { createUniqueSlugger } from "@/utils/slug.ts";
@@ -47,7 +14,7 @@ import { createUniqueSlugger } from "@/utils/slug.ts";
 type Skill = {
   id: string;
   label: string;
-  icon: { svg: string; colorClass: string };
+  icon: { name: string; colorClass: string };
   motion: ReturnType<typeof css>;
 };
 
@@ -56,41 +23,92 @@ type CommentsProps = {
 };
 
 const SKILL_DEFINITIONS = [
-  { label: "Vite", icon: { svg: viteSvg, colorClass: "text-violet-600" } },
-  { label: "React", icon: { svg: reactSvg, colorClass: "text-cyan-600" } },
-  { label: "Vue", icon: { svg: vueSvg, colorClass: "text-emerald-600" } },
-  { label: "Nuxt.js", icon: { svg: nuxtSvg, colorClass: "text-emerald-600" } },
-  { label: "Next.js", icon: { svg: nextSvg, colorClass: "text-black" } },
-  { label: "Vercel", icon: { svg: vercelSvg, colorClass: "text-black" } },
+  {
+    label: "Vite",
+    icon: { name: "simple-icons:vite", colorClass: "text-violet-600" },
+  },
+  {
+    label: "React",
+    icon: { name: "simple-icons:react", colorClass: "text-cyan-600" },
+  },
+  {
+    label: "Vue",
+    icon: { name: "simple-icons:vuedotjs", colorClass: "text-emerald-600" },
+  },
+  {
+    label: "Nuxt.js",
+    icon: { name: "simple-icons:nuxt", colorClass: "text-emerald-600" },
+  },
+  {
+    label: "Next.js",
+    icon: { name: "simple-icons:nextdotjs", colorClass: "text-black" },
+  },
+  {
+    label: "Vercel",
+    icon: { name: "simple-icons:vercel", colorClass: "text-black" },
+  },
   {
     label: "Cloudflare",
-    icon: { svg: cloudflareSvg, colorClass: "text-orange-500" },
+    icon: { name: "simple-icons:cloudflare", colorClass: "text-orange-500" },
   },
   {
     label: "Serverless",
-    icon: { svg: serverlessSvg, colorClass: "text-red-600" },
+    icon: { name: "simple-icons:serverless", colorClass: "text-red-600" },
   },
-  { label: "Node.js", icon: { svg: nodeSvg, colorClass: "text-green-600" } },
-  { label: "npm", icon: { svg: npmSvg, colorClass: "text-red-600" } },
-  { label: "Svelte", icon: { svg: svelteSvg, colorClass: "text-orange-600" } },
-  { label: "Hono", icon: { svg: honoSvg, colorClass: "text-orange-600" } },
-  { label: "Redis", icon: { svg: redisSvg, colorClass: "text-red-600" } },
+  {
+    label: "Node.js",
+    icon: { name: "simple-icons:nodedotjs", colorClass: "text-green-600" },
+  },
+  {
+    label: "npm",
+    icon: { name: "simple-icons:npm", colorClass: "text-red-600" },
+  },
+  {
+    label: "Svelte",
+    icon: { name: "simple-icons:svelte", colorClass: "text-orange-600" },
+  },
+  {
+    label: "Hono",
+    icon: { name: "simple-icons:hono", colorClass: "text-orange-600" },
+  },
+  {
+    label: "Redis",
+    icon: { name: "simple-icons:redis", colorClass: "text-red-600" },
+  },
   {
     label: "Drizzle ORM",
-    icon: { svg: drizzleSvg, colorClass: "text-lime-600" },
+    icon: { name: "simple-icons:drizzle", colorClass: "text-lime-600" },
   },
-  { label: "OpenAPI", icon: { svg: openApiSvg, colorClass: "text-green-600" } },
-  { label: "Python", icon: { svg: pythonSvg, colorClass: "text-blue-600" } },
-  { label: "SwiftUI", icon: { svg: swiftSvg, colorClass: "text-orange-600" } },
-  { label: "Tauri", icon: { svg: tauriSvg, colorClass: "text-cyan-600" } },
+  {
+    label: "OpenAPI",
+    icon: {
+      name: "simple-icons:openapiinitiative",
+      colorClass: "text-green-600",
+    },
+  },
+  {
+    label: "Python",
+    icon: { name: "simple-icons:python", colorClass: "text-blue-600" },
+  },
+  {
+    label: "SwiftUI",
+    icon: { name: "simple-icons:swift", colorClass: "text-orange-600" },
+  },
+  {
+    label: "Tauri",
+    icon: { name: "simple-icons:tauri", colorClass: "text-cyan-600" },
+  },
   {
     label: "TypeScript",
-    icon: { svg: typescriptSvg, colorClass: "text-blue-600" },
+    icon: { name: "simple-icons:typescript", colorClass: "text-blue-600" },
   },
-  { label: "Figma", icon: { svg: figmaSvg, colorClass: "text-red-500" } },
+  {
+    label: "Figma",
+    icon: { name: "simple-icons:figma", colorClass: "text-red-500" },
+  },
   {
     label: "Tailwind CSS",
-    icon: { svg: tailwindSvg, colorClass: "text-cyan-500" },
+    icon: { name: "simple-icons:tailwindcss", colorClass: "text-cyan-500" },
   },
 ] as const satisfies readonly Omit<Skill, "id" | "motion">[];
 
@@ -156,8 +174,8 @@ export function Comments(handle: Handle<CommentsProps>) {
                 class="flex h-9 w-9 transform-gpu select-none items-center justify-center rounded-sm border border-white/30 bg-white p-1.5 shadow-lg transition duration-500 ease-out hover:-translate-y-2 hover:scale-105 hover:border-white/70 hover:shadow-2xl motion-reduce:transition-none motion-reduce:hover:transform-none sm:h-12 sm:w-12 sm:p-2.5 lg:h-20 lg:w-20 lg:p-4"
                 title={skill.label}
               >
-                <BrandIcon
-                  svg={skill.icon.svg}
+                <Icon
+                  name={skill.icon.name}
                   className={`block h-full w-full ${skill.icon.colorClass}`}
                 />
               </div>
@@ -187,7 +205,7 @@ export function Comments(handle: Handle<CommentsProps>) {
                 class="mt-1 transition-transform duration-500 ease-out group-hover:translate-x-1 group-hover:-translate-y-1 group-focus-visible:translate-x-1 group-focus-visible:-translate-y-1 motion-reduce:transition-none sm:mt-2"
               >
                 <Icon
-                  icon={ArrowUpRight}
+                  name="lucide:arrow-up-right"
                   className="h-7 w-7 sm:h-10 sm:w-10 lg:h-12 lg:w-12"
                 />
               </span>

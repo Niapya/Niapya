@@ -1,8 +1,3 @@
-import githubSvg from "simple-icons/icons/github.svg" with { type: "text" };
-import rssSvg from "simple-icons/icons/rss.svg" with { type: "text" };
-import telegramSvg from "simple-icons/icons/telegram.svg" with {
-  type: "text",
-};
 import { css, type Handle } from "remix/ui";
 
 import { createI18n, DEFAULT_LANG, type I18n } from "@/i18n/index.ts";
@@ -10,7 +5,7 @@ import {
   ScrollDrivenAnimation,
   type ScrollDrivenKeyframes,
 } from "@/components/animation/scroll-driven.tsx";
-import { BrandIcon } from "@/components/brand-icon.tsx";
+import { Icon } from "@/components/icon.tsx";
 import { HOME_ASSETS } from "@/constants/index.ts";
 
 type ContactProject = {
@@ -38,7 +33,7 @@ type ContactLink = {
   label: string;
   descriptionKey: "github" | "telegram" | "feed";
   href: string;
-  icon: { svg: string; color: string };
+  icon: { name: string; color: string };
   className: string;
 };
 
@@ -194,21 +189,21 @@ const CONTACT_LINKS = [
     label: "GitHub",
     descriptionKey: "github",
     href: "https://github.com/Niapya",
-    icon: { svg: githubSvg, color: "#181717" },
+    icon: { name: "simple-icons:github", color: "#181717" },
     className: "bg-secondary text-secondary-foreground",
   },
   {
     label: "Telegram",
     descriptionKey: "telegram",
     href: "https://t.me/Niapya",
-    icon: { svg: telegramSvg, color: "#26A5E4" },
+    icon: { name: "simple-icons:telegram", color: "#26A5E4" },
     className: "bg-accent text-accent-foreground",
   },
   {
     label: "Feed",
     descriptionKey: "feed",
     href: "/rss.xml",
-    icon: { svg: rssSvg, color: "#FFA500" },
+    icon: { name: "simple-icons:rss", color: "#FFA500" },
     className: "bg-muted text-foreground",
   },
 ] as const satisfies readonly ContactLink[];
@@ -396,8 +391,8 @@ export function Contact(handle: Handle<ContactProps>) {
                         class={`flex h-18 w-18 flex-col shrink-0 cursor-pointer select-none items-center justify-center gap-2 rounded-sm border border-border shadow-sm focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring sm:h-22 sm:w-22 ${link.className}`}
                       >
                         <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white">
-                          <BrandIcon
-                            svg={link.icon.svg}
+                          <Icon
+                            name={link.icon.name}
                             color={link.icon.color}
                             className="block h-6 w-6"
                           />

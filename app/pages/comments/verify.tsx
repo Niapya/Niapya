@@ -1,4 +1,3 @@
-import { ArrowLeft } from "lucide";
 import type { Handle } from "remix/ui";
 
 import type { SiteNavigationId } from "@/constants/index.ts";
@@ -36,7 +35,7 @@ export function CommentVerificationPage(
             href={props.backHref}
             class="mb-10 inline-flex w-fit cursor-pointer select-none items-center gap-2 text-muted-foreground text-sm outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <Icon icon={ArrowLeft} className="h-4 w-4" />
+            <Icon name="lucide:arrow-left" className="h-4 w-4" />
             {props.backLabel}
           </a>
 

@@ -1,4 +1,3 @@
-import { ArrowLeft, Check, Languages, MessageSquare, Sparkles } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import type { BlogComment } from "@/data/blog-comments.ts";
@@ -273,14 +272,14 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                   href={localizeHref(routes.blog.index.href(), lang)}
                   class="mb-10 inline-flex w-fit cursor-pointer select-none items-center gap-2 text-muted-foreground text-sm outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <Icon icon={ArrowLeft} className="h-4 w-4" />
+                  <Icon name="lucide:arrow-left" className="h-4 w-4" />
                   {copy.back}
                 </a>
                 {(post.generated || fallback) && (
                   <div class="mb-7 flex flex-wrap items-center gap-3">
                     {post.generated && (
                       <span class="inline-flex items-center gap-2 border border-primary bg-primary px-3 py-2 font-semibold text-primary-foreground text-sm">
-                        <Icon icon={Sparkles} className="h-4 w-4" />
+                        <Icon name="lucide:sparkles" className="h-4 w-4" />
                         {copy.generatedNotice}
                       </span>
                     )}
@@ -342,7 +341,7 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                   class="mt-7 flex flex-wrap items-center gap-2"
                 >
                   <span class="mr-2 inline-flex items-center gap-2 font-mono text-muted-foreground text-xs uppercase">
-                    <Icon icon={Languages} className="h-4 w-4" />
+                    <Icon name="lucide:languages" className="h-4 w-4" />
                     {copy.languageVersions}
                   </span>
                   {availableLanguages.map((language) => (
@@ -387,7 +386,7 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                         id="article-summary-title"
                         class="mb-4 flex items-center gap-2 font-mono font-semibold text-primary text-xs uppercase"
                       >
-                        <Icon icon={Sparkles} className="h-4 w-4" />
+                        <Icon name="lucide:sparkles" className="h-4 w-4" />
                         {copy.summary}
                       </h2>
                       <div
@@ -488,7 +487,7 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                   class="mt-8 flex select-none items-center gap-3 border border-emerald-300 bg-emerald-50 px-5 py-4 text-emerald-950 text-sm dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-100"
                   role="status"
                 >
-                  <Icon icon={Check} className="h-5 w-5" />
+                  <Icon name="lucide:check" className="h-5 w-5" />
                   {copy.published}
                 </div>
               )}
@@ -514,7 +513,7 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                   <div class="flex items-center justify-between gap-4">
                     <h3 class="font-display text-3xl">{copy.listTitle}</h3>
                     <span class="inline-flex select-none items-center gap-2 font-mono text-muted-foreground text-xs uppercase">
-                      <Icon icon={MessageSquare} className="h-4 w-4" />
+                      <Icon name="lucide:message-square" className="h-4 w-4" />
                       {copy.comments(comments.length)}
                     </span>
                   </div>

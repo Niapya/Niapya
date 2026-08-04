@@ -1,4 +1,3 @@
-import { ArrowUp, Plus } from "lucide";
 import type { Handle } from "remix/ui";
 
 import {
@@ -79,7 +78,7 @@ function FriendLinks(handle: Handle<FriendLinksProps>) {
               aria-describedby="friend-application-tooltip"
               class="group relative flex h-8 w-8 cursor-pointer select-none items-center justify-center rounded-full border border-dashed border-white/50 bg-black text-white transition duration-500 ease-out hover:z-10 hover:-translate-y-1 hover:border-white focus-visible:z-10 focus-visible:-translate-y-1 focus-visible:border-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white motion-reduce:transition-none sm:h-12 sm:w-12"
             >
-              <Icon icon={Plus} className="h-4 w-4 sm:h-5 sm:w-5" />
+              <Icon name="lucide:plus" className="h-4 w-4 sm:h-5 sm:w-5" />
               <span
                 id="friend-application-tooltip"
                 role="tooltip"
@@ -128,7 +127,7 @@ export function Footer(handle: Handle<FooterProps>) {
                 aria-label={copy.backToTop}
                 class="inline-flex h-10 w-12 shrink-0 cursor-pointer select-none items-center justify-center rounded-full border border-white/35 text-xl leading-none transition-colors hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
               >
-                <Icon icon={ArrowUp} className="h-5 w-5" />
+                <Icon name="lucide:arrow-up" className="h-5 w-5" />
               </a>
             </div>
 

@@ -44,11 +44,15 @@ export function Document(handle: Handle<DocumentProps>) {
           <meta name="robots" content={SITE_METADATA.robots} />
           <meta name="theme-color" content={SITE_METADATA.themeColor} />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
             crossOrigin="anonymous"
           />
+          <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+          <link rel="preconnect" href="https://api.iconify.design" />
+          <link rel="dns-prefetch" href="https://api.iconify.design" />
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap"

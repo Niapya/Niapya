@@ -1,4 +1,3 @@
-import { ArrowLeft, ArrowRight } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import { type I18n, type Lang, localizeHref } from "@/i18n/index.ts";
@@ -110,7 +109,10 @@ export function BlogIndexPage(handle: Handle<BlogIndexPageProps>) {
                             class="inline-flex min-h-10 cursor-pointer select-none items-center gap-2 font-semibold text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring group-hover:text-primary"
                           >
                             {copy.read}
-                            <Icon icon={ArrowRight} className="h-4 w-4" />
+                            <Icon
+                              name="lucide:arrow-right"
+                              className="h-4 w-4"
+                            />
                           </a>
                         </div>
                       </article>
@@ -131,7 +133,7 @@ export function BlogIndexPage(handle: Handle<BlogIndexPageProps>) {
                     }, lang)}
                     class="inline-flex min-h-10 cursor-pointer select-none items-center gap-2 font-semibold text-sm outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
                   >
-                    <Icon icon={ArrowLeft} className="h-4 w-4" />
+                    <Icon name="lucide:arrow-left" className="h-4 w-4" />
                     {copy.previous}
                   </a>
                 )
@@ -148,7 +150,7 @@ export function BlogIndexPage(handle: Handle<BlogIndexPageProps>) {
                     class="inline-flex min-h-10 cursor-pointer select-none items-center gap-2 font-semibold text-sm outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {copy.next}
-                    <Icon icon={ArrowRight} className="h-4 w-4" />
+                    <Icon name="lucide:arrow-right" className="h-4 w-4" />
                   </a>
                 )
                 : <span />}

@@ -120,6 +120,7 @@ export function articleMetadata(post: Post, i18n: I18n) {
           href="https://cdn.jsdelivr.net"
           crossOrigin="anonymous"
         />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
         <style data-blog-katex innerHTML={MARKDOWN_HEAD_CSS} />
       </>
     ),

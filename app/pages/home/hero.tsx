@@ -1,4 +1,3 @@
-import { Heart, Pencil } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import { GITHUB_AVATAR_URL } from "@/constants/index.ts";
@@ -168,7 +167,7 @@ export function Hero(handle: Handle<HeroProps>) {
                     aria-hidden="true"
                     class="inline-flex h-5 w-5 shrink-0 -translate-x-1 -rotate-12 select-none items-center justify-center leading-none opacity-0 transition duration-300 ease-out group-hover:translate-x-0 group-hover:rotate-0 group-hover:opacity-100 motion-reduce:transform-none motion-reduce:transition-none"
                   >
-                    <Icon icon={Pencil} className="h-4 w-4" />
+                    <Icon name="lucide:pencil" className="h-4 w-4" />
                   </span>
                   <a
                     href="https://github.com/Niapya"
@@ -190,7 +189,7 @@ export function Hero(handle: Handle<HeroProps>) {
                     aria-hidden="true"
                     class="inline-flex h-5 w-5 shrink-0 translate-x-1 scale-75 select-none items-center justify-center leading-none opacity-0 transition duration-300 ease-out group-hover:translate-x-0 group-hover:scale-100 group-hover:opacity-100 motion-reduce:transform-none motion-reduce:transition-none"
                   >
-                    <Icon icon={Heart} className="h-4 w-4" />
+                    <Icon name="lucide:heart" className="h-4 w-4" />
                   </span>
                 </span>
               </span>

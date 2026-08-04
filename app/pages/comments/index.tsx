@@ -1,4 +1,3 @@
-import { Check } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import type { Comment } from "@/data/comments.ts";
@@ -70,7 +69,7 @@ export function CommentsPage(handle: Handle<CommentsPageProps>) {
                 aria-live="polite"
               >
                 <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-700 text-white">
-                  <Icon icon={Check} className="h-4 w-4" />
+                  <Icon name="lucide:check" className="h-4 w-4" />
                 </span>
                 {copy.published}
               </div>

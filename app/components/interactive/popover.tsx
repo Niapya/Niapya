@@ -1,4 +1,3 @@
-import { X } from "lucide";
 import { css, type Handle, type RemixNode } from "remix/ui";
 
 import { Icon } from "@/components/icon.tsx";
@@ -77,7 +76,7 @@ export function Popover(handle: Handle<PopoverProps>) {
               title={closeLabel}
               class="-mt-1 -mr-1 inline-flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-sm text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <Icon icon={X} className="h-4 w-4" />
+              <Icon name="lucide:x" className="h-4 w-4" />
             </button>
           </div>
           <div class="pt-5">{handle.props.children}</div>

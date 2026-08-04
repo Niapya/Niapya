@@ -1,4 +1,3 @@
-import { ArrowRight } from "lucide";
 import { css, type Handle } from "remix/ui";
 
 import { GITHUB_AVATAR_URL, HOME_ASSETS } from "@/constants/index.ts";
@@ -299,7 +298,7 @@ export function Designer(handle: Handle<DesignerProps>) {
                 aria-label={copy.workListLabel}
                 class="mt-10 inline-flex h-10 w-12 cursor-pointer select-none items-center justify-center self-end rounded-full border border-foreground/35 text-xl leading-none transition-all duration-300 hover:-rotate-6 hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring sm:mt-2 lg:mb-2"
               >
-                <Icon icon={ArrowRight} className="h-5 w-5" />
+                <Icon name="lucide:arrow-right" className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -377,7 +376,7 @@ export function Designer(handle: Handle<DesignerProps>) {
                 aria-label={copy.backLabel}
                 class="mt-auto inline-flex h-10 w-12 shrink-0 cursor-pointer select-none items-center justify-center self-end rounded-full border border-foreground/35 text-xl leading-none transition-all duration-300 hover:rotate-6 hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
               >
-                <Icon icon={ArrowRight} className="h-5 w-5" />
+                <Icon name="lucide:arrow-right" className="h-5 w-5" />
               </a>
             </div>
           </div>

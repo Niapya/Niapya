@@ -7,6 +7,7 @@ import blogController from "@/actions/blog/controller.tsx";
 import commentsController from "@/actions/comments/controller.tsx";
 import { cachePolicies } from "@/lib/cache.ts";
 import { locale } from "@/middleware/locale.ts";
+import { logger } from "@/middleware/logger.ts";
 import { openGraph } from "@/middleware/open-graph.ts";
 import { twind } from "@/middleware/twind.ts";
 import { routes } from "@/routes.ts";
@@ -15,6 +16,7 @@ const { static: staticCache } = cachePolicies;
 
 export const router = createRouter({
   middleware: [
+    logger(),
     staticFiles("./public", {
       index: false,
       cacheControl: staticCache().cacheControl,

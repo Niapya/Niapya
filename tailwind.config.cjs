@@ -1,3 +1,7 @@
+/**
+ * Tailwind CSS IntelliSense reads this editor-only mirror of the Twind theme.
+ * Keep it in sync with `app/middleware/twind.ts`; production styles come from Twind.
+ */
 const color = (variable) => `var(--${variable})`;
 
 const colors = {

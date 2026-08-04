@@ -20,8 +20,7 @@ deno task fix         # 格式化 + 自动修复 lint
 
 - 入口: `deno.ts` -> `app/router.ts` -> `app/routes.ts`
 - JSX 运行时: `remix/ui`（非 React）
-- 导入方式: `import { ... } from "remix/<subpath>"`，禁止
-  `import { ... } from "remix"`
+- 导入方式: `import { ... } from "remix/<subpath>"`
 - 组件模式: `function Name(handle: Handle<Props>) { return () => ... }`，非
   React hooks
 
@@ -33,11 +32,11 @@ deno task fix         # 格式化 + 自动修复 lint
 - 表单提交使用标准 HTML form，不使用 AJAX
 - 如需交互效果，优先考虑 CSS 动画和过渡，尽量使用 Tailwind v3
   的原子类实现，如果表达不好就使用 `css` 函数
+- Tailwind 优先复用语义 token，如果无法表达的 `clamp`、`minmax`、百分比或非标准值应使用组件旁的局部
+  `css()` mixin，，并使用 `rem`、`em`、百分比或视口单位。
 - 样式 token 优先使用 Tailwind 预设的整数
-  utility，一位数可按需使用、两位数优先整十，并避免任意值中括号 class 与 `px`
+  utility，一位数可按需使用、两位数优先整五整十，并避免任意值，中括号 class 与 `px`
   单位。
-- Tailwind 无法表达的 `clamp`、`minmax`、百分比或非标准值应使用组件旁的局部
-  `css()` mixin，优先复用语义 token，并使用 `rem`、`em`、百分比或视口单位。
 
 ## 目录结构
 

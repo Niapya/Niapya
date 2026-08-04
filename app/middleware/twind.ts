@@ -1,4 +1,4 @@
-import process from "node:process";
+import { IS_PRODUCTION } from "@/constants/index.ts";
 import {
   consume,
   type CSSBase,
@@ -274,7 +274,7 @@ const twindConfig = {
   },
 };
 
-export const tw = install(twindConfig, process.env.NODE_ENV === "production");
+export const tw = install(twindConfig, IS_PRODUCTION);
 
 const encoder = new TextEncoder();
 

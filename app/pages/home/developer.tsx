@@ -8,7 +8,7 @@ import {
 } from "@/components/animation/scroll-driven.tsx";
 import { Icon } from "@/components/icon.tsx";
 import { createDomId } from "@/utils/id.ts";
-import { HOME_ASSETS } from "@/constants/home-assets.ts";
+import { HOME_ASSETS } from "@/constants/index.ts";
 
 const DEVELOPER_PROJECTS = [
   {

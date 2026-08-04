@@ -22,7 +22,7 @@ import {
   renderBlogCommentVerification,
   renderBlogPostFailure,
 } from "@/actions/blog/response.tsx";
-import { EMPTY_COMMENT_FORM } from "@/constants/comment-form.ts";
+import { EMPTY_COMMENT_FORM } from "@/constants/index.ts";
 import {
   createBlogCommentChallenge,
   listBlogComments,

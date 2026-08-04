@@ -10,7 +10,7 @@ import {
 import { routes } from "@/routes.ts";
 import { ScrollDrivenAnimation } from "@/components/animation/scroll-driven.tsx";
 import { Icon } from "@/components/icon.tsx";
-import { SITE_NAVIGATION } from "@/constants/site-navigation.ts";
+import { SITE_NAVIGATION } from "@/constants/index.ts";
 import { createDomId } from "@/utils/id.ts";
 
 type FriendLink = {

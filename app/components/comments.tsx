@@ -1,7 +1,7 @@
 import { ArrowUpRight, MapPin, Send } from "lucide";
 import { css, type Handle } from "remix/ui";
 
-import { EMPTY_COMMENT_FORM } from "@/constants/comment-form.ts";
+import { EMPTY_COMMENT_FORM } from "@/constants/index.ts";
 import type { Lang } from "@/i18n/index.ts";
 import { createDomId } from "@/utils/id.ts";
 import { renderMarkdown } from "@/utils/markdown.ts";

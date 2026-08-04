@@ -1,4 +1,4 @@
-import process from "node:process";
+import { IS_TEST } from "@/constants/index.ts";
 
 type KvFeatureKey = readonly Deno.KvKeyPart[];
 
@@ -31,7 +31,7 @@ type KvListOptions = {
 };
 
 const kv = await Deno.openKv(
-  process.env.NODE_ENV === "test" ? ":memory:" : undefined,
+  IS_TEST ? ":memory:" : undefined,
 );
 
 export const atomic = {

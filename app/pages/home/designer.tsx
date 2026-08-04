@@ -1,11 +1,10 @@
 import { ArrowRight } from "lucide";
 import { css, type Handle } from "remix/ui";
 
-import { GITHUB_AVATAR_URL } from "@/constants/index.ts";
+import { GITHUB_AVATAR_URL, HOME_ASSETS } from "@/constants/index.ts";
 import { createI18n, DEFAULT_LANG, type I18n } from "@/i18n/index.ts";
 import { Icon } from "@/components/icon.tsx";
 import { createDomId } from "@/utils/id.ts";
-import { HOME_ASSETS } from "@/constants/home-assets.ts";
 
 type DesignerProps = {
   i18n?: I18n;

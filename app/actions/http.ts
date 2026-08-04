@@ -1,4 +1,4 @@
-import { COMMENT_FORM_MAX_BYTES } from "@/constants/http.ts";
+import { COMMENT_FORM_MAX_BYTES } from "@/constants/index.ts";
 import { log } from "@/lib/log.ts";
 
 export type FormRequestFailure = {

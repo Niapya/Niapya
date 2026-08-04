@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide";
 import type { Handle } from "remix/ui";
 
-import type { SiteNavigationId } from "@/constants/site-navigation.ts";
+import type { SiteNavigationId } from "@/constants/index.ts";
 import type { CommentCaptchaChallenge } from "@/data/comment-captcha.ts";
 import type { I18n } from "@/i18n/index.ts";
 import { Header } from "@/components/header.tsx";

@@ -19,7 +19,7 @@ import {
   renderCommentsFailure,
   renderCommentsVerification,
 } from "@/actions/comments/response.tsx";
-import { EMPTY_COMMENT_FORM } from "@/constants/comment-form.ts";
+import { EMPTY_COMMENT_FORM } from "@/constants/index.ts";
 import {
   createCaptchaChallenge,
   listComments,

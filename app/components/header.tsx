@@ -7,10 +7,7 @@ import {
   localizeHref,
 } from "@/i18n/index.ts";
 import { routes } from "@/routes.ts";
-import {
-  SITE_NAVIGATION,
-  type SiteNavigationId,
-} from "@/constants/site-navigation.ts";
+import { SITE_NAVIGATION, type SiteNavigationId } from "@/constants/index.ts";
 
 type HeaderProps = {
   current: SiteNavigationId;

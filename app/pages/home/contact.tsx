@@ -11,7 +11,7 @@ import {
   type ScrollDrivenKeyframes,
 } from "@/components/animation/scroll-driven.tsx";
 import { BrandIcon } from "@/components/brand-icon.tsx";
-import { HOME_ASSETS } from "@/constants/home-assets.ts";
+import { HOME_ASSETS } from "@/constants/index.ts";
 
 type ContactProject = {
   id: string;

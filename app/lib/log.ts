@@ -1,6 +1,4 @@
-import process from "node:process";
-
-const isLocalDevelopment = process.env.NODE_ENV === "development";
+import { IS_DEVELOPMENT } from "@/constants/index.ts";
 
 type ConsoleArguments = Parameters<typeof console.log>;
 
@@ -8,11 +6,11 @@ const prefix = "[main]";
 
 export const log = {
   debug(...args: ConsoleArguments): void {
-    if (isLocalDevelopment) console.debug(prefix, ...args);
+    if (IS_DEVELOPMENT) console.debug(prefix, ...args);
   },
 
   info(...args: ConsoleArguments): void {
-    if (isLocalDevelopment) console.info(prefix, ...args);
+    if (IS_DEVELOPMENT) console.info(prefix, ...args);
   },
 
   warn(...args: ConsoleArguments): void {

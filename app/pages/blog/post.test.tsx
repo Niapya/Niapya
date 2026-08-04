@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 
 import { renderToString } from "remix/ui/server";
 
-import { EMPTY_COMMENT_FORM } from "@/constants/comment-form.ts";
+import { EMPTY_COMMENT_FORM } from "@/constants/index.ts";
 import { createI18n } from "@/i18n/index.ts";
 import type { Post } from "@/data/posts.ts";
 import { BlogPostPage } from "./post.tsx";

@@ -1,4 +1,4 @@
-import process from "node:process";
+import { IS_TEST } from "@/constants/index.ts";
 
 import type { Lang } from "@/i18n/index.ts";
 import { createUniqueId, createUniqueToken } from "@/utils/id.ts";
@@ -15,7 +15,7 @@ import {
 
 const blogKv = createKvFeature("blog");
 const CHALLENGE_TTL_MS = 10 * 60 * 1000;
-const MINIMUM_COMPLETION_MS = process.env.NODE_ENV === "test" ? 0 : 1_500;
+const MINIMUM_COMPLETION_MS = IS_TEST ? 0 : 1_500;
 
 type ChallengeRecord = {
   input: NewBlogComment;

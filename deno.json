@@ -71,7 +71,10 @@
       "./app/",
       "./scripts/",
       "./tailwind.config.cjs",
-      "./deno.ts"
+      "./deno.ts",
+      "./deno.json",
+      "./AGENTS.md",
+      "./README.md"
     ],
     "exclude": [
       "node_modules/"

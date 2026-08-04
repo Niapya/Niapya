@@ -34,11 +34,12 @@ deno task fix         # 格式化 + 自动修复 lint
 - 表单提交使用标准 HTML form，不使用 AJAX
 - 如需交互效果，优先考虑 CSS 动画和过渡，尽量使用 Tailwind v3
   的原子类实现，如果表达不好就使用 `css` 函数
-- Tailwind 优先复用语义 token，如果无法表达的 `clamp`、`minmax`、百分比或非标准值应使用组件旁的局部
-  `css()` mixin，，并使用 `rem`、`em`、百分比或视口单位。
+- Tailwind 优先复用语义 token，如果无法表达的
+  `clamp`、`minmax`、百分比或非标准值应使用组件旁的局部 `css()` mixin，，并使用
+  `rem`、`em`、百分比或视口单位。
 - 样式 token 优先使用 Tailwind 预设的整数
-  utility，一位数可按需使用、两位数优先整五整十，并避免任意值，中括号 class 与 `px`
-  单位。
+  utility，一位数可按需使用、两位数优先整五整十，并避免任意值，中括号 class 与
+  `px` 单位。
 
 ## 目录结构
 
@@ -80,8 +81,8 @@ app/
 
 - 从 `app/routes.ts` 出发，每个路由映射到最窄的磁盘所有者
 - 顶层路由操作放在 `app/actions/controller.tsx`，并默认导出 controller
-- 嵌套路由需要独立操作时，添加 `app/actions/<route-key>/controller.tsx`，并默认导出
-  controller
+- 嵌套路由需要独立操作时，添加
+  `app/actions/<route-key>/controller.tsx`，并默认导出 controller
 - `app/actions/` 下的目录名必须是 route-map key，顶层路由的 action 平铺在
   `app/actions/` 根下
 - 响应渲染属于 action 层：`renderWith` 渲染器定义在 `app/actions/render.tsx`，

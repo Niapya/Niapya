@@ -2,7 +2,8 @@
 
 ### Niapya
 
-[Portfolio](https://portfolio.niapya.deno.net) | [Blog](https://portfolio.niapya.deno.net/blog)
+[Portfolio](https://portfolio.niapya.deno.net) |
+[Blog](https://portfolio.niapya.deno.net/blog)
 
 I am Designing and Shipping AI-native Products.
 

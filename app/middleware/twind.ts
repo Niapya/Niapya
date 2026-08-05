@@ -152,6 +152,11 @@ const themeVariables = {
   "@media (prefers-color-scheme: dark)": {
     ":root:not(.light)": darkThemeVariables,
   },
+  ".dark": {
+    ...darkThemeVariables,
+  },
+
+  // view transition styles
   "@view-transition": {
     navigation: "auto",
   },
@@ -178,6 +183,8 @@ const themeVariables = {
       animationDuration: "0.01ms",
     },
   },
+
+  // scrollbar styles
   "@supports not selector(::-webkit-scrollbar)": {
     html: {
       scrollbarColor:
@@ -217,15 +224,16 @@ const themeVariables = {
       background: "var(--background)",
     },
   },
-  ".dark": {
-    ...darkThemeVariables,
-  },
   html: {
     overscrollBehavior: "none",
     scrollBehavior: "smooth",
   },
   "*, ::before, ::after": {
     borderColor: "var(--border)",
+  },
+  "::selection, ::target-text, ::search-text": {
+    backgroundColor: "var(--primary)",
+    color: "var(--primary-foreground)",
   },
   body: {
     backgroundColor: "var(--background)",
@@ -384,9 +392,8 @@ function getStyleDiff(previous: string, next: string): [number, string][] {
 }
 
 function createStylePatch(changes: [number, string][]): string {
-  return `<script>!function(e,n){e&&(e.textContent=n.reduce((function(e,n){return e.slice(0,n[0])+n[1]+e.slice(n[0])}),e.textContent||''))}(document.querySelector('style[data-twind=""]'),${
-    JSON.stringify(changes)
-  })</script>`;
+  return `<script>!function(e,n){e&&(e.textContent=n.reduce((function(e,n){return e.slice(0,n[0])+n[1]+e.slice(n[0])}),e.textContent||''))}(document.querySelector('style[data-twind=""]'),${JSON.stringify(changes)
+    })</script>`;
 }
 
 function isShellReady(markup: string): boolean {

@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 
-import { createDomId, createUniqueId, createUniqueToken } from "./id.ts";
+import { decodeTime } from "@std/ulid";
+
+import { createDomId, createId } from "./id.ts";
 
 Deno.test("createDomId uses the shared slug format", () => {
   assert.equal(
@@ -10,13 +12,15 @@ Deno.test("createDomId uses the shared slug format", () => {
 });
 
 Deno.test("unique identifiers preserve their intended formats", () => {
-  const firstId = createUniqueId();
-  const secondId = createUniqueId();
-  const firstToken = createUniqueToken();
-  const secondToken = createUniqueToken();
+  const firstId = createId();
+  const secondId = createId();
 
   assert.match(firstId, /^[0-9A-HJKMNP-TV-Z]{26}$/);
   assert.notEqual(firstId, secondId);
-  assert.match(firstToken, /^[0-9A-HJKMNP-TV-Z]{26}$/);
-  assert.notEqual(firstToken, secondToken);
+});
+
+Deno.test("createId uses the seed time", () => {
+  const seedTime = 1_700_000_000_000;
+
+  assert.equal(decodeTime(createId(seedTime)), seedTime);
 });

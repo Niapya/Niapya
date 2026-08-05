@@ -1,7 +1,7 @@
 import { IS_TEST } from "@/constants/index.ts";
 
 import type { Lang } from "@/i18n/index.ts";
-import { createUniqueId, createUniqueToken } from "@/utils/id.ts";
+import { createId } from "@/utils/id.ts";
 import { atomic, createKvFeature } from "@/lib/kv.ts";
 import {
   COMMENT_CAPTCHA_HEIGHT,
@@ -58,7 +58,7 @@ export async function createBlogCommentChallenge(
       createdAt + CHALLENGE_TTL_MS,
       lang,
     );
-    const token = createUniqueToken();
+    const token = createId();
     const key = ["comment-challenges", token] as const;
     const result = await blogKv.commit([
       atomic.check(key, null),
@@ -129,7 +129,7 @@ export async function publishBlogComment(
     };
   }
 
-  const id = createUniqueId();
+  const id = createId();
   const comment: BlogComment = {
     ...challenge.value.input,
     id,

@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import { createDomId } from "@/utils/id.ts";
 
@@ -31,8 +32,10 @@ export function RealisticCloud(handle: Handle<RealisticCloudProps>) {
       class="pointer-events-none absolute inset-0 select-none overflow-hidden"
     >
       <svg
-        class="absolute top-0 left-1/4 ml-8 h-auto w-3/4 max-w-3xl transform-gpu opacity-70 mix-blend-screen dark:opacity-40"
-        mix={cloudDrift}
+        class={cx(
+          "absolute top-0 left-1/4 ml-8 h-auto w-3/4 max-w-3xl transform-gpu opacity-70 mix-blend-screen dark:opacity-40",
+          cloudDrift,
+        )}
         viewBox="0 0 900 450"
         preserveAspectRatio="xMidYMid meet"
       >

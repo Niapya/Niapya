@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import { createI18n, DEFAULT_LANG, type I18n } from "@/i18n/index.ts";
 import {
@@ -84,7 +85,6 @@ type InlineTokenProps = {
 };
 
 const sectionStyle = css({
-  height: "100dvh",
   "& .developer-copy-sentence": {
     color: "color-mix(in oklab, var(--foreground) 3%, var(--background))",
   },
@@ -188,35 +188,35 @@ const projectSwitcherStyle = css({
     transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
   },
   "& [data-project-card='0']": {
-    zIndex: 10,
+    zIndex: "10",
     transform: "translateX(-30%) rotate(-5deg) scale(0.92)",
   },
   "& [data-project-card='1']": {
-    zIndex: 30,
+    zIndex: "30",
     transform: "translateX(0) rotate(0) scale(1)",
   },
   "& [data-project-card='2']": {
-    zIndex: 20,
+    zIndex: "20",
     transform: "translateX(30%) rotate(5deg) scale(0.92)",
   },
   "&:has(fieldset > input:nth-of-type(1):checked) [data-project-card='0']": {
-    zIndex: 30,
+    zIndex: "30",
     transform: "translateX(0) rotate(0) scale(1)",
   },
   "&:has(fieldset > input:nth-of-type(1):checked) [data-project-card='1']": {
-    zIndex: 20,
+    zIndex: "20",
     transform: "translateX(30%) rotate(5deg) scale(0.92)",
   },
   "&:has(fieldset > input:nth-of-type(1):checked) [data-project-card='2']": {
-    zIndex: 10,
+    zIndex: "10",
     transform: "translateX(-30%) rotate(-5deg) scale(0.92)",
   },
   "&:has(fieldset > input:nth-of-type(3):checked) [data-project-card='1']": {
-    zIndex: 20,
+    zIndex: "20",
     transform: "translateX(30%) rotate(5deg) scale(0.92)",
   },
   "&:has(fieldset > input:nth-of-type(3):checked) [data-project-card='2']": {
-    zIndex: 30,
+    zIndex: "30",
     transform: "translateX(0) rotate(0) scale(1)",
   },
   "& fieldset::before": {
@@ -229,7 +229,7 @@ const projectSwitcherStyle = css({
     transform: "translateX(0)",
     transition: "transform 500ms cubic-bezier(0.16, 1, 0.3, 1)",
     width: "4rem",
-    zIndex: 0,
+    zIndex: "0",
   },
   "& fieldset:has(input:nth-of-type(2):checked)::before": {
     transform: "translateX(4.25rem)",
@@ -239,7 +239,7 @@ const projectSwitcherStyle = css({
   },
   "& fieldset > input:checked + label": {
     color: "var(--background)",
-    fontWeight: 600,
+    fontWeight: "600",
   },
   "& fieldset > input:focus-visible + label": {
     outline: "0.125rem solid var(--ring)",
@@ -249,14 +249,14 @@ const projectSwitcherStyle = css({
     display: "block",
     position: "absolute",
     inset: "0 auto auto 0",
-    zIndex: 70,
+    zIndex: "70",
     offsetAnchor: "0.34rem 0.39rem",
     offsetPosition: "0 0",
     offsetRotate: "0deg",
     willChange: "offset-distance, opacity",
   },
   "& [data-entry-cursor]": {
-    opacity: 0,
+    opacity: "0",
     offsetPath: CURSOR_ENTER_PATH_MOBILE,
     offsetDistance: "0%",
   },
@@ -264,7 +264,7 @@ const projectSwitcherStyle = css({
     display: "none",
   },
   "& [data-cursor-phase='exit']": {
-    opacity: 0,
+    opacity: "0",
     offsetPath: CURSOR_EXIT_PATH_MOBILE,
     offsetDistance: "50%",
     visibility: "visible",
@@ -277,7 +277,7 @@ const projectSwitcherStyle = css({
     animation: "developer-cursor-idle 1500ms ease-in-out 1600ms infinite",
   },
   "& [data-cursor-bubble]": {
-    opacity: 0,
+    opacity: "0",
     transform: "scale(0.86) translateY(-0.25rem)",
     transformOrigin: "top left",
     transition:
@@ -286,19 +286,19 @@ const projectSwitcherStyle = css({
   "&:has(fieldset > input:nth-of-type(1):checked) [data-entry-cursor]": {
     animation:
       "developer-cursor-enter-rose 1100ms cubic-bezier(0.16, 1, 0.3, 1) 400ms both",
-    opacity: 1,
+    opacity: "1",
     offsetDistance: "50%",
   },
   "&:has(fieldset > input:nth-of-type(2):checked) [data-entry-cursor]": {
     animation:
       "developer-cursor-enter-sky 1100ms cubic-bezier(0.16, 1, 0.3, 1) 400ms both",
-    opacity: 1,
+    opacity: "1",
     offsetDistance: "50%",
   },
   "&:has(fieldset > input:nth-of-type(3):checked) [data-entry-cursor]": {
     animation:
       "developer-cursor-enter-amber 1100ms cubic-bezier(0.16, 1, 0.3, 1) 400ms both",
-    opacity: 1,
+    opacity: "1",
     offsetDistance: "50%",
   },
   "&:has(fieldset > input:nth-of-type(1):checked) [data-entry-visual='0'], &:has(fieldset > input:nth-of-type(2):checked) [data-entry-visual='1'], &:has(fieldset > input:nth-of-type(3):checked) [data-entry-visual='2']":
@@ -307,7 +307,7 @@ const projectSwitcherStyle = css({
     },
   "&:has(fieldset > input:nth-of-type(1):checked) [data-project-cursor='0'][data-cursor-phase='exit'], &:has(fieldset > input:nth-of-type(2):checked) [data-project-cursor='1'][data-cursor-phase='exit'], &:has(fieldset > input:nth-of-type(3):checked) [data-project-cursor='2'][data-cursor-phase='exit']":
     {
-      opacity: 1,
+      opacity: "1",
       offsetDistance: "0%",
       visibility: "hidden",
     },
@@ -315,32 +315,32 @@ const projectSwitcherStyle = css({
     {
       animation:
         "developer-cursor-bubble 180ms cubic-bezier(0.16, 1, 0.3, 1) 1250ms both",
-      opacity: 1,
+      opacity: "1",
       transform: "scale(1) translateY(0)",
     },
   "&:has(fieldset > input:nth-of-type(1):checked) [data-project-cursor='0'][data-cursor-phase='exit'] [data-cursor-bubble], &:has(fieldset > input:nth-of-type(2):checked) [data-project-cursor='1'][data-cursor-phase='exit'] [data-cursor-bubble], &:has(fieldset > input:nth-of-type(3):checked) [data-project-cursor='2'][data-cursor-phase='exit'] [data-cursor-bubble]":
     {
-      opacity: 1,
+      opacity: "1",
       transform: "scale(1) translateY(0)",
     },
   "@keyframes developer-cursor-enter-rose": {
-    from: { offsetDistance: "0%", opacity: 0 },
-    "12%": { opacity: 1 },
-    to: { offsetDistance: "50%", opacity: 1 },
+    from: { offsetDistance: "0%", opacity: "0" },
+    "12%": { opacity: "1" },
+    to: { offsetDistance: "50%", opacity: "1" },
   },
   "@keyframes developer-cursor-enter-sky": {
-    from: { offsetDistance: "0%", opacity: 0 },
-    "12%": { opacity: 1 },
-    to: { offsetDistance: "50%", opacity: 1 },
+    from: { offsetDistance: "0%", opacity: "0" },
+    "12%": { opacity: "1" },
+    to: { offsetDistance: "50%", opacity: "1" },
   },
   "@keyframes developer-cursor-enter-amber": {
-    from: { offsetDistance: "0%", opacity: 0 },
-    "12%": { opacity: 1 },
-    to: { offsetDistance: "50%", opacity: 1 },
+    from: { offsetDistance: "0%", opacity: "0" },
+    "12%": { opacity: "1" },
+    to: { offsetDistance: "50%", opacity: "1" },
   },
   "@keyframes developer-cursor-bubble": {
-    from: { opacity: 0, transform: "scale(0.86) translateY(-0.25rem)" },
-    to: { opacity: 1, transform: "scale(1) translateY(0)" },
+    from: { opacity: "0", transform: "scale(0.86) translateY(-0.25rem)" },
+    to: { opacity: "1", transform: "scale(1) translateY(0)" },
   },
   "@keyframes developer-cursor-idle": {
     "0%, 100%": { transform: "translateY(0)" },
@@ -458,8 +458,10 @@ function InlineToken(handle: Handle<InlineTokenProps>) {
     return (
       <span
         data-inline-token={indicator}
-        class="mx-2 inline-flex select-none items-center gap-2 rounded-full border border-border bg-card px-2 align-middle text-card-foreground leading-none shadow-md md:px-3"
-        mix={inlineTokenStyle}
+        class={cx(
+          "mx-2 inline-flex select-none items-center gap-2 rounded-full border border-border bg-card px-2 align-middle text-card-foreground leading-none shadow-md md:px-3",
+          inlineTokenStyle,
+        )}
       >
         {indicator === "code" && (
           <span
@@ -503,12 +505,16 @@ export function Developer(handle: Handle<DeveloperProps>) {
       <section
         id="developer"
         aria-labelledby="developer-title"
-        class="overflow-clip border-border border-t bg-background text-foreground"
-        mix={sectionStyle}
+        class={cx(
+          "h-dvh overflow-clip border-border border-t bg-background text-foreground",
+          sectionStyle,
+        )}
       >
         <div
-          class="mx-auto flex h-full w-full max-w-8xl flex-col justify-center px-5 sm:px-10 lg:px-16"
-          mix={contentStyle}
+          class={cx(
+            "mx-auto flex h-full w-full max-w-8xl flex-col justify-center px-5 sm:px-10 lg:px-16",
+            contentStyle,
+          )}
         >
           <div class="flex min-h-0 flex-1 flex-col justify-center">
             <header class="text-center">
@@ -523,8 +529,10 @@ export function Developer(handle: Handle<DeveloperProps>) {
 
             <div
               role="paragraph"
-              class="mx-auto max-w-3xl text-center font-medium font-sans"
-              mix={copyStyle}
+              class={cx(
+                "mx-auto max-w-3xl text-center font-medium font-sans",
+                copyStyle,
+              )}
             >
               <ScrollDrivenAnimation
                 class="developer-copy-sentence block"
@@ -576,8 +584,11 @@ export function Developer(handle: Handle<DeveloperProps>) {
 
           <div
             data-collections
-            class="relative bottom-4 shrink-0"
-            mix={[collectionsStyle, projectSwitcherStyle]}
+            class={cx(
+              "relative bottom-4 shrink-0",
+              collectionsStyle,
+              projectSwitcherStyle,
+            )}
           >
             <div class="relative mx-auto max-w-6xl">
               <div data-project-stack class="relative grid">

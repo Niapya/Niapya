@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import type { BlogComment } from "@/data/blog-comments.ts";
 import {
@@ -368,15 +369,15 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
               </div>
             </header>
 
-            <div mix={articleTimelineStyle}>
-              <aside mix={timelineAsideStyle}>
+            <div class={articleTimelineStyle}>
+              <aside class={timelineAsideStyle}>
                 <ReadingTimeline
                   label={copy.timeline}
                   sections={timelineSections}
                 />
               </aside>
-              <div mix={articleLayoutStyle}>
-                <div mix={articleContentStyle}>
+              <div class={articleLayoutStyle}>
+                <div class={articleContentStyle}>
                   {post.summary && (
                     <section
                       aria-labelledby="article-summary-title"
@@ -390,15 +391,19 @@ export function BlogPostPage(handle: Handle<BlogPostPageProps>) {
                         {copy.summary}
                       </h2>
                       <div
-                        class="dark:prose-invert prose prose-neutral max-w-none text-foreground"
-                        mix={articleStyle}
+                        class={cx(
+                          "dark:prose-invert prose prose-neutral max-w-none text-foreground",
+                          articleStyle,
+                        )}
                         innerHTML={renderMarkdown(post.summary)}
                       />
                     </section>
                   )}
                   <div
-                    class="dark:prose-invert prose prose-neutral max-w-none cursor-text select-text"
-                    mix={articleStyle}
+                    class={cx(
+                      "dark:prose-invert prose prose-neutral max-w-none cursor-text select-text",
+                      articleStyle,
+                    )}
                     innerHTML={markdownDocument.html}
                   />
                 </div>
@@ -549,9 +554,11 @@ function ReadingTimeline(handle: Handle<ReadingTimelineProps>) {
     return (
       <nav
         aria-label={handle.props.label}
-        class="pointer-events-auto relative z-10 h-full select-none"
+        class={cx(
+          "pointer-events-auto relative z-10 h-full select-none",
+          timelineRailStyle,
+        )}
         data-reading-timeline
-        mix={timelineRailStyle}
       >
         <ol class="m-0 flex h-full flex-col list-none p-0">
           {marks.map((mark, index) => {

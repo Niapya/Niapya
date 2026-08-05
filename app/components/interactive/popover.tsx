@@ -1,4 +1,5 @@
-import { css, type Handle, type RemixNode } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle, RemixNode } from "remix/ui";
 
 import { Icon } from "@/components/icon.tsx";
 
@@ -61,8 +62,7 @@ export function Popover(handle: Handle<PopoverProps>) {
           id={targetId}
           popover="auto"
           aria-labelledby={titleId}
-          class={handle.props.class ?? ""}
-          mix={panelStyle}
+          class={cx(handle.props.class, panelStyle)}
         >
           <div class="flex items-start justify-between gap-6 border-b border-border pb-4">
             <h2 id={titleId} class="font-display text-2xl leading-none">

@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import { createI18n, DEFAULT_LANG, type I18n } from "@/i18n/index.ts";
 import {
@@ -297,8 +298,10 @@ export function Contact(handle: Handle<ContactProps>) {
       <section
         id="contact"
         aria-labelledby="contact-title"
-        class="relative isolate overflow-hidden bg-muted text-foreground"
-        mix={contactSectionStyle}
+        class={cx(
+          "relative isolate overflow-hidden bg-muted text-foreground",
+          contactSectionStyle,
+        )}
       >
         <ScrollDrivenAnimation
           class="contact-stage absolute inset-5 overflow-hidden rounded-md border border-border bg-background shadow-lg sm:inset-10 lg:inset-16"
@@ -360,8 +363,10 @@ export function Contact(handle: Handle<ContactProps>) {
                 ))}
 
                 <article
-                  class="group pointer-events-auto relative z-20 w-full rounded-sm border border-border bg-card p-5 text-center text-card-foreground shadow-sm sm:p-6"
-                  mix={contactCardStyle}
+                  class={cx(
+                    "group pointer-events-auto relative z-20 w-full rounded-sm border border-border bg-card p-5 text-center text-card-foreground shadow-sm sm:p-6",
+                    contactCardStyle,
+                  )}
                 >
                   <h2
                     id="contact-title"

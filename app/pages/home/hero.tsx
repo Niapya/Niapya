@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import { GITHUB_AVATAR_URL } from "@/constants/index.ts";
 import { createI18n, DEFAULT_LANG, type I18n } from "@/i18n/index.ts";
@@ -9,10 +10,6 @@ import { Icon } from "@/components/icon.tsx";
 type HeroProps = {
   i18n?: I18n;
 };
-
-const heroViewport = css({
-  minHeight: "100dvh",
-});
 
 const heroSky = css({
   backgroundImage:
@@ -55,25 +52,25 @@ const heroLightRays = css({
     "radial-gradient(circle at center, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.18) 12%, transparent 32%), repeating-conic-gradient(from 202deg at 50% 50%, transparent 0deg 7deg, rgba(255, 255, 255, 0.08) 9deg, rgba(255, 255, 255, 0.56) 12deg, rgba(255, 255, 255, 0.14) 17deg, transparent 20deg 28deg)",
   filter: "blur(0.3rem)",
   mixBlendMode: "screen",
-  opacity: 0.84,
+  opacity: "0.84",
   willChange: "transform, opacity",
   animation: "hero-light-sweep 32s ease-in-out infinite alternate",
   "@keyframes hero-light-sweep": {
     from: {
       transform: "translate3d(50%, -50%, 0) rotate(-8deg) scale(1)",
-      opacity: 0.68,
+      opacity: "0.68",
     },
     "48%": {
-      opacity: 1,
+      opacity: "1",
     },
     to: {
       transform: "translate3d(50%, -50%, 0) rotate(4deg) scale(1.025)",
-      opacity: 0.78,
+      opacity: "0.78",
     },
   },
   "@media (prefers-reduced-motion: reduce)": {
     animation: "none",
-    opacity: 0.84,
+    opacity: "0.84",
   },
 });
 
@@ -88,7 +85,7 @@ const heroCardEntrance = css({
   "@starting-style": {
     transform:
       "perspective(75rem) translate3d(0, calc(-100dvh - 100%), -12rem) rotateX(-12deg) scale3d(0.82, 0.82, 1)",
-    opacity: 0,
+    opacity: "0",
   },
 });
 
@@ -100,39 +97,39 @@ export function Hero(handle: Handle<HeroProps>) {
     return (
       <section
         aria-labelledby="hero-title"
-        class="relative isolate overflow-hidden bg-background text-foreground"
-        mix={heroViewport}
+        class="relative isolate min-h-dvh overflow-hidden bg-background text-foreground"
       >
         <div
           aria-hidden="true"
-          class="absolute inset-0 select-none"
-          mix={heroSky}
+          class={cx("absolute inset-0 select-none", heroSky)}
         />
         <Noise baseFrequency="0.75" numOctaves={3} opacity={0.8} seed={7} />
         <div
           aria-hidden="true"
-          class="absolute inset-0 select-none opacity-80"
-          mix={heroGrid}
+          class={cx("absolute inset-0 select-none opacity-80", heroGrid)}
         />
         <RealisticCloud />
         <div
           aria-hidden="true"
-          class="pointer-events-none absolute inset-0 select-none"
-          mix={heroWash}
+          class={cx(
+            "pointer-events-none absolute inset-0 select-none",
+            heroWash,
+          )}
         />
         <div
           aria-hidden="true"
-          class="pointer-events-none absolute top-0 right-0 transform-gpu select-none"
-          mix={heroLightRays}
+          class={cx(
+            "pointer-events-none absolute top-0 right-0 transform-gpu select-none",
+            heroLightRays,
+          )}
         />
 
-        <div
-          class="relative z-10 mx-auto flex w-full max-w-8xl items-center justify-center px-5 py-10 sm:px-10 sm:py-16 lg:px-16 lg:py-20"
-          mix={heroViewport}
-        >
+        <div class="relative z-10 mx-auto flex min-h-dvh w-full max-w-8xl items-center justify-center px-5 py-10 sm:px-10 sm:py-16 lg:px-16 lg:py-20">
           <article
-            class="w-full max-w-5xl origin-top transform-gpu bg-card px-6 py-8 text-card-foreground opacity-100 shadow-lg transition duration-700 ease-out motion-reduce:transition-none sm:px-10 sm:py-11 lg:px-12 lg:py-12"
-            mix={heroCardEntrance}
+            class={cx(
+              "w-full max-w-5xl origin-top transform-gpu bg-card px-6 py-8 text-card-foreground opacity-100 shadow-lg transition duration-700 ease-out motion-reduce:transition-none sm:px-10 sm:py-11 lg:px-12 lg:py-12",
+              heroCardEntrance,
+            )}
           >
             <h1
               id="hero-title"

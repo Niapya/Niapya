@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import { EMPTY_COMMENT_FORM } from "@/constants/index.ts";
 import type { Lang } from "@/i18n/index.ts";
@@ -111,7 +112,7 @@ const markdownStyle = css({
     backgroundColor: "var(--muted)",
     padding: "1rem",
     scrollbarGutter: "stable",
-    tabSize: 2,
+    tabSize: "2",
   },
   "& pre code": {
     border: "0",
@@ -351,8 +352,10 @@ export function CommentList(handle: Handle<CommentListProps>) {
                   {comment.content
                     ? (
                       <div
-                        class="cursor-text select-text text-base text-foreground leading-7"
-                        mix={markdownStyle}
+                        class={cx(
+                          "cursor-text select-text text-base text-foreground leading-7",
+                          markdownStyle,
+                        )}
                         innerHTML={renderMarkdown(comment.content)}
                       />
                     )

@@ -1,3 +1,14 @@
 {
-	"deno.enable": true
+	"deno.enable": true,
+	"editor.quickSuggestions": {
+		"strings": true
+	},
+	"editor.suggest.showStatusBar": true,
+	"twind-intellisense.enabled": true,
+	"twind-intellisense.presets": [
+		"tailwind",
+		"autoprefix",
+		"typography"
+	],
+	"twind-intellisense.configPath": "app/config/twind.config.ts"
 }

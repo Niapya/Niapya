@@ -1,4 +1,5 @@
-import { css, type Handle, type RemixNode } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle, RemixNode } from "remix/ui";
 
 export type ScrollDrivenTimeline = string;
 
@@ -79,7 +80,7 @@ export function ScrollDrivenAnimation(
   );
 
   return () => (
-    <div class={className} mix={animationStyle}>
+    <div class={cx(className, animationStyle)}>
       {children}
     </div>
   );

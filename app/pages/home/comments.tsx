@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import {
   createI18n,
@@ -140,8 +141,10 @@ export function Comments(handle: Handle<CommentsProps>) {
       <section
         id="blog-preview"
         aria-labelledby="blog-preview-title"
-        class="relative isolate overflow-hidden bg-black text-white"
-        mix={blogSectionStyle}
+        class={cx(
+          "relative isolate overflow-hidden bg-black text-white",
+          blogSectionStyle,
+        )}
       >
         <header class="absolute inset-x-0 top-0 z-30 mx-auto flex max-w-8xl select-none items-start justify-between gap-6 px-5 py-5 sm:px-10 sm:py-7 lg:px-16">
           {copy.tools && (
@@ -164,8 +167,7 @@ export function Comments(handle: Handle<CommentsProps>) {
             <li
               key={skill.id}
               data-skill-position
-              class="flex items-center justify-center"
-              mix={skill.motion}
+              class={cx("flex items-center justify-center", skill.motion)}
             >
               <div
                 data-skill-tile
@@ -184,8 +186,10 @@ export function Comments(handle: Handle<CommentsProps>) {
         </ul>
 
         <div
-          class="absolute inset-x-0 z-20 mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-10"
-          mix={blogContentStyle}
+          class={cx(
+            "absolute inset-x-0 z-20 mx-auto flex max-w-5xl flex-col items-center px-5 text-center sm:px-10",
+            blogContentStyle,
+          )}
         >
           {copy.eyebrow && (
             <p class="mb-4 font-mono text-white/50 text-xs uppercase">

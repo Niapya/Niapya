@@ -33,10 +33,10 @@ deno task fix         # 格式化 + 自动修复 lint
 - 页面间导航通过标准 HTTP 请求实现，不使用 SPA 路由
 - 表单提交使用标准 HTML form，不使用 AJAX
 - 如需交互效果，优先考虑 CSS 动画和过渡，尽量使用 Tailwind v3
-  的原子类实现，如果表达不好就使用 `css` 函数
+  的原子类实现，如果表达不好就使用 `@twind/core` 的 `css()` 函数
 - Tailwind 优先复用语义 token，如果无法表达的
-  `clamp`、`minmax`、百分比或非标准值应使用组件旁的局部 `css()` mixin，，并使用
-  `rem`、`em`、百分比或视口单位。
+  `clamp`、`minmax`、百分比或非标准值应使用 `@twind/core` 的 `css()`
+  mixin，并使用 `rem`、`em`、百分比或视口单位。
 - 样式 token 优先使用 Tailwind 预设的整数
   utility，一位数可按需使用、两位数优先整五整十，并避免任意值，中括号 class 与
   `px` 单位。
@@ -100,8 +100,10 @@ app/
 - 禁止创建 `app/ui/` 等重复的通用存放目录
 - 跨模块共享的静态常量放入
   `app/constants/`，路由或组件私有常量保留在最窄所有者中
-- 尽量不使用 `Deno` API，可以使用比如 `import .. with`
-  代替，如果使用应该告知用户。
+- 样式 API 统一从 `@twind/core` 导入：`css()`（object 形式）生成局部样式、
+  `cx()` 拼接条件 class、`keyframes()`/`animation()` 复用静态动画、
+  `injectGlobal()` 注入全局样式；不要从 `remix/ui` 导入 `css` 函数。
+- 如果使用 `Deno` `node:*` API 或使用 dynamic imports 时应该告知用户。
 
 ## 注意事项
 

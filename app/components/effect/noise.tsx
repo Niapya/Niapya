@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 export type NoiseProps = {
   baseFrequency?: string;
@@ -7,11 +8,6 @@ export type NoiseProps = {
   opacity?: number;
   seed?: number;
 };
-
-const noiseSurface = css({
-  backgroundRepeat: "repeat",
-  mixBlendMode: "normal",
-});
 
 function noiseTexture(
   baseFrequency: string,
@@ -38,9 +34,10 @@ export function Noise(handle: Handle<NoiseProps>) {
     return (
       <div
         aria-hidden="true"
-        class={`pointer-events-none absolute inset-0 h-full w-full select-none ${
-          className ?? ""
-        }`}
+        class={cx(
+          "pointer-events-none absolute inset-0 h-full w-full select-none bg-repeat mix-blend-normal",
+          className,
+        )}
         style={{
           backgroundImage: noiseTexture(
             baseFrequency,
@@ -49,7 +46,6 @@ export function Noise(handle: Handle<NoiseProps>) {
             seed,
           ),
         }}
-        mix={noiseSurface}
       />
     );
   };

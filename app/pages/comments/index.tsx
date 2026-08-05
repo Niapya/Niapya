@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import type { Comment } from "@/data/comments.ts";
 import { type I18n, localizeHref } from "@/i18n/index.ts";
@@ -76,7 +77,7 @@ export function CommentsPage(handle: Handle<CommentsPageProps>) {
             </div>
           )}
 
-          <div class="mx-auto grid max-w-8xl" mix={pageGridStyle}>
+          <div class={cx("mx-auto grid max-w-8xl", pageGridStyle)}>
             <section
               id="comment-form"
               class="border-b border-border px-5 py-14 sm:px-10 sm:py-20 lg:border-b-0 lg:border-r lg:px-20"

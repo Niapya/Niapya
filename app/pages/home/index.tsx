@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import { createI18n, DEFAULT_LANG, type I18n } from "@/i18n/index.ts";
 import { Header } from "@/components/header.tsx";
@@ -26,8 +27,10 @@ export function Home(handle: Handle<HomeProps>) {
       <div class="relative isolate bg-black">
         <main
           id="top"
-          class="relative z-10 overflow-clip bg-background"
-          mix={mainDrawerStyle}
+          class={cx(
+            "relative z-10 overflow-clip bg-background",
+            mainDrawerStyle,
+          )}
         >
           <Header current="home" i18n={i18n} />
           <Hero i18n={i18n} />

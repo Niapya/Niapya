@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 const ICONIFY_CDN = "https://api.iconify.design";
 
@@ -9,9 +10,11 @@ type IconProps = {
 };
 
 const iconSizeStyle = css({
-  display: "inline-block",
-  width: "1em",
-  height: "1em",
+  ":where(&)": {
+    display: "inline-block",
+    width: "1em",
+    height: "1em",
+  },
 });
 
 export function Icon(handle: Handle<IconProps>) {
@@ -20,7 +23,7 @@ export function Icon(handle: Handle<IconProps>) {
     return (
       <span
         aria-hidden="true"
-        class={`select-none ${handle.props.className ?? ""}`}
+        class={cx("select-none", handle.props.className, iconSizeStyle)}
         style={{
           color: handle.props.color,
           backgroundColor: "currentColor",
@@ -31,7 +34,6 @@ export function Icon(handle: Handle<IconProps>) {
           maskSize: "100% 100%",
           WebkitMaskSize: "100% 100%",
         }}
-        mix={iconSizeStyle}
       />
     );
   };

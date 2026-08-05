@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 import { Icon } from "@/components/icon.tsx";
 import { createShareLinks, type SharePlatform } from "@/utils/share.ts";
 
@@ -49,7 +50,9 @@ export function ShareMenu(handle: Handle<ShareMenuProps>) {
     });
 
     return (
-      <span class="group relative inline-flex" mix={shareTooltipStyle}>
+      <span
+        class={cx("group relative inline-flex", shareTooltipStyle)}
+      >
         <button
           type="button"
           aria-label={handle.props.copy.shareLabel}

@@ -5,7 +5,6 @@
     "@twind/preset-autoprefix": "npm:@twind/preset-autoprefix@^1.0.7",
     "@twind/preset-tailwind": "npm:@twind/preset-tailwind@^1.1.4",
     "@twind/preset-typography": "npm:@twind/preset-typography@^1.0.7",
-    "clsx": "npm:clsx@^2.1.1",
     "fast-diff": "npm:fast-diff@^1.3.0",
     "lucide": "npm:lucide@^1.26.0",
     "prismjs": "npm:prismjs@^1.30.0",
@@ -16,9 +15,7 @@
     "@std/yaml": "jsr:@std/yaml@^1.2.0",
     "@/": "./app/",
     "openai": "npm:openai@^7.3.0",
-    "satori": "npm:satori@^0.29.0",
-    "simple-icons": "npm:simple-icons@^16.27.0",
-    "tailwind-merge": "npm:tailwind-merge@2.6.0"
+    "satori": "npm:satori@^0.29.0"
   },
   "tasks": {
     "dev": "NODE_ENV=development deno run --unstable-no-legacy-abort --unstable-kv --watch --allow-env --allow-ffi --allow-read --allow-net deno.ts",
@@ -70,7 +67,6 @@
     "include": [
       "./app/",
       "./scripts/",
-      "./tailwind.config.cjs",
       "./deno.ts",
       "./deno.json",
       "./AGENTS.md",

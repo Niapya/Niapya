@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import { GITHUB_AVATAR_URL, HOME_ASSETS } from "@/constants/index.ts";
 import { createI18n, DEFAULT_LANG, type I18n } from "@/i18n/index.ts";
@@ -27,15 +28,6 @@ const DESIGN_PROJECTS = [
   },
 ] as const;
 
-const designerPageStyle = css({
-  minHeight: "100dvh",
-});
-
-const designerContentStyle = css({
-  minHeight: "100dvh",
-  maxWidth: "90rem",
-});
-
 const introGridStyle = css({
   gridTemplateColumns: "minmax(0, 1fr) minmax(6rem, 1fr) minmax(0, 1.2fr)",
   "& > *": {
@@ -47,11 +39,6 @@ const introGridStyle = css({
       paddingInline: "1rem",
     },
   },
-});
-
-const ringStyle = css({
-  transformOrigin: "center",
-  willChange: "transform",
 });
 
 const ringSizeStyle = css({
@@ -125,23 +112,23 @@ const designerItemsStyle = css({
   minHeight: "20rem",
   "& > a": {
     minHeight: "5rem",
-    flexGrow: 0,
-    flexShrink: 1,
+    flexGrow: "0",
+    flexShrink: "1",
     flexBasis: "20%",
     transitionProperty: "flex-grow, flex-basis",
     transitionDuration: "600ms",
     transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
   },
   "& > a:first-child": {
-    flexGrow: 1,
+    flexGrow: "1",
     flexBasis: "0%",
   },
   "& > a [data-card-content]": {
-    opacity: 0,
+    opacity: "0",
     transition: "opacity 300ms ease",
   },
   "& > a:first-child [data-card-content]": {
-    opacity: 1,
+    opacity: "1",
   },
   "@media (min-width: 48rem)": {
     minHeight: "24rem",
@@ -152,33 +139,33 @@ const designerItemsStyle = css({
   },
   "@media (hover: hover)": {
     "&:has(> a:hover) > a:first-child:not(:hover)": {
-      flexGrow: 0,
+      flexGrow: "0",
       flexBasis: "10%",
     },
     "&:has(> a:hover) > a:not(:hover) [data-card-content]": {
-      opacity: 0,
+      opacity: "0",
     },
     "& > a:hover": {
-      flexGrow: 1,
+      flexGrow: "1",
       flexBasis: "0%",
     },
     "& > a:hover [data-card-content]": {
-      opacity: 1,
+      opacity: "1",
     },
   },
   "&:has(> a:focus-visible) > a:first-child:not(:focus-visible)": {
-    flexGrow: 0,
+    flexGrow: "0",
     flexBasis: "10%",
   },
   "&:has(> a:focus-visible) > a:not(:focus-visible) [data-card-content]": {
-    opacity: 0,
+    opacity: "0",
   },
   "& > a:focus-visible": {
-    flexGrow: 1,
+    flexGrow: "1",
     flexBasis: "0%",
   },
   "& > a:focus-visible [data-card-content]": {
-    opacity: 1,
+    opacity: "1",
   },
 });
 
@@ -194,26 +181,20 @@ export function Designer(handle: Handle<DesignerProps>) {
       <section
         id="work"
         aria-labelledby="work-title"
-        class="overflow-hidden bg-background text-foreground transition-colors"
-        mix={designerPageStyle}
+        class="min-h-dvh overflow-hidden bg-background text-foreground transition-colors"
       >
-        <div
-          class="mx-auto flex w-full flex-col justify-between px-5 py-8 sm:px-10 sm:py-12 lg:px-16 lg:py-14"
-          mix={designerContentStyle}
-        >
-          <div class="grid flex-1 items-center" mix={introGridStyle}>
+        <div class="mx-auto flex min-h-dvh w-full max-w-8xl flex-col justify-between px-5 py-8 sm:px-10 sm:py-12 lg:px-16 lg:py-14">
+          <div class={cx("grid flex-1 items-center", introGridStyle)}>
             <header class="max-w-lg">
               <h2
                 id="work-title"
-                class="font-semibold font-serif italic"
-                mix={titleStyle}
+                class={cx("font-semibold font-serif italic", titleStyle)}
               >
-                <span class="block" mix={graphicTitleStyle}>
+                <span class={cx("block", graphicTitleStyle)}>
                   {copy.titleGraphic}
                 </span>
                 <span
-                  class="block text-muted-foreground"
-                  mix={designerTitleStyle}
+                  class={cx("block text-muted-foreground", designerTitleStyle)}
                 >
                   {copy.titleDesigner}
                 </span>
@@ -222,16 +203,21 @@ export function Designer(handle: Handle<DesignerProps>) {
 
             <div class="flex items-center justify-center">
               <div
-                class="group relative flex aspect-square select-none items-center justify-center"
-                mix={[ringSizeStyle, ringContainerStyle]}
+                class={cx(
+                  "group relative flex aspect-square select-none items-center justify-center",
+                  ringSizeStyle,
+                  ringContainerStyle,
+                )}
               >
                 <svg
                   aria-label={copy.available}
-                  class="pointer-events-none absolute text-muted-foreground"
+                  class={cx(
+                    "pointer-events-none absolute origin-center text-muted-foreground will-change-transform",
+                    ringGraphicStyle,
+                  )}
                   fill="none"
                   role="img"
                   viewBox="0 0 200 200"
-                  mix={[ringStyle, ringGraphicStyle]}
                 >
                   <defs>
                     <path
@@ -244,8 +230,10 @@ export function Designer(handle: Handle<DesignerProps>) {
                     />
                   </defs>
                   <text
-                    class="fill-current font-mono uppercase"
-                    mix={ringTextStyle}
+                    class={cx(
+                      "fill-current font-mono uppercase",
+                      ringTextStyle,
+                    )}
                   >
                     <textPath
                       href={`#${ringTopId}`}
@@ -256,8 +244,10 @@ export function Designer(handle: Handle<DesignerProps>) {
                     </textPath>
                   </text>
                   <text
-                    class="fill-current font-mono uppercase"
-                    mix={ringTextStyle}
+                    class={cx(
+                      "fill-current font-mono uppercase",
+                      ringTextStyle,
+                    )}
                   >
                     <textPath
                       href={`#${ringBottomId}`}
@@ -305,12 +295,13 @@ export function Designer(handle: Handle<DesignerProps>) {
 
           <div
             id="work-list"
-            class="mt-10 grid items-stretch"
-            mix={bottomGridStyle}
+            class={cx("mt-10 grid items-stretch", bottomGridStyle)}
           >
             <div
-              class="flex min-w-0 flex-row items-stretch"
-              mix={designerItemsStyle}
+              class={cx(
+                "flex min-w-0 flex-row items-stretch",
+                designerItemsStyle,
+              )}
             >
               {DESIGN_PROJECTS.map((project, index) => {
                 const title = copy.tasks[project.titleKey];
@@ -337,20 +328,26 @@ export function Designer(handle: Handle<DesignerProps>) {
                       />
                       <span
                         aria-hidden="true"
-                        class="absolute right-4 bottom-5 z-10 font-mono text-white/80 text-xs leading-none sm:right-5 sm:bottom-6"
-                        mix={cardTitleStyle}
+                        class={cx(
+                          "absolute right-4 bottom-5 z-10 font-mono text-white/80 text-xs leading-none sm:right-5 sm:bottom-6",
+                          cardTitleStyle,
+                        )}
                       >
                         {String(index + 1).padStart(2, "0")}
                       </span>
                       <div
-                        class="absolute inset-0 flex flex-col justify-between p-5 sm:p-6"
+                        class={cx(
+                          "absolute inset-0 flex flex-col justify-between p-5 sm:p-6",
+                          cardOverlayStyle,
+                        )}
                         data-card-content
-                        mix={cardOverlayStyle}
                       >
                         <div class="absolute top-5 left-5 max-w-52 text-left sm:top-6 sm:left-6">
                           <h3
-                            class="font-sans font-semibold text-white text-xl leading-none sm:text-2xl"
-                            mix={cardTitleStyle}
+                            class={cx(
+                              "font-sans font-semibold text-white text-xl leading-none sm:text-2xl",
+                              cardTitleStyle,
+                            )}
                           >
                             {title}
                           </h3>

@@ -1,4 +1,5 @@
-import { css, type Handle } from "remix/ui";
+import { css, cx } from "@twind/core";
+import type { Handle } from "remix/ui";
 
 import { type I18n, type Lang, localizeHref } from "@/i18n/index.ts";
 import type { Post } from "@/data/posts.ts";
@@ -37,8 +38,10 @@ export function BlogIndexPage(handle: Handle<BlogIndexPageProps>) {
                   {copy.eyebrow}
                 </p>
                 <h1
-                  class="max-w-4xl font-display font-normal text-5xl leading-none sm:text-7xl lg:text-8xl"
-                  mix={blogHeadingTransitionStyle}
+                  class={cx(
+                    "max-w-4xl font-display font-normal text-5xl leading-none sm:text-7xl lg:text-8xl",
+                    blogHeadingTransitionStyle,
+                  )}
                 >
                   {copy.title}
                 </h1>
